@@ -12,10 +12,7 @@ import LightThemeBgImage from '../../assets/images/auth-bg/auth-bg-light-theme.p
 import DarkThemeBgImage from '../../assets/images/auth-bg/auth-bg-dark-theme.png';
 import { useDispatch } from 'react-redux';
 import { toggleColorMode } from '../../store/reducers/colorModeSlice';
-
-interface AuthWrapperProps {
-  children: React.ReactNode;
-}
+import { AuthWrapperProps } from '../../types';
 
 const AuthWrapper = ({ children }: AuthWrapperProps) => {
   const theme = useTheme();
@@ -58,8 +55,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
           {children}
         </Box>
         <IconButton
-          sx={{ justifySelf: 'end', color: 'text.secondary' }}
-          onClick={() => (dispatch(toggleColorMode()))}
+          onClick={() => dispatch(toggleColorMode())}
           color="inherit">
           {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
         </IconButton>

@@ -4,7 +4,7 @@ import { darkPalette, lightPalette } from './palette';
 export const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
     mode,
-    ...(mode === 'light' ? lightPalette : darkPalette)
+    ...(mode === 'light' ? lightPalette : darkPalette),
   },
   typography: {
     fontFamily: 'Nunito',

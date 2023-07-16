@@ -8,6 +8,7 @@ const AuthFirebase = () => {
         variant="outlined"
         color="primary"
         fullWidth
+        size="large"
         startIcon={
           <img src={GoogleIcon} alt="Google" width={16} height={16} />
         }>

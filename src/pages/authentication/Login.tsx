@@ -2,6 +2,7 @@ import { Typography, Grid, Link, Divider, Box } from '@mui/material';
 import AuthWrapper from './AuthWrapper';
 import AuthLogin from './auth-forms/AuthLogin';
 import AuthFirebase from './auth-forms/AuthFirebase';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Login = () => {
   return (
@@ -20,7 +21,7 @@ const Login = () => {
         <Typography component="span" variant="body2">
           Don't have an account?{' '}
         </Typography>
-        <Link href="#" variant="body2">
+        <Link component={RouterLink} to={'/register'} variant="body2">
           {'Sign up'}
         </Link>
       </Box>

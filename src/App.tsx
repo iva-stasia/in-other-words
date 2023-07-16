@@ -5,13 +5,13 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { getDesignTokens } from './themes';
-import Login from './pages/authentication/Login';
-import Register from './pages/authentication/Register';
-import { useMemo, useEffect, useState } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { useDispatch } from 'react-redux';
 import { setPreferColorMode } from './store/reducers/colorModeSlice';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes';
 
 function App() {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Register />
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
