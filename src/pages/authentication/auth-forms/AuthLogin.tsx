@@ -17,21 +17,14 @@ import {
 import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { UserLoginInput } from '../../../types';
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Email must be correct')
-    .required('Email is required'),
-  password: yup
-    .string()
-    .min(8, 'Password must be 8 characters long')
-    .matches(/[0-9]/, 'Password requires a number')
-    .matches(/[a-zA-Z]/, 'Password requires a letter')
-    .required('Password is required'),
-});
+import { loginSchema } from '../validationSchema';
+import {
+  setPersistence,
+  signInWithEmailAndPassword,
+  browserLocalPersistence,
+} from 'firebase/auth';
+import { auth } from '../../../firebase';
 
 const AuthLogin = () => {
   const {
@@ -42,11 +35,11 @@ const AuthLogin = () => {
     defaultValues: {
       email: '',
       password: '',
+      remember: true,
     },
     mode: 'onBlur',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginSchema),
   });
-  
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -57,8 +50,15 @@ const AuthLogin = () => {
     event.preventDefault();
   };
 
-  const onSubmit: SubmitHandler<UserLoginInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<UserLoginInput> = async ({
+    email,
+    password,
+  }) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
   };
 
   return (
@@ -128,9 +128,22 @@ const AuthLogin = () => {
           direction="row"
           alignItems="center"
           justifyContent="space-between">
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" size="small" />}
-            label={<Typography variant="body2">Remember me</Typography>}
+          <Controller
+            name="remember"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    color="primary"
+                    size="small"
+                    checked={field.value}
+                    {...field}
+                  />
+                }
+                label={<Typography variant="body2">Remember me</Typography>}
+              />
+            )}
           />
           <Link href="#" variant="body2">
             Forgot password?

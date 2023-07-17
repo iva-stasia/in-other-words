@@ -12,36 +12,24 @@ import {
 import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { UserRegisterInput } from '../../../types';
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Email must be correct')
-    .required('Email is required'),
-  password: yup
-    .string()
-    .min(8, 'Password must be 8 characters long')
-    .matches(/[0-9]/, 'Password requires a number')
-    .matches(/[a-zA-Z]/, 'Password requires a letter')
-    .required('Password is required'),
-});
+import { registerSchema } from '../validationSchema';
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../../firebase';
 
 const AuthRegister = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<UserRegisterInput>({
     defaultValues: {
       email: '',
       password: '',
     },
     mode: 'onBlur',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerSchema),
   });
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -52,8 +40,15 @@ const AuthRegister = () => {
     event.preventDefault();
   };
 
-  const onSubmit: SubmitHandler<UserRegisterInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<UserRegisterInput> = async ({
+    email,
+    password,
+  }) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
   };
 
   return (
@@ -124,8 +119,9 @@ const AuthRegister = () => {
           fullWidth
           variant="contained"
           size="large"
+          disabled={isSubmitting}
           sx={{ mt: 3, mb: 2 }}>
-          Sign In
+          Sign Up
         </Button>
       </Box>
     </>

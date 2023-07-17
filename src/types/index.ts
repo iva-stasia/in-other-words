@@ -4,8 +4,7 @@ export interface UserRegisterInput {
 }
 
 export interface UserLoginInput extends UserRegisterInput {
-  email: string;
-  password: string;
+  remember: boolean;
 }
 
 export interface AuthWrapperProps {

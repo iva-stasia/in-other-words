@@ -3,9 +3,11 @@ import colorModeReducer from './reducers/colorModeSlice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
+import userSlice from './reducers/userSlice';
 
 const reducers = combineReducers({
   colorMode: colorModeReducer,
+  user: userSlice,
 });
 
 const persistConfig = {

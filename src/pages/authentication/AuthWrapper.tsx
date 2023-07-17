@@ -13,10 +13,33 @@ import DarkThemeBgImage from '../../assets/images/auth-bg/auth-bg-dark-theme.png
 import { useDispatch } from 'react-redux';
 import { toggleColorMode } from '../../store/reducers/colorModeSlice';
 import { AuthWrapperProps } from '../../types';
+import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase';
+import { saveUser } from '../../store/reducers/userSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { Navigate } from 'react-router-dom';
 
 const AuthWrapper = ({ children }: AuthWrapperProps) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('from wrapper');
+        dispatch(saveUser(user));
+      } else {
+        dispatch(saveUser(null));
+      }
+    });
+  }, []);
+
+  if (user) {
+    return <Navigate to={'/'} />;
+  }
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
@@ -54,9 +77,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
           </Typography>
           {children}
         </Box>
-        <IconButton
-          onClick={() => dispatch(toggleColorMode())}
-          color="inherit">
+        <IconButton onClick={() => dispatch(toggleColorMode())} color="inherit">
           {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
       </Grid>

@@ -1,7 +1,7 @@
 import { Typography, Grid, Link, Divider, Box } from '@mui/material';
 import AuthWrapper from './AuthWrapper';
 import AuthLogin from './auth-forms/AuthLogin';
-import AuthFirebase from './auth-forms/AuthFirebase';
+import AuthFirebase from './auth-forms/AuthFirebaseGoogle';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Login = () => {
