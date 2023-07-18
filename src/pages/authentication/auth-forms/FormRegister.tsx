@@ -2,43 +2,33 @@ import { VisibilityOff, Visibility } from '@mui/icons-material';
 import {
   Box,
   Button,
-  FormControlLabel,
-  Checkbox,
   FormControl,
   InputAdornment,
   IconButton,
   OutlinedInput,
-  Link,
-  Typography,
-  Stack,
   FormLabel,
   FormHelperText,
 } from '@mui/material';
 import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { UserLoginInput } from '../../../types';
-import { loginSchema } from '../validationSchema';
-import {
-  setPersistence,
-  signInWithEmailAndPassword,
-  browserLocalPersistence,
-} from 'firebase/auth';
+import { UserRegisterInput } from '../../../types';
+import { registerSchema } from '../validationSchema';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase';
 
-const AuthLogin = () => {
+const FormRegister = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
-  } = useForm<UserLoginInput>({
+    formState: { errors, isSubmitting },
+  } = useForm<UserRegisterInput>({
     defaultValues: {
       email: '',
       password: '',
-      remember: true,
     },
     mode: 'onBlur',
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(registerSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -50,12 +40,12 @@ const AuthLogin = () => {
     event.preventDefault();
   };
 
-  const onSubmit: SubmitHandler<UserLoginInput> = async ({
+  const onSubmit: SubmitHandler<UserRegisterInput> = async ({
     email,
     password,
   }) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
@@ -114,7 +104,7 @@ const AuthLogin = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                placeholder="Your password"
+                placeholder="Min. 8 characters"
                 size="small"
                 {...field}
               />
@@ -124,42 +114,18 @@ const AuthLogin = () => {
             </FormControl>
           )}
         />
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between">
-          <Controller
-            name="remember"
-            control={control}
-            render={({ field }) => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    size="small"
-                    checked={field.value}
-                    {...field}
-                  />
-                }
-                label={<Typography variant="body2">Remember me</Typography>}
-              />
-            )}
-          />
-          <Link href="#" variant="body2">
-            Forgot password?
-          </Link>
-        </Stack>
         <Button
           type="submit"
           fullWidth
           variant="contained"
           size="large"
+          disabled={isSubmitting}
           sx={{ mt: 3, mb: 2 }}>
-          Sign In
+          Sign Up
         </Button>
       </Box>
     </>
   );
 };
 
-export default AuthLogin;
+export default FormRegister;

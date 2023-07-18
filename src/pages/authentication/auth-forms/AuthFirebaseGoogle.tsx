@@ -3,7 +3,7 @@ import GoogleIcon from '../../../assets/images/icons/google.svg';
 import { auth, provider } from '../../../firebase';
 import { signInWithPopup } from 'firebase/auth';
 
-const AuthFirebase = () => {
+const AuthFirebaseGoogle = () => {
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, provider);
@@ -27,4 +27,4 @@ const AuthFirebase = () => {
   );
 };
 
-export default AuthFirebase;
+export default AuthFirebaseGoogle;

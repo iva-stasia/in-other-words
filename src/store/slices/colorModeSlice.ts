@@ -1,11 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
-type mode = 'light' | 'dark';
-
-interface colorModeInitialState {
-  setMode: mode | null;
-  preferredMode: mode;
-}
+import { colorModeInitialState, mode } from '../../types';
 
 const initialState: colorModeInitialState = {
   setMode: null,

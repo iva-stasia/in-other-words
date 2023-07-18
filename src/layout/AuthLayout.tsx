@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Typography,
   Grid,
@@ -8,20 +7,19 @@ import {
   IconButton,
 } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
-import LightThemeBgImage from '../../assets/images/auth-bg/auth-bg-light-theme.png';
-import DarkThemeBgImage from '../../assets/images/auth-bg/auth-bg-dark-theme.png';
+import LightThemeBgImage from '../assets/images/auth-bg/auth-bg-light-theme.png';
+import DarkThemeBgImage from '../assets/images/auth-bg/auth-bg-dark-theme.png';
 import { useDispatch } from 'react-redux';
-import { toggleColorMode } from '../../store/reducers/colorModeSlice';
-import { AuthWrapperProps } from '../../types';
+import { toggleColorMode } from '../store/slices/colorModeSlice';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase';
-import { saveUser } from '../../store/reducers/userSlice';
+import { auth } from '../firebase';
+import { saveUser } from '../store/slices/userSlice';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { Navigate } from 'react-router-dom';
+import { RootState } from '../store';
+import { Navigate, Outlet } from 'react-router-dom';
 
-const AuthWrapper = ({ children }: AuthWrapperProps) => {
+const AuthLayout = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
@@ -35,9 +33,9 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
         dispatch(saveUser(null));
       }
     });
-  }, []);
+  }, [dispatch]);
 
-  if (user) {
+  if (user.email) {
     return <Navigate to={'/'} />;
   }
 
@@ -75,7 +73,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
             mb={4}>
             In Other Words
           </Typography>
-          {children}
+          <Outlet />
         </Box>
         <IconButton onClick={() => dispatch(toggleColorMode())} color="inherit">
           {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
@@ -101,4 +99,4 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
   );
 };
 
-export default AuthWrapper;
+export default AuthLayout;

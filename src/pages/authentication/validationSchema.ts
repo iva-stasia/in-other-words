@@ -1,5 +1,12 @@
 import * as yup from 'yup';
 
+export const emailSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Email must be correct')
+    .required('Email is required'),
+});
+
 export const registerSchema = yup.object().shape({
   email: yup
     .string()

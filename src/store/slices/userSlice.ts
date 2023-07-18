@@ -1,16 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
-
-interface UserInitialState {
-  displayName: string | null;
-  email: string | null;
-  photoURL: string | null;
-}
+import { UserInitialState } from '../../types';
 
 const initialState: UserInitialState = {
-  displayName: '',
-  email: '',
-  photoURL: '',
+  displayName: null,
+  email: null,
+  photoURL: null,
 };
 
 export const userSlice = createSlice({

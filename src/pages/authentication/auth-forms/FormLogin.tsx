@@ -2,33 +2,44 @@ import { VisibilityOff, Visibility } from '@mui/icons-material';
 import {
   Box,
   Button,
+  FormControlLabel,
+  Checkbox,
   FormControl,
   InputAdornment,
   IconButton,
   OutlinedInput,
+  Link,
+  Typography,
+  Stack,
   FormLabel,
   FormHelperText,
 } from '@mui/material';
 import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { UserRegisterInput } from '../../../types';
-import { registerSchema } from '../validationSchema';
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { UserLoginInput } from '../../../types';
+import { loginSchema } from '../validationSchema';
+import {
+  setPersistence,
+  signInWithEmailAndPassword,
+  browserSessionPersistence,
+} from 'firebase/auth';
 import { auth } from '../../../firebase';
+import { Link as RouterLink } from 'react-router-dom';
 
-const AuthRegister = () => {
+const FormLogin = () => {
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<UserRegisterInput>({
+  } = useForm<UserLoginInput>({
     defaultValues: {
       email: '',
       password: '',
+      remember: true,
     },
     mode: 'onBlur',
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(loginSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -40,12 +51,16 @@ const AuthRegister = () => {
     event.preventDefault();
   };
 
-  const onSubmit: SubmitHandler<UserRegisterInput> = async ({
+  const onSubmit: SubmitHandler<UserLoginInput> = async ({
     email,
     password,
+    remember,
   }) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      if (!remember) {
+        await setPersistence(auth, browserSessionPersistence);
+      }
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
@@ -104,7 +119,7 @@ const AuthRegister = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                placeholder="Min. 8 characters"
+                placeholder="Your password"
                 size="small"
                 {...field}
               />
@@ -114,6 +129,31 @@ const AuthRegister = () => {
             </FormControl>
           )}
         />
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between">
+          <Controller
+            name="remember"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    color="primary"
+                    size="small"
+                    checked={field.value}
+                    {...field}
+                  />
+                }
+                label={<Typography variant="body2">Remember me</Typography>}
+              />
+            )}
+          />
+          <Link component={RouterLink} to={'/password-reset'} variant="body2">
+            Forgot password?
+          </Link>
+        </Stack>
         <Button
           type="submit"
           fullWidth
@@ -121,11 +161,11 @@ const AuthRegister = () => {
           size="large"
           disabled={isSubmitting}
           sx={{ mt: 3, mb: 2 }}>
-          Sign Up
+          Sign In
         </Button>
       </Box>
     </>
   );
 };
 
-export default AuthRegister;
+export default FormLogin;

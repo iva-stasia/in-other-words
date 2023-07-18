@@ -9,7 +9,7 @@ import { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { useDispatch } from 'react-redux';
-import { setPreferColorMode } from './store/reducers/colorModeSlice';
+import { setPreferColorMode } from './store/slices/colorModeSlice';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
 
@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setPreferColorMode(prefersDarkMode ? 'dark' : 'light'));
-  }, []);
+  }, [prefersDarkMode, dispatch]);
 
   const theme = useMemo(
     () => createTheme(getDesignTokens(colorMode)),

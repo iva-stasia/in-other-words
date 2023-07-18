@@ -1,13 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import colorModeReducer from './reducers/colorModeSlice';
+import colorModeReducer from './slices/colorModeSlice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
-import userSlice from './reducers/userSlice';
+import userSlice from './slices/userSlice';
+import passwordResetSlice from './slices/passwordResetSlice';
 
 const reducers = combineReducers({
   colorMode: colorModeReducer,
   user: userSlice,
+  passwordReset: passwordResetSlice,
 });
 
 const persistConfig = {
