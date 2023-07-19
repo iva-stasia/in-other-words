@@ -1,3 +1,15 @@
+import { PaletteColor, SimplePaletteColorOptions } from "@mui/material";
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    tertiary: PaletteColor;
+  }
+
+  interface PaletteOptions {
+    tertiary: SimplePaletteColorOptions;
+  }
+}
+
 export interface UserEmail {
   email: string;
 }

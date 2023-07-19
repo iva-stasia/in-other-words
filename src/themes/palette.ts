@@ -1,18 +1,4 @@
-import {
-  PaletteColor,
-  SimplePaletteColorOptions,
-  PaletteOptions,
-} from '@mui/material/styles';
-
-declare module '@mui/material/styles' {
-  interface Palette {
-    tertiary: PaletteColor;
-  }
-
-  interface PaletteOptions {
-    tertiary: SimplePaletteColorOptions;
-  }
-}
+import { PaletteOptions } from '@mui/material/styles';
 
 export const lightPalette: PaletteOptions = {
   primary: {
@@ -23,7 +9,7 @@ export const lightPalette: PaletteOptions = {
     main: '#d1d1e9',
   },
   tertiary: {
-    main: '#64748B',
+    main: '#e45858',
     contrastText: '#fffffe',
   },
   background: {

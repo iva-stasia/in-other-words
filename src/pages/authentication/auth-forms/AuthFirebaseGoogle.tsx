@@ -21,7 +21,7 @@ const AuthFirebaseGoogle = () => {
         size="large"
         startIcon={<img src={GoogleIcon} alt="Google" width={16} height={16} />}
         onClick={signInWithGoogle}>
-        Google
+        with Google
       </Button>
     </Box>
   );

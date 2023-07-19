@@ -26,10 +26,10 @@ function App() {
     dispatch(setPreferColorMode(prefersDarkMode ? 'dark' : 'light'));
   }, [prefersDarkMode, dispatch]);
 
-  const theme = useMemo(
-    () => createTheme(getDesignTokens(colorMode)),
-    [colorMode]
-  );
+  const theme = useMemo(() => {
+    const color = createTheme();
+    return createTheme(getDesignTokens(color, colorMode));
+  }, [colorMode]);
 
   return (
     <ThemeProvider theme={theme}>

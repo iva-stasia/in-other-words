@@ -53,7 +53,8 @@ const FormPasswordReset = () => {
       component="form"
       noValidate
       onSubmit={handleSubmit(onSubmit)}
-      marginTop={4}>
+      marginTop={4}
+      sx={{ width: '100%' }}>
       <Controller
         name="email"
         control={control}

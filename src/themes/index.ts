@@ -1,17 +1,17 @@
-import { PaletteMode } from '@mui/material';
+import { PaletteMode, Theme } from '@mui/material';
 import { darkPalette, lightPalette } from './palette';
 
-export const getDesignTokens = (mode: PaletteMode) => ({
+export const getDesignTokens = (theme: Theme, mode: PaletteMode) => ({
   palette: {
     mode,
     ...(mode === 'light' ? lightPalette : darkPalette),
   },
   typography: {
-    fontFamily: 'Nunito',
+    fontFamily: 'Nunito, Arial',
     button: {
       fontWeight: 500,
       fontSize: '0.875rem',
-      fontFamily: 'Montserrat, Arial',
+      fontFamily: 'Nunito, Arial',
     },
   },
   shape: {
@@ -27,6 +27,18 @@ export const getDesignTokens = (mode: PaletteMode) => ({
           },
           '&:focus': {
             boxShadow: 'none',
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          input: {
+            '&:-webkit-autofill': {
+              WebkitBoxShadow: `0 0 0 100px ${theme.palette.secondary.main} inset`,
+              WebkitTextFillColor: theme.palette.text.primary,
+            },
           },
         },
       },
