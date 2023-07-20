@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { setPreferColorMode } from './store/slices/colorModeSlice';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
+import { getPalette } from './themes/palette';
 
 function App() {
   const dispatch = useDispatch();
@@ -27,8 +28,8 @@ function App() {
   }, [prefersDarkMode, dispatch]);
 
   const theme = useMemo(() => {
-    const color = createTheme();
-    return createTheme(getDesignTokens(color, colorMode));
+    const colorTheme = createTheme(getPalette(colorMode));
+    return createTheme(getDesignTokens(colorTheme));
   }, [colorMode]);
 
   return (

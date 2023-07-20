@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { colorModeInitialState, mode } from '../../types';
+import { colorModeInitialState } from '../../types';
+import { PaletteMode } from '@mui/material';
 
 const initialState: colorModeInitialState = {
   setMode: null,
@@ -13,7 +14,7 @@ export const colorModeSlice = createSlice({
     toggleColorMode: (state) => {
       state.setMode = state.setMode === 'light' ? 'dark' : 'light';
     },
-    setPreferColorMode: (state, action: PayloadAction<mode>) => {
+    setPreferColorMode: (state, action: PayloadAction<PaletteMode>) => {
       state.preferredMode = action.payload;
     },
   },

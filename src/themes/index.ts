@@ -1,11 +1,7 @@
-import { PaletteMode, Theme } from '@mui/material';
-import { darkPalette, lightPalette } from './palette';
+import { Theme } from '@mui/material';
 
-export const getDesignTokens = (theme: Theme, mode: PaletteMode) => ({
-  palette: {
-    mode,
-    ...(mode === 'light' ? lightPalette : darkPalette),
-  },
+export const getDesignTokens = (theme: Theme) => ({
+  palette: theme.palette,
   typography: {
     fontFamily: 'Nunito, Arial',
     button: {
@@ -39,6 +35,42 @@ export const getDesignTokens = (theme: Theme, mode: PaletteMode) => ({
               WebkitBoxShadow: `0 0 0 100px ${theme.palette.secondary.main} inset`,
               WebkitTextFillColor: theme.palette.text.primary,
             },
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+        },
+      },
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          minWidth: 'calc(24px + 1rem)',
+          color: 'inherit',
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          '&.Mui-selected': {
+            // color: theme.palette.text.primary,
+            // color: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+            // backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.primary.main,
+            '&:hover': {
+              backgroundColor: theme.palette.secondary.light,
+              color: theme.palette.text.secondary,
+            },
+          },
+          '&:hover': {
+            backgroundColor: theme.palette.secondary.light,
           },
         },
       },

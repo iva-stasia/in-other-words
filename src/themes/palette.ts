@@ -1,3 +1,4 @@
+import { PaletteMode } from '@mui/material';
 import { PaletteOptions } from '@mui/material/styles';
 
 export const lightPalette: PaletteOptions = {
@@ -16,9 +17,12 @@ export const lightPalette: PaletteOptions = {
     default: '#fffffe',
     paper: '#fffffe',
   },
+  backgroundSecond: {
+    main: '#d1d1e9',
+  },
   text: {
     primary: '#2b2c34',
-    secondary: 'rgba(43,44,52,0.6)',
+    secondary: 'rgba(43,44,52,0.7)',
     disabled: 'rgba(43,44,52,0.38)',
   },
 };
@@ -40,9 +44,19 @@ export const darkPalette: PaletteOptions = {
     paper: '#16161a',
     default: '#16161a',
   },
+  backgroundSecond: {
+    main: '#242629',
+  },
   text: {
     primary: '#fffffe',
     secondary: 'rgba(255,255,254,0.7)',
     disabled: 'rgba(255,255,254,0.5)',
   },
 };
+
+export const getPalette = (mode: PaletteMode) => ({
+  palette: {
+    mode,
+    ...(mode === 'light' ? lightPalette : darkPalette),
+  },
+})

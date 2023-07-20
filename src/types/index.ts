@@ -1,4 +1,8 @@
-import { PaletteColor, SimplePaletteColorOptions } from "@mui/material";
+import {
+  PaletteColor,
+  PaletteMode,
+  SimplePaletteColorOptions,
+} from '@mui/material';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -7,6 +11,7 @@ declare module '@mui/material/styles' {
 
   interface PaletteOptions {
     tertiary: SimplePaletteColorOptions;
+    backgroundSecond: SimplePaletteColorOptions;
   }
 }
 
@@ -28,13 +33,15 @@ export interface UserInitialState {
   photoURL: string | null;
 }
 
-export type mode = 'light' | 'dark';
-
 export interface colorModeInitialState {
-  setMode: mode | null;
-  preferredMode: mode;
+  setMode: PaletteMode | null;
+  preferredMode: PaletteMode;
 }
 
 export interface PasswordResetInitialState {
   isResetEmailSent: boolean;
+}
+
+export interface DrawerWidthProp {
+  drawerWidth: number;
 }
