@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { colorModeInitialState } from '../../types';
+import { ColorModeInitialState } from '../../types';
 import { PaletteMode } from '@mui/material';
 
-const initialState: colorModeInitialState = {
+const initialState: ColorModeInitialState = {
   setMode: null,
   preferredMode: 'light',
 };

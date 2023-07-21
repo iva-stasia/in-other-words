@@ -35,6 +35,10 @@ export const getDesignTokens = (theme: Theme) => ({
               WebkitBoxShadow: `0 0 0 100px ${theme.palette.secondary.main} inset`,
               WebkitTextFillColor: theme.palette.text.primary,
             },
+            '::-webkit-search-cancel-button': {
+              WebkitAppearance: 'none',
+              appearance: 'none',
+            },
           },
         },
       },
@@ -65,8 +69,8 @@ export const getDesignTokens = (theme: Theme) => ({
             // backgroundColor: theme.palette.secondary.main,
             backgroundColor: theme.palette.primary.main,
             '&:hover': {
-              backgroundColor: theme.palette.secondary.light,
-              color: theme.palette.text.secondary,
+              color: theme.palette.primary.contrastText,
+              backgroundColor: theme.palette.primary.dark,
             },
           },
           '&:hover': {
@@ -75,5 +79,14 @@ export const getDesignTokens = (theme: Theme) => ({
         },
       },
     },
+    // MuiToolbar: {
+    //   styleOverrides: {
+    //     root: {
+    //       '&.MuiToolbar-regular': {
+    //         minHeight: '80px',
+    //       },
+    //     },
+    //   },
+    // },
   },
 });

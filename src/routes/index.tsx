@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Register from '../pages/authentication/Register';
 import Login from '../pages/authentication/Login';
 import MainLayout from '../layout/MainLayout/MainLayout';
-import Home from '../pages/Home';
+import AllWords from '../pages/AllWords';
 import PasswordReset from '../pages/authentication/PasswordReset';
 import PasswordResetSent from '../pages/authentication/PasswordResetSent';
 import AuthLayout from '../layout/AuthLayout';
@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <AllWords />,
       },
     ],
   },

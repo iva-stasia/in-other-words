@@ -4,13 +4,10 @@ import {
   Paper,
   Box,
   useTheme,
-  IconButton,
 } from '@mui/material';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
 import LightThemeBgImage from '../assets/images/auth-bg/auth-bg-light-theme.png';
 import DarkThemeBgImage from '../assets/images/auth-bg/auth-bg-dark-theme.png';
 import { useDispatch } from 'react-redux';
-import { toggleColorMode } from '../store/slices/colorModeSlice';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
@@ -18,6 +15,7 @@ import { saveUser } from '../store/slices/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { Navigate, Outlet } from 'react-router-dom';
+import ColorModeSwitch from '../components/ColorModeSwitch';
 
 const AuthLayout = () => {
   const theme = useTheme();
@@ -27,7 +25,6 @@ const AuthLayout = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log('from wrapper');
         dispatch(saveUser(user));
       } else {
         dispatch(saveUser(null));
@@ -75,9 +72,7 @@ const AuthLayout = () => {
           </Typography>
           <Outlet />
         </Box>
-        <IconButton onClick={() => dispatch(toggleColorMode())} color="inherit">
-          {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-        </IconButton>
+        <ColorModeSwitch />
       </Grid>
       <Grid
         item

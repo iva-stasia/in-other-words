@@ -1,114 +1,119 @@
 import {
-  AddRounded,
-  ChevronLeft,
-  ChevronRight,
-  Inbox,
-  Mail,
-  Menu,
+  BookRounded,
+  CollectionsBookmarkRounded,
+  Diversity1,
+  SchoolRounded,
+  TrendingUpRounded,
 } from '@mui/icons-material';
 import {
-  AppBar,
   Box,
   Drawer,
-  IconButton,
   Toolbar,
   Typography,
-  Divider,
   List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  ListItemIcon,
-  Button,
+  Divider,
+  useMediaQuery,
 } from '@mui/material';
 import { useState } from 'react';
 import { DrawerWidthProp } from '../../../types';
+import NavItem from './NavItem';
+import ColorModeSwitch from '../../../components/ColorModeSwitch';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
+import { useTheme } from '@emotion/react';
+import { useDispatch } from 'react-redux';
+import { toggleMenu } from '../../../store/slices/menuSlice';
+
+const pages = [
+  {
+    title: 'All words',
+    icon: <BookRounded />,
+    path: '/',
+  },
+  {
+    title: 'Word sets',
+    icon: <CollectionsBookmarkRounded />,
+    path: '/',
+  },
+  {
+    title: 'Study',
+    icon: <SchoolRounded />,
+    path: '/',
+  },
+  {
+    title: 'My progress',
+    icon: <TrendingUpRounded />,
+    path: '/',
+  },
+];
 
 const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
+  const dispatch = useDispatch();
+  const { isOpen } = useSelector((state: RootState) => state.menu);
+  const theme = useTheme();
+  const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
+  // const matches = useMediaQuery('(min-width:600px)');
+
   return (
     <Drawer
       sx={{
         width: drawerWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
+          mt: matchUpMd ? '64px' : 0,
           width: drawerWidth,
+          height: matchUpMd ? 'calc(100% - 64px)' : '100%',
           boxSizing: 'border-box',
           gap: '1rem',
-          // bgcolor: 'secondary.main',
           border: 'none',
         },
       }}
-      variant="permanent"
+      variant={matchUpMd ? 'persistent' : 'temporary'}
+      open={isOpen}
+      onClick={() => dispatch(toggleMenu())}
+      ModalProps={{ keepMounted: true }}
       anchor="left">
-      <Toolbar sx={{ justifyContent: 'center' }}>
+      <Box px={2} pt={2}>
         <Typography
           variant="h6"
           color="primary"
           fontFamily="Kavoon"
           noWrap
           p={0}
-          component="div">
+          component="div"
+          sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: 'center', pb: 2 }}>
           In Other Words
         </Typography>
-      </Toolbar>
-      {/* <Divider variant="middle" /> */}
-      {/* <Box p={2}>
-        <Button
-          variant="contained"
-          fullWidth
-          size="large"
-          startIcon={<AddRounded />}>
-          Add new word
-        </Button>
-      </Box> */}
-      <Box px={2}>
         <List disablePadding>
-          <ListItem disablePadding>
-            <ListItemButton sx={{ color: 'text.secondary' }} selected={true}>
-              <ListItemIcon>
-                <Inbox />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography
-                    variant="body1"
-                    fontWeight={600}
-                    p={0}
-                    component="span">
-                    Selected
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-          </ListItem>
-          {['All words', 'Word Sets', 'Study', 'Progress'].map(
-            (text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton
-                  sx={{ color: 'text.secondary' }}
-                  selected={false}>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <Inbox /> : <Mail />}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography
-                        variant="body1"
-                        fontWeight={600}
-                        p={0}
-                        component="span">
-                        {text}
-                      </Typography>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
+          {pages.map(({ title, icon, path }) => (
+            <NavItem key={title} title={title} icon={icon} path={path} />
+          ))}
         </List>
+      </Box>
+      <Box
+        sx={{
+          mb: 2,
+          flexGrow: '1',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'end',
+        }}>
+        <ColorModeSwitch />
       </Box>
     </Drawer>
   );
 };
 
 export default Sidebar;
+
+{
+  /* <Divider variant="middle" /> */
+}
+
+{
+  /* <Box p={2}>
+  <Button variant="contained" fullWidth size="large" startIcon={<AddRounded />}>
+    Add new word
+  </Button>
+</Box>; */
+}
