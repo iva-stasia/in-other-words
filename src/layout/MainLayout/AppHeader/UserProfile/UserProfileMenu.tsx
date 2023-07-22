@@ -38,7 +38,7 @@ const UserProfileMenu = ({
         horizontal: 'right',
       }}
       keepMounted
-      elevation={1}
+      elevation={6}
       transformOrigin={{
         vertical: 'top',
         horizontal: 'right',

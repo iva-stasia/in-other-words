@@ -8,29 +8,6 @@ import { useTheme } from '@emotion/react';
 
 const drawerWidth = 280;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  backgroundColor: theme.palette.backgroundSecond.main,
-  borderRadius: '0',
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    backgroundColor: theme.palette.backgroundSecond.main,
-    marginLeft: 0,
-    borderRadius: '12px 0 0 0',
-  }),
-}));
-
 const MainLayout = () => {
   const user = useSelector((state: RootState) => state.user);
   const { isOpen } = useSelector((state: RootState) => state.menu);
@@ -47,16 +24,12 @@ const MainLayout = () => {
       }}>
       <AppHeader drawerWidth={drawerWidth} />
       <Sidebar drawerWidth={drawerWidth} />
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Toolbar />
         <Main open={isOpen}>
-          <Outlet />
+          <Box sx={{ width: '100%', overflow: 'auto' }}>
+            <Outlet />
+          </Box>
         </Main>
       </Box>
     </Box>
@@ -64,3 +37,30 @@ const MainLayout = () => {
 };
 
 export default MainLayout;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  overflow: 'auto',
+  height: 'calc(100% - 64px)',
+  padding: theme.spacing(3),
+  backgroundColor: theme.palette.backgroundSecond.main,
+  borderRadius: '0',
+  transition: theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  [theme.breakpoints.down('md')]: {
+    marginLeft: 0,
+  },
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    backgroundColor: theme.palette.backgroundSecond.main,
+    marginLeft: 0,
+    borderRadius: '12px 0 0 0',
+  }),
+}));

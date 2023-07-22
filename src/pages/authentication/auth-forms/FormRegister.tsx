@@ -15,7 +15,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRegisterInput } from '../../../types';
 import { registerSchema } from '../validationSchema';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebase';
+import { auth, db } from '../../../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 const FormRegister = () => {
   const {
@@ -45,7 +46,8 @@ const FormRegister = () => {
     password,
   }) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, 'userWords', res.user.uid), {});
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }

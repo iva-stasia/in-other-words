@@ -1,7 +1,6 @@
 import {
   BookRounded,
   CollectionsBookmarkRounded,
-  Diversity1,
   SchoolRounded,
   TrendingUpRounded,
 } from '@mui/icons-material';
@@ -20,7 +19,7 @@ import NavItem from './NavItem';
 import ColorModeSwitch from '../../../components/ColorModeSwitch';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import { useTheme } from '@emotion/react';
+import {  useTheme } from '@emotion/react';
 import { useDispatch } from 'react-redux';
 import { toggleMenu } from '../../../store/slices/menuSlice';
 
@@ -52,7 +51,7 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
   const { isOpen } = useSelector((state: RootState) => state.menu);
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
-  // const matches = useMediaQuery('(min-width:600px)');
+  // const matchUpMd = useMediaQuery('(min-width:900px)');
 
   return (
     <Drawer
@@ -70,7 +69,7 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
       }}
       variant={matchUpMd ? 'persistent' : 'temporary'}
       open={isOpen}
-      onClick={() => dispatch(toggleMenu())}
+      {...(matchUpMd ? {} : { onClick: () => dispatch(toggleMenu()) })}
       ModalProps={{ keepMounted: true }}
       anchor="left">
       <Box px={2} pt={2}>
@@ -81,7 +80,11 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
           noWrap
           p={0}
           component="div"
-          sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: 'center', pb: 2 }}>
+          sx={{
+            display: { xs: 'flex', md: 'none' },
+            justifyContent: 'center',
+            pb: 2,
+          }}>
           In Other Words
         </Typography>
         <List disablePadding>
@@ -105,10 +108,6 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
 };
 
 export default Sidebar;
-
-{
-  /* <Divider variant="middle" /> */
-}
 
 {
   /* <Box p={2}>

@@ -1,4 +1,5 @@
 import {
+  Breakpoints,
   PaletteColor,
   PaletteMode,
   SimplePaletteColorOptions,
@@ -32,6 +33,7 @@ export interface UserLoginInput extends UserRegisterInput {
 // Slice initial state props
 
 export interface UserInitialState {
+  uid: string | null;
   displayName: string | null;
   email: string | null;
   photoURL: string | null;

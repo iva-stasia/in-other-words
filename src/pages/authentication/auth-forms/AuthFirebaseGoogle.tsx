@@ -1,12 +1,14 @@
 import { Box, Button } from '@mui/material';
 import GoogleIcon from '../../../assets/images/icons/google.svg';
-import { auth, provider } from '../../../firebase';
+import { auth, db, provider } from '../../../firebase';
 import { signInWithPopup } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 const AuthFirebaseGoogle = () => {
   const signInWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, provider);
+      const res = await signInWithPopup(auth, provider);
+      await setDoc(doc(db, 'userWords', res.user.uid), {}, { merge: true });
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }

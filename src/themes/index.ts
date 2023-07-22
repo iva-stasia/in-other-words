@@ -79,14 +79,25 @@ export const getDesignTokens = (theme: Theme) => ({
         },
       },
     },
-    // MuiToolbar: {
-    //   styleOverrides: {
-    //     root: {
-    //       '&.MuiToolbar-regular': {
-    //         minHeight: '80px',
-    //       },
-    //     },
-    //   },
-    // },
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          scrollbarColor: `${theme.palette.secondary.dark} ${theme.palette.backgroundSecond.main}`,
+          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+            width: '10px',
+            backgroundColor: theme.palette.backgroundSecond.main,
+          },
+          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+            borderRadius: 8,
+            backgroundColor: theme.palette.secondary.dark,
+            minHeight: 24,
+            border: 'none',
+          },
+          '&::-webkit-scrollbar-button, & *::-webkit-scrollbar-button': {
+            backgroundColor: theme.palette.backgroundSecond.main,
+          },
+        },
+      },
+    },
   },
 });

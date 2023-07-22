@@ -1,8 +1,10 @@
 import { SearchRounded } from '@mui/icons-material';
 import { Autocomplete, InputAdornment, TextField } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 const SearchInput = () => {
+  const [query, setQuery] = useState('');
+
   return (
     <Autocomplete
       freeSolo
@@ -12,6 +14,7 @@ const SearchInput = () => {
       renderInput={(params) => (
         <TextField
           {...params}
+          // value={query}
           placeholder="Search a word"
           size="small"
           InputProps={{
@@ -25,11 +28,11 @@ const SearchInput = () => {
           }}
         />
       )}
-      // slotProps={{
-      //   paper: {
-      //     elevation: 1
-      //   },
-      // }}
+      slotProps={{
+        paper: {
+          elevation: 6,
+        },
+      }}
     />
   );
 };
