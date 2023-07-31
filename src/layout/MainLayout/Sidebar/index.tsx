@@ -3,7 +3,7 @@ import {
   CollectionsBookmarkRounded,
   SchoolRounded,
   TrendingUpRounded,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import {
   Box,
   Drawer,
@@ -12,37 +12,37 @@ import {
   List,
   Divider,
   useMediaQuery,
-} from '@mui/material';
-import { useState } from 'react';
-import { DrawerWidthProp } from '../../../types';
-import NavItem from './NavItem';
-import ColorModeSwitch from '../../../components/ColorModeSwitch';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
-import {  useTheme } from '@emotion/react';
-import { useDispatch } from 'react-redux';
-import { toggleMenu } from '../../../store/slices/menuSlice';
+} from "@mui/material";
+import { useState } from "react";
+import { DrawerWidthProp } from "../../../types";
+import NavItem from "./NavItem";
+import ColorModeSwitch from "../../../components/ColorModeSwitch";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { useTheme } from "@emotion/react";
+import { useDispatch } from "react-redux";
+import { toggleMenu } from "../../../store/slices/menuSlice";
 
 const pages = [
   {
-    title: 'All words',
+    title: "All words",
     icon: <BookRounded />,
-    path: '/',
+    path: "/",
   },
   {
-    title: 'Word sets',
+    title: "Word sets",
     icon: <CollectionsBookmarkRounded />,
-    path: '/',
+    path: "/",
   },
   {
-    title: 'Study',
+    title: "Study",
     icon: <SchoolRounded />,
-    path: '/',
+    path: "/",
   },
   {
-    title: 'My progress',
+    title: "My progress",
     icon: <TrendingUpRounded />,
-    path: '/',
+    path: "/",
   },
 ];
 
@@ -50,7 +50,7 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state: RootState) => state.menu);
   const theme = useTheme();
-  const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
+  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   // const matchUpMd = useMediaQuery('(min-width:900px)');
 
   return (
@@ -58,20 +58,21 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          mt: matchUpMd ? '64px' : 0,
+        "& .MuiDrawer-paper": {
+          mt: matchUpMd ? "64px" : 0,
           width: drawerWidth,
-          height: matchUpMd ? 'calc(100% - 64px)' : '100%',
-          boxSizing: 'border-box',
-          gap: '1rem',
-          border: 'none',
+          height: matchUpMd ? "calc(100% - 64px)" : "100%",
+          boxSizing: "border-box",
+          gap: "1rem",
+          border: "none",
         },
       }}
-      variant={matchUpMd ? 'persistent' : 'temporary'}
+      variant={matchUpMd ? "persistent" : "temporary"}
       open={isOpen}
       {...(matchUpMd ? {} : { onClick: () => dispatch(toggleMenu()) })}
       ModalProps={{ keepMounted: true }}
-      anchor="left">
+      anchor="left"
+    >
       <Box px={2} pt={2}>
         <Typography
           variant="h6"
@@ -81,10 +82,11 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
           p={0}
           component="div"
           sx={{
-            display: { xs: 'flex', md: 'none' },
-            justifyContent: 'center',
+            display: { xs: "flex", md: "none" },
+            justifyContent: "center",
             pb: 2,
-          }}>
+          }}
+        >
           In Other Words
         </Typography>
         <List disablePadding>
@@ -96,11 +98,12 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
       <Box
         sx={{
           mb: 2,
-          flexGrow: '1',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'end',
-        }}>
+          flexGrow: "1",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "end",
+        }}
+      >
         <ColorModeSwitch />
       </Box>
     </Drawer>
@@ -108,11 +111,3 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
 };
 
 export default Sidebar;
-
-{
-  /* <Box p={2}>
-  <Button variant="contained" fullWidth size="large" startIcon={<AddRounded />}>
-    Add new word
-  </Button>
-</Box>; */
-}

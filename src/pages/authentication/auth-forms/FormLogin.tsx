@@ -1,4 +1,4 @@
-import { VisibilityOff, Visibility, Close } from '@mui/icons-material';
+import { VisibilityOff, Visibility, Close } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -15,19 +15,19 @@ import {
   FormHelperText,
   Alert,
   Collapse,
-} from '@mui/material';
-import { useState } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { UserLoginInput } from '../../../types';
-import { loginSchema } from '../validationSchema';
+} from "@mui/material";
+import { useState } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { UserLoginInput } from "../../../types";
+import { loginSchema } from "../validationSchema";
 import {
   setPersistence,
   signInWithEmailAndPassword,
   browserSessionPersistence,
-} from 'firebase/auth';
-import { auth } from '../../../firebase';
-import { Link as RouterLink } from 'react-router-dom';
+} from "firebase/auth";
+import { auth } from "../../../firebase";
+import { Link as RouterLink } from "react-router-dom";
 
 const FormLogin = () => {
   const {
@@ -36,11 +36,11 @@ const FormLogin = () => {
     formState: { errors, isSubmitting },
   } = useForm<UserLoginInput>({
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       remember: true,
     },
-    mode: 'onBlur',
+    mode: "onBlur",
     resolver: yupResolver(loginSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -79,13 +79,14 @@ const FormLogin = () => {
         component="form"
         noValidate
         onSubmit={handleSubmit(onSubmit)}
-        marginTop={1}>
+        marginTop={1}
+      >
         <Controller
           name="email"
           control={control}
           render={({ field }) => (
             <FormControl fullWidth sx={{ my: 1 }} variant="outlined" required>
-              <FormLabel htmlFor="email" sx={{ mb: 1, color: 'text.primary' }}>
+              <FormLabel htmlFor="email" sx={{ color: "text.primary" }}>
                 Email Address
               </FormLabel>
               <OutlinedInput
@@ -109,19 +110,21 @@ const FormLogin = () => {
             <FormControl fullWidth sx={{ my: 1 }} variant="outlined" required>
               <FormLabel
                 htmlFor="password"
-                sx={{ mb: 1, color: 'text.primary' }}>
+                sx={{ color: "text.primary" }}
+              >
                 Password
               </FormLabel>
               <OutlinedInput
                 id="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
-                      edge="end">
+                      edge="end"
+                    >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
@@ -139,7 +142,8 @@ const FormLogin = () => {
         <Stack
           direction="row"
           alignItems="center"
-          justifyContent="space-between">
+          justifyContent="space-between"
+        >
           <Controller
             name="remember"
             control={control}
@@ -157,7 +161,7 @@ const FormLogin = () => {
               />
             )}
           />
-          <Link component={RouterLink} to={'/password-reset'} variant="body2">
+          <Link component={RouterLink} to={"/password-reset"} variant="body2">
             Forgot password?
           </Link>
         </Stack>
@@ -171,12 +175,14 @@ const FormLogin = () => {
                   size="small"
                   onClick={() => {
                     setOpen(false);
-                  }}>
+                  }}
+                >
                   <Close fontSize="inherit" />
                 </IconButton>
               }
               severity="error"
-              sx={{ mt: 1 }}>
+              sx={{ mt: 1 }}
+            >
               Email or password was invalid.
             </Alert>
           </Collapse>
@@ -187,7 +193,8 @@ const FormLogin = () => {
           variant="contained"
           size="large"
           disabled={isSubmitting}
-          sx={{ mt: 3, mb: 2 }}>
+          sx={{ mt: 3, mb: 2 }}
+        >
           Sign In
         </Button>
       </Box>

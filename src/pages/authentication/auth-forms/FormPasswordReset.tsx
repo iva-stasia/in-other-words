@@ -5,17 +5,17 @@ import {
   FormHelperText,
   FormLabel,
   OutlinedInput,
-} from '@mui/material';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { UserEmail } from '../../../types';
-import { emailSchema } from '../validationSchema';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { auth } from '../../../firebase';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { toggleResetEmail } from '../../../store/slices/passwordResetSlice';
+} from "@mui/material";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { UserEmail } from "../../../types";
+import { emailSchema } from "../validationSchema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { auth } from "../../../firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { toggleResetEmail } from "../../../store/slices/passwordResetSlice";
 
 const FormPasswordReset = () => {
   const {
@@ -24,9 +24,9 @@ const FormPasswordReset = () => {
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<UserEmail>({
     defaultValues: {
-      email: '',
+      email: "",
     },
-    mode: 'onBlur',
+    mode: "onBlur",
     resolver: yupResolver(emailSchema),
   });
   const dispatch = useDispatch();
@@ -38,14 +38,14 @@ const FormPasswordReset = () => {
   const onSubmit: SubmitHandler<UserEmail> = async ({ email }) => {
     try {
       await sendPasswordResetEmail(auth, email);
-      console.log('sent');
+      console.log("sent");
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
   };
 
   if (isSubmitted) {
-    return <Navigate to={'/password-reset-sent'} />;
+    return <Navigate to={"/password-reset-sent"} />;
   }
 
   return (
@@ -54,13 +54,14 @@ const FormPasswordReset = () => {
       noValidate
       onSubmit={handleSubmit(onSubmit)}
       marginTop={4}
-      sx={{ width: '100%' }}>
+      sx={{ width: "100%" }}
+    >
       <Controller
         name="email"
         control={control}
         render={({ field }) => (
           <FormControl fullWidth sx={{ my: 1 }} variant="outlined" required>
-            <FormLabel htmlFor="email" sx={{ mb: 1, color: 'text.primary' }}>
+            <FormLabel htmlFor="email" sx={{ color: "text.primary" }}>
               Email Address
             </FormLabel>
             <OutlinedInput
@@ -83,7 +84,8 @@ const FormPasswordReset = () => {
         variant="contained"
         size="large"
         disabled={isSubmitting}
-        sx={{ mt: 3, mb: 2 }}>
+        sx={{ mt: 3, mb: 2 }}
+      >
         Send
       </Button>
     </Box>

@@ -1,30 +1,32 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import colorModeReducer from './slices/colorModeSlice';
-import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist';
-import thunk from 'redux-thunk';
-import userSlice from './slices/userSlice';
-import passwordResetSlice from './slices/passwordResetSlice';
-import menuSlice from './slices/menuSlice';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import colorModeReducer from "./slices/colorModeSlice";
+import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
+import thunk from "redux-thunk";
+import userSlice from "./slices/userSlice";
+import passwordResetSlice from "./slices/passwordResetSlice";
+import menuSlice from "./slices/menuSlice";
+import addWordDialogSlice from "./slices/addWordDialogSlice";
 
 const reducers = combineReducers({
   colorMode: colorModeReducer,
   user: userSlice,
   passwordReset: passwordResetSlice,
   menu: menuSlice,
+  addWordDialog: addWordDialogSlice,
 });
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['colorMode'],
+  whitelist: ["colorMode"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({
   reducer: persistedReducer,
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: process.env.NODE_ENV !== "production",
   middleware: [thunk],
 });
 

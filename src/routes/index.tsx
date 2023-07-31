@@ -1,15 +1,15 @@
-import { createBrowserRouter } from 'react-router-dom';
-import Register from '../pages/authentication/Register';
-import Login from '../pages/authentication/Login';
-import MainLayout from '../layout/MainLayout/MainLayout';
-import AllWords from '../pages/AllWords';
-import PasswordReset from '../pages/authentication/PasswordReset';
-import PasswordResetSent from '../pages/authentication/PasswordResetSent';
-import AuthLayout from '../layout/AuthLayout';
+import { createBrowserRouter } from "react-router-dom";
+import Register from "../pages/authentication/Register";
+import Login from "../pages/authentication/Login";
+import MainLayout from "../layout/MainLayout";
+import AllWords from "../pages/AllWords";
+import PasswordReset from "../pages/authentication/PasswordReset";
+import PasswordResetSent from "../pages/authentication/PasswordResetSent";
+import AuthLayout from "../layout/AuthLayout";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -22,19 +22,19 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: '/register',
+        path: "/register",
         element: <Register />,
       },
       {
-        path: '/login',
+        path: "/login",
         element: <Login />,
       },
       {
-        path: '/password-reset',
+        path: "/password-reset",
         element: <PasswordReset />,
       },
       {
-        path: '/password-reset-sent',
+        path: "/password-reset-sent",
         element: <PasswordResetSent />,
       },
     ],

@@ -1,4 +1,4 @@
-import { VisibilityOff, Visibility } from '@mui/icons-material';
+import { VisibilityOff, Visibility } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -8,15 +8,15 @@ import {
   OutlinedInput,
   FormLabel,
   FormHelperText,
-} from '@mui/material';
-import { useState } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { UserRegisterInput } from '../../../types';
-import { registerSchema } from '../validationSchema';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../../firebase';
-import { doc, setDoc } from 'firebase/firestore';
+} from "@mui/material";
+import { useState } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { UserRegisterInput } from "../../../types";
+import { registerSchema } from "../validationSchema";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 const FormRegister = () => {
   const {
@@ -25,10 +25,10 @@ const FormRegister = () => {
     formState: { errors, isSubmitting },
   } = useForm<UserRegisterInput>({
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
-    mode: 'onBlur',
+    mode: "onBlur",
     resolver: yupResolver(registerSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +47,7 @@ const FormRegister = () => {
   }) => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      await setDoc(doc(db, 'userWords', res.user.uid), {});
+      await setDoc(doc(db, "userWords", res.user.uid), {});
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
@@ -59,13 +59,14 @@ const FormRegister = () => {
         component="form"
         noValidate
         onSubmit={handleSubmit(onSubmit)}
-        marginTop={1}>
+        marginTop={1}
+      >
         <Controller
           name="email"
           control={control}
           render={({ field }) => (
             <FormControl fullWidth sx={{ my: 1 }} variant="outlined" required>
-              <FormLabel htmlFor="email" sx={{ mb: 1, color: 'text.primary' }}>
+              <FormLabel htmlFor="email" sx={{ color: "text.primary" }}>
                 Email Address
               </FormLabel>
               <OutlinedInput
@@ -87,21 +88,20 @@ const FormRegister = () => {
           control={control}
           render={({ field }) => (
             <FormControl fullWidth sx={{ my: 1 }} variant="outlined" required>
-              <FormLabel
-                htmlFor="password"
-                sx={{ mb: 1, color: 'text.primary' }}>
+              <FormLabel htmlFor="password" sx={{ color: "text.primary" }}>
                 Password
               </FormLabel>
               <OutlinedInput
                 id="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
-                      edge="end">
+                      edge="end"
+                    >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
@@ -122,7 +122,8 @@ const FormRegister = () => {
           variant="contained"
           size="large"
           disabled={isSubmitting}
-          sx={{ mt: 3, mb: 2 }}>
+          sx={{ mt: 3, mb: 2 }}
+        >
           Sign Up
         </Button>
       </Box>
