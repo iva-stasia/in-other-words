@@ -1,12 +1,11 @@
 import {
-  Breakpoints,
   PaletteColor,
   PaletteMode,
   SimplePaletteColorOptions,
-} from '@mui/material';
-import { ReactNode } from 'react';
+} from "@mui/material";
+import { ReactNode } from "react";
 
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface Palette {
     tertiary: PaletteColor;
     backgroundSecond: PaletteColor;
@@ -29,6 +28,41 @@ export interface UserRegisterInput extends UserEmail {
 export interface UserLoginInput extends UserRegisterInput {
   remember: boolean;
 }
+
+export interface SearchResult {
+  query: { limit: string; page: string };
+  results: { total: number; data: string[] };
+}
+
+export interface AddedOption {
+  value: string;
+  added: boolean;
+}
+
+export interface SelectedWord {
+  word: string | null;
+  isCustom: boolean;
+}
+
+export interface WordDefinition {
+  inputValue?: string;
+  definition: string;
+  partOfSpeech?: string;
+}
+
+export interface WordDefinitions {
+  word: string;
+  definitions: WordDefinition[];
+}
+
+export interface Word {
+  word: string;
+  definition: string;
+  set: string;
+  progress: number;
+}
+
+export type Order = "asc" | "desc";
 
 // Slice initial state props
 
@@ -53,6 +87,11 @@ export interface NavInitialState {
   isOpen: boolean;
 }
 
+export interface AddWordDialogInitialState {
+  selectedWord: SelectedWord;
+  isDialogOpen: boolean;
+}
+
 // Component props
 
 export interface DrawerWidthProp {
@@ -68,4 +107,9 @@ export interface NavItemProps {
 export interface UserProfileMenuProps {
   anchorElUser: null | HTMLElement;
   setAnchorElUser: (anchorElUser: null | HTMLElement) => void;
+}
+
+export interface SearchProps {
+  withIcon: boolean;
+  inDialog: boolean;
 }

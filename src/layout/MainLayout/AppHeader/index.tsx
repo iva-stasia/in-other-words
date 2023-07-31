@@ -5,20 +5,17 @@ import {
   Stack,
   Toolbar,
   Typography,
-} from '@mui/material';
-import { useState } from 'react';
-import { DrawerWidthProp } from '../../../types';
-import UserProfile from './UserProfile';
-import SearchInput from './SearchInput';
-import {
-  MenuOpenRounded,
-  MenuRounded,
-  SearchRounded,
-} from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
-import { toggleMenu } from '../../../store/slices/menuSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+} from "@mui/material";
+import { useState } from "react";
+import { DrawerWidthProp } from "../../../types";
+import UserProfile from "./UserProfile";
+import Search from "../../../components/Search";
+import { MenuOpenRounded, MenuRounded } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { toggleMenu } from "../../../store/slices/menuSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import AddWordDialog from "../../../pages/AddWordDialog";
 
 const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
   const { isOpen } = useSelector((state: RootState) => state.menu);
@@ -29,16 +26,18 @@ const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
       position="fixed"
       elevation={0}
       sx={{
-        bgcolor: 'background.default',
-        color: 'text.primary',
-      }}>
-      <Toolbar sx={{ display: 'flex' }}>
+        bgcolor: "background.default",
+        color: "text.primary",
+      }}
+    >
+      <Toolbar sx={{ display: "flex" }}>
         <Stack
           flexGrow="0"
           direction="row"
           alignItems="center"
           justifyContent="space-between"
-          sx={{ flexBasis: { xs: '0', md: drawerWidth } }}>
+          sx={{ flexBasis: { xs: "0", md: drawerWidth } }}
+        >
           <Typography
             variant="h6"
             color="primary"
@@ -47,16 +46,18 @@ const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
             p={0}
             component="div"
             sx={{
-              display: { xs: 'none', md: 'flex' },
-            }}>
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             In Other Words
           </Typography>
           <IconButton
             size="large"
             edge="start"
             aria-label="menu"
-            sx={{ mr: 2, color: 'text.secondary' }}
-            onClick={() => dispatch(toggleMenu())}>
+            sx={{ mr: 2, color: "text.secondary" }}
+            onClick={() => dispatch(toggleMenu())}
+          >
             {isOpen ? <MenuOpenRounded /> : <MenuRounded />}
           </IconButton>
         </Stack>
@@ -64,9 +65,11 @@ const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
           flexGrow="1"
           direction="row"
           alignItems="center"
-          justifyContent="space-between">
-          <Box sx={{ flexGrow: 1, maxWidth: '24rem' }}>
-            <SearchInput />
+          justifyContent="space-between"
+        >
+          <Box sx={{ flexGrow: 1, maxWidth: "24rem" }}>
+            <Search withIcon={true} inDialog={false} />
+            <AddWordDialog />
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <UserProfile />
