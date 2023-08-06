@@ -6,7 +6,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 import { DrawerWidthProp } from "../../../types";
 import UserProfile from "./UserProfile";
 import Search from "../../../components/Search";

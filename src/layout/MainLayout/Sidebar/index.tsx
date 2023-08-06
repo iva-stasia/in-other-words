@@ -7,19 +7,16 @@ import {
 import {
   Box,
   Drawer,
-  Toolbar,
   Typography,
   List,
-  Divider,
   useMediaQuery,
 } from "@mui/material";
-import { useState } from "react";
 import { DrawerWidthProp } from "../../../types";
 import NavItem from "./NavItem";
 import ColorModeSwitch from "../../../components/ColorModeSwitch";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { useTheme } from "@emotion/react";
+// import { useTheme } from "@emotion/react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../../../store/slices/menuSlice";
 
@@ -49,9 +46,9 @@ const pages = [
 const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state: RootState) => state.menu);
-  const theme = useTheme();
-  const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
-  // const matchUpMd = useMediaQuery('(min-width:900px)');
+  // const theme = useTheme();
+  // const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
+  const matchUpMd = useMediaQuery('(min-width:900px)');
 
   return (
     <Drawer

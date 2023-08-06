@@ -9,14 +9,12 @@ import {
   FormControl,
   FormLabel,
   MenuItem,
-  OutlinedInput,
   Select,
   TextField,
   Tooltip,
   createFilterOptions,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import ky from "ky";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
@@ -25,14 +23,7 @@ import Search from "../components/Search";
 import { WordDefinition, WordDefinitions } from "../types";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-
-const api = ky.create({
-  prefixUrl: "https://wordsapiv1.p.rapidapi.com/words",
-  headers: {
-    "X-RapidAPI-Key": "7fc74298b3msh3751d980bb034b0p1b7288jsnc683ad7f62c9",
-    "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
-  },
-});
+import { wordsApi } from '../api';
 
 const filter = createFilterOptions<WordDefinition>();
 
@@ -52,7 +43,7 @@ const AddWordDialog = () => {
   useEffect(() => {
     if (word && !isCustom) {
       const getWordDefs = async () => {
-        const wordData = await api(
+        const wordData = await wordsApi(
           `${word}/definitions`
         ).json<WordDefinitions>();
 
@@ -110,7 +101,7 @@ const AddWordDialog = () => {
 
           <Autocomplete
             value={value}
-            onChange={(event, newValue) => {
+            onChange={(_event, newValue) => {
               if (typeof newValue === "string") {
                 setValue({
                   definition: newValue,

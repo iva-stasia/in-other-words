@@ -4,7 +4,6 @@ import { RootState } from '../../store';
 import Sidebar from './Sidebar';
 import { Box, Toolbar, styled } from '@mui/material';
 import AppHeader from './AppHeader';
-import { useTheme } from '@emotion/react';
 
 const drawerWidth = 280;
 

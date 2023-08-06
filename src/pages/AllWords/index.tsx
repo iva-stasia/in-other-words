@@ -71,8 +71,9 @@ const AllWords = () => {
         const wordsData = doc.data();
 
         if (wordsData) {
-          const words = wordsData.words as Word[];
-          setWords(words);
+          wordsData.words !== undefined
+            ? setWords(wordsData.words as Word[])
+            : setWords([]);
         }
       });
 
@@ -92,7 +93,7 @@ const AllWords = () => {
   };
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    _event: React.MouseEvent<unknown>,
     property: keyof Word
   ) => {
     const isAsc = orderBy === property && order === "asc";
@@ -100,7 +101,7 @@ const AllWords = () => {
     setOrderBy(property);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, word: string) => {
+  const handleClick = (_event: React.MouseEvent<unknown>, word: string) => {
     const selectedIndex = selected.indexOf(word);
     let newSelected: string[] = [];
 
@@ -143,64 +144,71 @@ const AllWords = () => {
         >
           {activePage}
         </Typography>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {!!words.length && (
+          <EnhancedTableToolbar numSelected={selected.length} />
+        )}
       </Stack>
-      <Paper elevation={0}>
-        <TableContainer>
-          <Table aria-label="table">
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={words.length}
-            />
-            <TableBody>
-              {sortedRows.map((row, index) => {
-                const isItemSelected = isSelected(row.word);
-                const labelId = `enhanced-table-checkbox-${index}`;
+      {words.length ? (
+        <Paper elevation={0}>
+          <TableContainer>
+            <Table aria-label="table">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={words.length}
+              />
+              <TableBody>
+                {sortedRows.map((row, index) => {
+                  const isItemSelected = isSelected(row.word);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.word)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.word}
-                    selected={isItemSelected}
-                    sx={{
-                      cursor: "pointer",
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.word)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.word}
+                      selected={isItemSelected}
+                      sx={{
+                        cursor: "pointer",
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
                     >
-                      {row.word}
-                    </TableCell>
-                    <TableCell>{row.definition}</TableCell>
-                    <TableCell align="right">{row.progress}</TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            "aria-labelledby": labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        sx={{fontWeight: 700}}
+                      >
+                        {row.word}
+                      </TableCell>
+                      <TableCell>{row.definition}</TableCell>
+                      <TableCell align="right">{row.progress}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      ) : (
+        "There are no words in the dictionary yet..."
+      )}
     </Box>
   );
 };

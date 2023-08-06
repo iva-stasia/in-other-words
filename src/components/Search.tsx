@@ -7,22 +7,14 @@ import {
   createFilterOptions,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import ky from "ky";
 import { AddedOption, SearchProps, SearchResult } from "../types";
 import { useDispatch } from "react-redux";
 import { setDialog, setWord } from "../store/slices/addWordDialogSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { wordsApi } from '../api';
 
 const filter = createFilterOptions<string | AddedOption>();
-
-const api = ky.create({
-  prefixUrl: "https://wordsapiv1.p.rapidapi.com",
-  headers: {
-    "X-RapidAPI-Key": "7fc74298b3msh3751d980bb034b0p1b7288jsnc683ad7f62c9",
-    "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
-  },
-});
 
 const Search = ({ withIcon, inDialog }: SearchProps) => {
   const dispatch = useDispatch();
@@ -38,8 +30,8 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
 
   useEffect(() => {
     const searchWord = async () => {
-      const words = await api(
-        `words/?letterPattern=%5E${inputValue}%5B%5Cw.-%5D*%24&limit=10&page=1`
+      const words = await wordsApi(
+        `?letterPattern=%5E${inputValue}%5B%5Cw.-%5D*%24&limit=10&page=1`
       ).json<SearchResult>();
 
       setOptions(words.results.data);
@@ -83,11 +75,11 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
         typeof option === "string" ? option : option.value
       }
       noOptionsText="No words"
-      onInputChange={(event, newInputValue) => {
+      onInputChange={(_event, newInputValue) => {
         setInputValue(newInputValue);
       }}
       value={value}
-      onChange={(event: any, newValue: string | null | AddedOption) => {
+      onChange={(_event: any, newValue: string | null | AddedOption) => {
         const word =
           typeof newValue === "string" || newValue === null
             ? { word: newValue, isCustom: false }
