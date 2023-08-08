@@ -23,7 +23,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton onClick={() => console.log("Filtered!")}>
+          <IconButton onClick={() => console.log("Filtered!")} disabled>
             <FilterListRounded />
           </IconButton>
         </Tooltip>

@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { AddWordDialogInitialState, SelectedWord } from "../../types";
+import { AddWordDialogInitialState, WordOption } from "../../types";
 
 const initialState: AddWordDialogInitialState = {
-  selectedWord: {word: null, isCustom: false},
+  selectedWord: null,
   isDialogOpen: false,
 };
 
@@ -10,14 +10,15 @@ export const addWordDialogSlice = createSlice({
   name: "addWordDialog",
   initialState,
   reducers: {
-    setWord: (state, action: PayloadAction<SelectedWord>) => {
+    setSelectedWord: (state, action: PayloadAction<WordOption | null>) => {
       state.selectedWord = action.payload;
     },
-    setDialog: (state, action: PayloadAction<boolean>) => {
+    setAddWordDialog: (state, action: PayloadAction<boolean>) => {
       state.isDialogOpen = action.payload;
     },
   },
 });
 
-export const { setWord, setDialog } = addWordDialogSlice.actions;
+export const { setSelectedWord, setAddWordDialog } =
+  addWordDialogSlice.actions;
 export default addWordDialogSlice.reducer;

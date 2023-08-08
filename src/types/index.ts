@@ -34,14 +34,9 @@ export interface SearchResult {
   results: { total: number; data: string[] };
 }
 
-export interface AddedOption {
-  value: string;
-  added: boolean;
-}
-
-export interface SelectedWord {
-  word: string | null;
-  isCustom: boolean;
+export interface WordOption {
+  word: string;
+  source: "apiDictionary" | "ownDictionary" | "custom";
 }
 
 export interface WordDefinition {
@@ -88,7 +83,7 @@ export interface NavInitialState {
 }
 
 export interface AddWordDialogInitialState {
-  selectedWord: SelectedWord;
+  selectedWord: WordOption | null;
   isDialogOpen: boolean;
 }
 

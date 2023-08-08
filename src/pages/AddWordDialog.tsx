@@ -18,12 +18,15 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
-import { setDialog, setWord } from "../store/slices/addWordDialogSlice";
+import {
+  setAddWordDialog,
+  setSelectedWord,
+} from "../store/slices/addWordDialogSlice";
 import Search from "../components/Search";
 import { WordDefinition, WordDefinitions } from "../types";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { wordsApi } from '../api';
+import { wordsApi } from "../api";
 
 const filter = createFilterOptions<WordDefinition>();
 
@@ -33,7 +36,7 @@ const AddWordDialog = () => {
   const open = useSelector(
     (state: RootState) => state.addWordDialog.isDialogOpen
   );
-  const { word, isCustom } = useSelector(
+  const word = useSelector(
     (state: RootState) => state.addWordDialog.selectedWord
   );
   const [definitions, setDefinitions] = useState<WordDefinition[]>([]);
@@ -41,14 +44,13 @@ const AddWordDialog = () => {
   const [wordSet, setWordSet] = useState<string>("All words");
 
   useEffect(() => {
-    if (word && !isCustom) {
+    if (word && word.source === "apiDictionary") {
       const getWordDefs = async () => {
         const wordData = await wordsApi(
-          `${word}/definitions`
+          `${word.word}/definitions`
         ).json<WordDefinitions>();
 
         setDefinitions(wordData.definitions);
-        console.log(wordData.definitions);
       };
 
       if (open) {
@@ -59,11 +61,11 @@ const AddWordDialog = () => {
     }
 
     setValue(null);
-  }, [open, word, isCustom]);
+  }, [open, word]);
 
   const handleClose = () => {
-    dispatch(setDialog(false));
-    dispatch(setWord({ word: null, isCustom: false }));
+    dispatch(setAddWordDialog(false));
+    dispatch(setSelectedWord(null));
     setValue(null);
   };
 
@@ -75,7 +77,7 @@ const AddWordDialog = () => {
       try {
         await updateDoc(doc(db, "userWords", uid), {
           words: arrayUnion({
-            word,
+            word: word.word,
             definition: value.definition,
             set: wordSet,
             progress: 0,
