@@ -2,27 +2,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Sidebar from "./Sidebar";
-import { Alert, Box, Snackbar, Toolbar, styled } from "@mui/material";
+import { Box, Toolbar, styled } from "@mui/material";
 import AppHeader from "./AppHeader";
-import { useState } from "react";
 
 const drawerWidth = 280;
 
 const MainLayout = () => {
   const user = useSelector((state: RootState) => state.user);
   const { isOpen } = useSelector((state: RootState) => state.menu);
-  const [open, setOpen] = useState(true);
-
-  const handleClose = (
-    _event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   if (!user.email) {
     return <Navigate to={"/register"} />;
@@ -45,11 +32,6 @@ const MainLayout = () => {
           </Box>
         </Main>
       </Box>
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          This is a success message!
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };

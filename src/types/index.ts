@@ -6,6 +6,7 @@ export type {
   PasswordResetInitialState,
   NavInitialState,
   AddWordDialogInitialState,
+  SelectedWordInitialState,
 } from "./sliceInitialStateProps";
 
 export type {

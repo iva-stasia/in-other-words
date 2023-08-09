@@ -10,15 +10,13 @@ import {
 import { useState } from "react";
 import { SearchProps, WordOption } from "../types";
 import { useDispatch } from "react-redux";
-import {
-  setAddWordDialog,
-  setSelectedWord,
-} from "../store/slices/addWordDialogSlice";
+import { setAddWordDialog } from "../store/slices/addWordDialogSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import useOwnWord from "../hooks/useOwnWord";
 import useApiWords from "../hooks/useApiWords";
 import useWordOptions from "../hooks/useWordOptions";
+import { setSelectedWord } from '../store/slices/selectedWordSlice';
 
 const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 
@@ -28,7 +26,7 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
     (state: RootState) => state.addWordDialog
   );
   const word = useSelector(
-    (state: RootState) => state.addWordDialog.selectedWord
+    (state: RootState) => state.selectedWord.selectedWord
   );
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<WordOption | null>(word);

@@ -23,6 +23,9 @@ export interface NavInitialState {
 }
 
 export interface AddWordDialogInitialState {
-  selectedWord: WordOption | null;
   isDialogOpen: boolean;
+}
+
+export interface SelectedWordInitialState {
+  selectedWord: WordOption | null;
 }
