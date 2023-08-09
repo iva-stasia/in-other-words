@@ -1,56 +1,38 @@
 import { SearchRounded } from "@mui/icons-material";
 import {
   Autocomplete,
+  Box,
   InputAdornment,
   TextField,
   Typography,
   createFilterOptions,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { AddedOption, SearchProps, SearchResult } from "../types";
+import { useState } from "react";
+import { SearchProps, WordOption } from "../types";
 import { useDispatch } from "react-redux";
-import { setDialog, setWord } from "../store/slices/addWordDialogSlice";
+import { setAddWordDialog } from "../store/slices/addWordDialogSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { wordsApi } from '../api';
+import useOwnWord from "../hooks/useOwnWord";
+import useApiWords from "../hooks/useApiWords";
+import useWordOptions from "../hooks/useWordOptions";
+import { setSelectedWord } from '../store/slices/selectedWordSlice';
 
-const filter = createFilterOptions<string | AddedOption>();
+const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 
 const Search = ({ withIcon, inDialog }: SearchProps) => {
   const dispatch = useDispatch();
   const { isDialogOpen } = useSelector(
     (state: RootState) => state.addWordDialog
   );
-  const { word } = useSelector(
-    (state: RootState) => state.addWordDialog.selectedWord
+  const word = useSelector(
+    (state: RootState) => state.selectedWord.selectedWord
   );
   const [inputValue, setInputValue] = useState("");
-  const [value, setValue] = useState<string | AddedOption | null>(word);
-  const [options, setOptions] = useState<string[]>([]);
-
-  useEffect(() => {
-    const searchWord = async () => {
-      const words = await wordsApi(
-        `?letterPattern=%5E${inputValue}%5B%5Cw.-%5D*%24&limit=10&page=1`
-      ).json<SearchResult>();
-
-      setOptions(words.results.data);
-      console.log(words.results.data);
-    };
-
-    if (inputValue.length < 2) {
-      setOptions([]);
-      return undefined;
-    }
-
-    searchWord().catch(console.error);
-  }, [inputValue]);
-
-  useEffect(() => {
-    if (!value || !word) {
-      setOptions([]);
-    }
-  }, [value, word]);
+  const [value, setValue] = useState<WordOption | null>(word);
+  const ownWords = useOwnWord(word);
+  const apiWords = useApiWords(inputValue);
+  const options = useWordOptions(apiWords, ownWords, inputValue);
 
   return (
     <Autocomplete
@@ -62,42 +44,62 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
         const { inputValue } = params;
-        const isExisting = options.some((option) => inputValue === option);
+        const isExisting = options.some((option) => inputValue === option.word);
         if (inputValue !== "" && !isExisting) {
-          filtered.push({ value: inputValue, added: true });
+          filtered.push({ word: inputValue, source: "custom" });
         }
 
         return filtered;
       }}
       filterSelectedOptions
-      options={options}
-      getOptionLabel={(option) =>
-        typeof option === "string" ? option : option.value
-      }
+      options={value ? [value, ...options] : options}
+      getOptionLabel={(option) => option.word}
       noOptionsText="No words"
       onInputChange={(_event, newInputValue) => {
         setInputValue(newInputValue);
       }}
       value={value}
-      onChange={(_event: any, newValue: string | null | AddedOption) => {
-        const word =
-          typeof newValue === "string" || newValue === null
-            ? { word: newValue, isCustom: false }
-            : { word: newValue.value.trim(), isCustom: true };
+      isOptionEqualToValue={(option, value) => option.word === value.word}
+      onChange={(_event: any, newValue: null | WordOption) => {
         const open = !!newValue || isDialogOpen;
-        dispatch(setDialog(open));
-        dispatch(setWord(word));
+        dispatch(setAddWordDialog(open));
+        dispatch(setSelectedWord(newValue));
         setValue(inDialog ? newValue : null);
       }}
+      groupBy={(option) => option.source}
       renderOption={(props, option) => (
         <li {...props}>
-          {typeof option === "string" ? (
-            option
+          {option.source !== "custom" ? (
+            option.word
           ) : (
-            <Typography color="primary">Add "{option.value}"</Typography>
+            <Typography color="primary">Add "{option.word}"</Typography>
           )}
         </li>
       )}
+      renderGroup={(params) => {
+        const groupName =
+          params.group === "apiDictionary"
+            ? "Words from dictionary"
+            : params.group === "ownDictionary"
+            ? "Words from your list"
+            : "Add your own word";
+        return (
+          <Box key={params.key}>
+            <Box
+              sx={{
+                position: "sticky",
+                top: "-8px",
+                padding: "4px 10px",
+                color: "text.secondary",
+                bgcolor: "backgroundSecond.main",
+              }}
+            >
+              {groupName}
+            </Box>
+            <Box>{params.children}</Box>
+          </Box>
+        );
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
