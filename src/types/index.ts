@@ -1,9 +1,19 @@
-import {
-  PaletteColor,
-  PaletteMode,
-  SimplePaletteColorOptions,
-} from "@mui/material";
-import { ReactNode } from "react";
+import { PaletteColor, SimplePaletteColorOptions } from "@mui/material";
+
+export type {
+  UserInitialState,
+  ColorModeInitialState,
+  PasswordResetInitialState,
+  NavInitialState,
+  AddWordDialogInitialState,
+} from "./sliceInitialStateProps";
+
+export type {
+  DrawerWidthProp,
+  NavItemProps,
+  UserProfileMenuProps,
+  SearchProps,
+} from "./componentProps";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -58,53 +68,3 @@ export interface Word {
 }
 
 export type Order = "asc" | "desc";
-
-// Slice initial state props
-
-export interface UserInitialState {
-  uid: string | null;
-  displayName: string | null;
-  email: string | null;
-  photoURL: string | null;
-}
-
-export interface ColorModeInitialState {
-  setMode: PaletteMode | null;
-  preferredMode: PaletteMode;
-}
-
-export interface PasswordResetInitialState {
-  isResetEmailSent: boolean;
-}
-
-export interface NavInitialState {
-  activePage: string;
-  isOpen: boolean;
-}
-
-export interface AddWordDialogInitialState {
-  selectedWord: WordOption | null;
-  isDialogOpen: boolean;
-}
-
-// Component props
-
-export interface DrawerWidthProp {
-  drawerWidth: number;
-}
-
-export interface NavItemProps {
-  title: string;
-  icon: ReactNode;
-  path: string;
-}
-
-export interface UserProfileMenuProps {
-  anchorElUser: null | HTMLElement;
-  setAnchorElUser: (anchorElUser: null | HTMLElement) => void;
-}
-
-export interface SearchProps {
-  withIcon: boolean;
-  inDialog: boolean;
-}

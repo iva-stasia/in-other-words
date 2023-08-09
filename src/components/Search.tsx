@@ -7,8 +7,8 @@ import {
   Typography,
   createFilterOptions,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { SearchProps, SearchResult, WordOption, Word } from "../types";
+import { useState } from "react";
+import { SearchProps, WordOption } from "../types";
 import { useDispatch } from "react-redux";
 import {
   setAddWordDialog,
@@ -16,93 +16,25 @@ import {
 } from "../store/slices/addWordDialogSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { wordsApi } from "../api";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import useOwnWord from "../hooks/useOwnWord";
+import useApiWords from "../hooks/useApiWords";
+import useWordOptions from "../hooks/useWordOptions";
 
 const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 
 const Search = ({ withIcon, inDialog }: SearchProps) => {
   const dispatch = useDispatch();
-  const { uid } = useSelector((state: RootState) => state.user);
   const { isDialogOpen } = useSelector(
     (state: RootState) => state.addWordDialog
   );
   const word = useSelector(
     (state: RootState) => state.addWordDialog.selectedWord
   );
-  const [ownWords, setOwnWords] = useState<string[]>([]);
-  const [apiWords, setApiWords] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<WordOption | null>(word);
-  const [options, setOptions] = useState<WordOption[]>([]);
-
-  useEffect(() => {
-    if (inputValue.length < 2) return undefined;
-
-    const searchWord = async () => {
-      const words = await wordsApi(
-        `?letterPattern=%5E${inputValue}%5B%5Cw.-%5D*%24&limit=5&page=1`
-      ).json<SearchResult>();
-
-      setApiWords(words.results.data);
-    };
-
-    searchWord().catch(console.error);
-  }, [inputValue]);
-
-  useEffect(() => {
-    const getOwnWords = async () => {
-      if (uid) {
-        const docSnap = await getDoc(doc(db, "userWords", uid));
-        const wordsData = docSnap.data();
-
-        if (wordsData) {
-          const words =
-            wordsData.words !== undefined ? (wordsData.words as Word[]) : [];
-          const preparedWords = words.map(({ word }) => word);
-
-          if (word) {
-            const filteredOwnWords = preparedWords.filter((ownWord) =>
-              ownWord.includes(word.word, 0)
-            );
-            setOwnWords(filteredOwnWords);
-            return undefined;
-          }
-
-          setOwnWords(preparedWords);
-        }
-      }
-    };
-
-    getOwnWords().catch(console.error);
-  }, [uid, word]);
-
-  useEffect(() => {
-    const notAddedApiWords = apiWords.filter(
-      (word) => !ownWords.includes(word)
-    );
-    const preparedNotAddedApiWords = notAddedApiWords.map<WordOption>(
-      (word) => ({ word, source: "apiDictionary" })
-    );
-    const preparedOwnWords = ownWords.map<WordOption>((word) => ({
-      word,
-      source: "ownDictionary",
-    }));
-
-    if (inputValue.length < 2) {
-      setOptions([]);
-      return undefined;
-    }
-
-    setOptions([...preparedNotAddedApiWords, ...preparedOwnWords]);
-  }, [ownWords, apiWords, inputValue]);
-
-  useEffect(() => {
-    if (!value || !word) {
-      setOptions([]);
-    }
-  }, [value, word]);
+  const ownWords = useOwnWord(word);
+  const apiWords = useApiWords(inputValue);
+  const options = useWordOptions(apiWords, ownWords, inputValue);
 
   return (
     <Autocomplete

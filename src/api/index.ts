@@ -1,5 +1,4 @@
 import ky from "ky";
-
 const WORDS_API_KEY = import.meta.env.VITE_WORDS_API_KEY as string;
 
 export const wordsApi = ky.create({

@@ -14,7 +14,7 @@ import {
   Tooltip,
   createFilterOptions,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
@@ -23,10 +23,10 @@ import {
   setSelectedWord,
 } from "../store/slices/addWordDialogSlice";
 import Search from "../components/Search";
-import { WordDefinition, WordDefinitions } from "../types";
+import { WordDefinition } from "../types";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { wordsApi } from "../api";
+import useWordDefinitions from "../hooks/useWordDefinitions";
 
 const filter = createFilterOptions<WordDefinition>();
 
@@ -39,29 +39,13 @@ const AddWordDialog = () => {
   const word = useSelector(
     (state: RootState) => state.addWordDialog.selectedWord
   );
-  const [definitions, setDefinitions] = useState<WordDefinition[]>([]);
   const [value, setValue] = useState<WordDefinition | null>(null);
   const [wordSet, setWordSet] = useState<string>("All words");
+  const definitions = useWordDefinitions(open, word);
 
   useEffect(() => {
-    if (word && word.source === "apiDictionary") {
-      const getWordDefs = async () => {
-        const wordData = await wordsApi(
-          `${word.word}/definitions`
-        ).json<WordDefinitions>();
-
-        setDefinitions(wordData.definitions);
-      };
-
-      if (open) {
-        getWordDefs().catch(console.error);
-      }
-    } else {
-      setDefinitions([]);
-    }
-
     setValue(null);
-  }, [open, word]);
+  }, [word]);
 
   const handleClose = () => {
     dispatch(setAddWordDialog(false));
@@ -100,7 +84,6 @@ const AddWordDialog = () => {
             </FormLabel>
             <Search withIcon={false} inDialog={true} />
           </FormControl>
-
           <Autocomplete
             value={value}
             onChange={(_event, newValue) => {
