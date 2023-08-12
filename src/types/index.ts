@@ -5,7 +5,7 @@ export type {
   ColorModeInitialState,
   PasswordResetInitialState,
   NavInitialState,
-  AddWordDialogInitialState,
+  dialogInitialState,
   SelectedWordInitialState,
 } from "./sliceInitialStateProps";
 
@@ -14,7 +14,17 @@ export type {
   NavItemProps,
   UserProfileMenuProps,
   SearchProps,
+  AudioPlayerProps,
 } from "./componentProps";
+
+export type {
+  WordOption,
+  WordDefinition,
+  WordApiResult,
+  WordAudioResult,
+  WordApiData,
+  Word,
+} from "./wordData";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -43,29 +53,6 @@ export interface UserLoginInput extends UserRegisterInput {
 export interface SearchResult {
   query: { limit: string; page: string };
   results: { total: number; data: string[] };
-}
-
-export interface WordOption {
-  word: string;
-  source: "apiDictionary" | "ownDictionary" | "custom";
-}
-
-export interface WordDefinition {
-  inputValue?: string;
-  definition: string;
-  partOfSpeech?: string;
-}
-
-export interface WordDefinitions {
-  word: string;
-  definitions: WordDefinition[];
-}
-
-export interface Word {
-  word: string;
-  definition: string;
-  set: string;
-  progress: number;
 }
 
 export type Order = "asc" | "desc";

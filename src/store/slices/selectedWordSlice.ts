@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { SelectedWordInitialState, WordOption } from "../../types";
 
 const initialState: SelectedWordInitialState = {
-  selectedWord: null,
+  word: null,
 };
 
 export const selectedWordSlice = createSlice({
@@ -10,7 +10,7 @@ export const selectedWordSlice = createSlice({
   initialState,
   reducers: {
     setSelectedWord: (state, action: PayloadAction<WordOption | null>) => {
-      state.selectedWord = action.payload;
+      state.word = action.payload;
     },
   },
 });

@@ -6,7 +6,7 @@ import thunk from "redux-thunk";
 import userSlice from "./slices/userSlice";
 import passwordResetSlice from "./slices/passwordResetSlice";
 import menuSlice from "./slices/menuSlice";
-import addWordDialogSlice from "./slices/addWordDialogSlice";
+import dialogSlice from "./slices/dialogSlice";
 import selectedWordSlice from "./slices/selectedWordSlice";
 
 const reducers = combineReducers({
@@ -14,7 +14,7 @@ const reducers = combineReducers({
   user: userSlice,
   passwordReset: passwordResetSlice,
   menu: menuSlice,
-  addWordDialog: addWordDialogSlice,
+  dialog: dialogSlice,
   selectedWord: selectedWordSlice,
 });
 

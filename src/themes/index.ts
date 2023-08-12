@@ -4,6 +4,7 @@ export const getDesignTokens = (theme: Theme) => ({
   palette: theme.palette,
   typography: {
     fontFamily: 'Nunito, Arial',
+    fontWeightMedium: 600,
     button: {
       fontSize: '0.875rem',
       fontFamily: 'Nunito, Arial',

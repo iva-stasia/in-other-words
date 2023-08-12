@@ -10,29 +10,27 @@ import {
 import { useState } from "react";
 import { SearchProps, WordOption } from "../types";
 import { useDispatch } from "react-redux";
-import { setAddWordDialog } from "../store/slices/addWordDialogSlice";
+import {
+  setAddWordDialog,
+  setWordDataDialog,
+} from "../store/slices/dialogSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import useOwnWord from "../hooks/useOwnWord";
+import useOwnFilteredWords from "../hooks/useOwnFilteredWords";
 import useApiWords from "../hooks/useApiWords";
 import useWordOptions from "../hooks/useWordOptions";
-import { setSelectedWord } from '../store/slices/selectedWordSlice';
+import { setSelectedWord } from "../store/slices/selectedWordSlice";
 
 const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 
 const Search = ({ withIcon, inDialog }: SearchProps) => {
   const dispatch = useDispatch();
-  const { isDialogOpen } = useSelector(
-    (state: RootState) => state.addWordDialog
-  );
-  const word = useSelector(
-    (state: RootState) => state.selectedWord.selectedWord
-  );
+  const { word } = useSelector((state: RootState) => state.selectedWord);
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<WordOption | null>(word);
-  const ownWords = useOwnWord(word);
+  const ownFilteredWords = useOwnFilteredWords(inputValue);
   const apiWords = useApiWords(inputValue);
-  const options = useWordOptions(apiWords, ownWords, inputValue);
+  const options = useWordOptions(apiWords, ownFilteredWords, inputValue);
 
   return (
     <Autocomplete
@@ -61,8 +59,11 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
       value={value}
       isOptionEqualToValue={(option, value) => option.word === value.word}
       onChange={(_event: any, newValue: null | WordOption) => {
-        const open = !!newValue || isDialogOpen;
-        dispatch(setAddWordDialog(open));
+        if (newValue && newValue.source !== "ownDictionary") {
+          dispatch(setAddWordDialog(true));
+        } else if (newValue && newValue.source === "ownDictionary") {
+          dispatch(setWordDataDialog(true));
+        }
         dispatch(setSelectedWord(newValue));
         setValue(inDialog ? newValue : null);
       }}

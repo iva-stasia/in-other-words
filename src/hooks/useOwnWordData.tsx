@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import { Word, WordOption } from "../types";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { Word, WordOption } from "../types";
 
-const useOwnWord = (word: WordOption | null): string[] => {
+const useOwnWordData = (word: WordOption | null): Word[] => {
   const { uid } = useSelector((state: RootState) => state.user);
-  const [ownWords, setOwnWords] = useState<string[]>([]);
+  const [wordData, setWordData] = useState<Word[]>([]);
 
   useEffect(() => {
     const getOwnWords = async () => {
@@ -18,17 +18,14 @@ const useOwnWord = (word: WordOption | null): string[] => {
         if (wordsData) {
           const words =
             wordsData.words !== undefined ? (wordsData.words as Word[]) : [];
-          const preparedWords = words.map(({ word }) => word);
 
           if (word) {
-            const filteredOwnWords = preparedWords.filter((ownWord) =>
-              ownWord.includes(word.word, 0)
+            const selectedWordData = words.filter(
+              (ownWord) => ownWord.word === word.word
             );
-            setOwnWords(filteredOwnWords);
+            setWordData(selectedWordData);
             return undefined;
           }
-
-          setOwnWords(preparedWords);
         }
       }
     };
@@ -36,7 +33,7 @@ const useOwnWord = (word: WordOption | null): string[] => {
     getOwnWords().catch(console.error);
   }, [uid, word]);
 
-  return ownWords;
+  return wordData;
 };
 
-export default useOwnWord;
+export default useOwnWordData;

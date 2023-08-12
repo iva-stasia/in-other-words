@@ -4,6 +4,7 @@ import { RootState } from "../../store";
 import Sidebar from "./Sidebar";
 import { Box, Toolbar, styled } from "@mui/material";
 import AppHeader from "./AppHeader";
+import WordDataDialog from "../../pages/WordDataDialog";
 
 const drawerWidth = 280;
 
@@ -24,7 +25,13 @@ const MainLayout = () => {
     >
       <AppHeader drawerWidth={drawerWidth} />
       <Sidebar drawerWidth={drawerWidth} />
-      <Box sx={{ flexGrow: 1 }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <Toolbar />
         <Main open={isOpen}>
           <Box sx={{ width: "100%", overflow: "auto" }}>
@@ -32,6 +39,7 @@ const MainLayout = () => {
           </Box>
         </Main>
       </Box>
+      <WordDataDialog />
     </Box>
   );
 };
@@ -42,7 +50,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   overflow: "auto",
-  height: "calc(100% - 64px)",
+  flexGrow: 1,
   padding: theme.spacing(3),
   backgroundColor: theme.palette.backgroundSecond.main,
   borderRadius: "0",

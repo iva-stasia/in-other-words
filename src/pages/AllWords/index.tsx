@@ -12,12 +12,15 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { useEffect, useMemo, useState } from "react";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import { useMemo, useState } from "react";
 import { Order, Word } from "../../types";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import EnhancedTableHead from "./EnhancedTableHead";
+import { useDispatch } from "react-redux";
+import { setWordDataDialog } from "../../store/slices/dialogSlice";
+import { setSelectedWord } from "../../store/slices/selectedWordSlice";
+import useOwnWords from "../../hooks/useOwnWords";
+import AudioPlayer from "../../components/AudioPlayer";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -41,10 +44,7 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort<T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number
-) {
+function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -57,31 +57,12 @@ function stableSort<T>(
 }
 
 const AllWords = () => {
+  const dispatch = useDispatch();
   const { activePage } = useSelector((state: RootState) => state.menu);
-  const { uid } = useSelector((state: RootState) => state.user);
-  const [words, setWords] = useState<Word[]>([]);
-
+  const words = useOwnWords();
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Word>("word");
   const [selected, setSelected] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (uid) {
-      const unsub = onSnapshot(doc(db, "userWords", uid), (doc) => {
-        const wordsData = doc.data();
-
-        if (wordsData) {
-          wordsData.words !== undefined
-            ? setWords(wordsData.words as Word[])
-            : setWords([]);
-        }
-      });
-
-      return () => {
-        unsub();
-      };
-    }
-  }, [uid]);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -101,7 +82,17 @@ const AllWords = () => {
     setOrderBy(property);
   };
 
-  const handleClick = (_event: React.MouseEvent<unknown>, word: string) => {
+  const handleRowClick = (_event: React.MouseEvent<unknown>, word: string) => {
+    console.log(word);
+    dispatch(setWordDataDialog(true));
+    dispatch(setSelectedWord({ word, source: "ownDictionary" }));
+  };
+
+  const handleCheckboxClick = (
+    event: React.MouseEvent<unknown>,
+    word: string
+  ) => {
+    event.stopPropagation();
     const selectedIndex = selected.indexOf(word);
     let newSelected: string[] = [];
 
@@ -123,13 +114,14 @@ const AllWords = () => {
 
   const isSelected = (word: string) => selected.indexOf(word) !== -1;
 
-  const sortedRows = useMemo(
-    () => stableSort(words, getComparator(order, orderBy)),
-    [order, orderBy, words]
-  );
+  // const sortedRows = useMemo(
+  //   () => stableSort(words, getComparator(order, orderBy)),
+  //   [order, orderBy, words]
+  // );
+  const sortedRows = words;
 
   return (
-    <Box>
+    <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Stack
         direction="row"
         alignItems="center"
@@ -149,7 +141,7 @@ const AllWords = () => {
         )}
       </Stack>
       {words.length ? (
-        <Paper elevation={0}>
+        <Paper elevation={0} sx={{ width: "100%" }}>
           <TableContainer>
             <Table aria-label="table">
               <EnhancedTableHead
@@ -168,7 +160,7 @@ const AllWords = () => {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.word)}
+                      onClick={(event) => handleRowClick(event, row.word)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -181,6 +173,9 @@ const AllWords = () => {
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
+                          onClick={(event) =>
+                            handleCheckboxClick(event, row.word)
+                          }
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
@@ -193,12 +188,30 @@ const AllWords = () => {
                         id={labelId}
                         scope="row"
                         padding="none"
-                        sx={{fontWeight: 700}}
+                        sx={{ fontWeight: 700, pr: 2 }}
+                      >
+                        {row.audioURL ? (
+                          <AudioPlayer audioURL={row.audioURL} />
+                        ) : (
+                          ""
+                        )}
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        sx={{ fontWeight: 700 }}
                       >
                         {row.word}
                       </TableCell>
                       <TableCell>{row.definition}</TableCell>
-                      <TableCell align="right">{row.progress}</TableCell>
+                      {/* <TableCell align="right">{row.progress}</TableCell> */}
+                      <TableCell
+                        sx={{ display: { xs: "none", sm: "table-cell" } }}
+                      >
+                        {row.set}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -207,7 +220,7 @@ const AllWords = () => {
           </TableContainer>
         </Paper>
       ) : (
-        "There are no words in the dictionary yet..."
+        "There are no words in the dictionary yet. Enter a word in the search to add it."
       )}
     </Box>
   );

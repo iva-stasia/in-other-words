@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { WordOption } from '../types';
+import { useEffect, useState } from "react";
+import { WordOption } from "../types";
 
 const useWordOptions = (apiWords: string[], ownWords: string[], inputValue: string): WordOption[] => {
   const [options, setOptions] = useState<WordOption[]>([]);
@@ -27,4 +27,4 @@ const useWordOptions = (apiWords: string[], ownWords: string[], inputValue: stri
   return options
 }
 
-export default useWordOptions
+export default useWordOptions;

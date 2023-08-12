@@ -9,40 +9,44 @@ import {
   DialogTitle,
   FormControl,
   FormLabel,
+  IconButton,
   MenuItem,
   Select,
   Snackbar,
   TextField,
   Tooltip,
+  Typography,
   createFilterOptions,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
-import { setAddWordDialog } from "../store/slices/addWordDialogSlice";
+import { setAddWordDialog } from "../store/slices/dialogSlice";
 import Search from "../components/Search";
 import { WordDefinition } from "../types";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import useWordDefinitions from "../hooks/useWordDefinitions";
+import useWordApiData from "../hooks/useWordApiData";
 import { setSelectedWord } from "../store/slices/selectedWordSlice";
+import { CloseRounded } from "@mui/icons-material";
 
 const filter = createFilterOptions<WordDefinition>();
 
 const AddWordDialog = () => {
   const dispatch = useDispatch();
   const { uid } = useSelector((state: RootState) => state.user);
-  const { isDialogOpen } = useSelector(
-    (state: RootState) => state.addWordDialog
+  const { isAddWordDialogOpen } = useSelector(
+    (state: RootState) => state.dialog
   );
-  const word = useSelector(
-    (state: RootState) => state.selectedWord.selectedWord
-  );
+  const { word } = useSelector((state: RootState) => state.selectedWord);
   const [alertOpen, setAlertOpen] = useState(false);
   const [value, setValue] = useState<WordDefinition | null>(null);
   const [wordSet, setWordSet] = useState<string>("All words");
-  const definitions = useWordDefinitions(isDialogOpen, word);
+  const { definitions, pronunciation, audioURL } = useWordApiData(
+    isAddWordDialogOpen,
+    word
+  );
 
   useEffect(() => {
     setValue(null);
@@ -75,6 +79,11 @@ const AddWordDialog = () => {
           words: arrayUnion({
             word: word.word,
             definition: value.definition,
+            partOfSpeech: value.partOfSpeech || "",
+            examples: value.examples || "",
+            synonyms: value.synonyms || "",
+            pronunciation: pronunciation || "",
+            audioURL,
             set: wordSet,
             progress: 0,
           }),
@@ -88,9 +97,22 @@ const AddWordDialog = () => {
 
   return (
     <>
-      <Dialog open={isDialogOpen} onClose={handleDialogClose} fullWidth>
+      <Dialog open={isAddWordDialogOpen} onClose={handleDialogClose} fullWidth>
         <form onSubmit={handleSubmit}>
-          <DialogTitle>Add a new word</DialogTitle>
+          <DialogTitle>
+            Add a new word
+            <IconButton
+              aria-label="close"
+              onClick={handleDialogClose}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+              }}
+            >
+              <CloseRounded />
+            </IconButton>
+          </DialogTitle>
           <DialogContent>
             <FormControl fullWidth sx={{ my: 1 }} variant="outlined" required>
               <FormLabel htmlFor="word" sx={{ color: "text.primary" }}>
@@ -143,7 +165,18 @@ const AddWordDialog = () => {
                 return option.definition;
               }}
               renderOption={(props, option) => (
-                <li {...props}>{option.definition}</li>
+                <li {...props}>
+                  <Box>
+                    <Typography component="span">
+                      {option.definition}
+                    </Typography>
+                    {option.partOfSpeech && (
+                      <Typography component="span" sx={{ fontStyle: "italic" }}>
+                        , {option.partOfSpeech}
+                      </Typography>
+                    )}
+                  </Box>
+                </li>
               )}
               freeSolo
               renderInput={(params) => (
@@ -203,7 +236,6 @@ const AddWordDialog = () => {
             </FormControl>
           </DialogContent>
           <DialogActions sx={{ p: "0 1.5rem 1rem" }}>
-            <Button onClick={handleDialogClose}>Cancel</Button>
             <Tooltip
               title={(!word || !value) && "Fill in all fields"}
               placement="top"
