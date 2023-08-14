@@ -31,8 +31,6 @@ const EnhancedTableToolbar = ({
         await updateDoc(doc(db, "userWords", uid), {
           words: arrayRemove(word),
         });
-        console.log(newMessage);
-
         setMessage(newMessage);
         setSelected([]);
         setAlertOpen(true);
@@ -45,8 +43,6 @@ const EnhancedTableToolbar = ({
   const handleDeleteClick = () => {
     selected.map(async (word) => await deleteWord(word));
   };
-
-  console.log(message);
 
   return (
     <>
@@ -68,11 +64,11 @@ const EnhancedTableToolbar = ({
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton onClick={() => console.log("Filtered!")}>
+          // <Tooltip title="Filter list">
+            <IconButton onClick={() => console.log("Filtered!")} disabled>
               <FilterListRounded />
             </IconButton>
-          </Tooltip>
+          // </Tooltip>
         )}
       </Stack>
       <SuccessMessage

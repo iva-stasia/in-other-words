@@ -38,7 +38,7 @@ const AddWordDialog = () => {
   const { isAddWordDialogOpen } = useSelector(
     (state: RootState) => state.dialog
   );
-  const { selectedWord: word } = useSelector(
+  const { selectedWord } = useSelector(
     (state: RootState) => state.selectedWord
   );
   const [alertOpen, setAlertOpen] = useState(false);
@@ -46,12 +46,12 @@ const AddWordDialog = () => {
   const [wordSet, setWordSet] = useState<string>("All words");
   const { definitions, pronunciation, audioURL } = useWordApiData(
     isAddWordDialogOpen,
-    word
+    selectedWord
   );
 
   useEffect(() => {
     setValue(null);
-  }, [word]);
+  }, [selectedWord]);
 
   const handleDialogClose = () => {
     dispatch(setAddWordDialog(false));
@@ -63,11 +63,11 @@ const AddWordDialog = () => {
     event.preventDefault();
     handleDialogClose();
 
-    if (word && value && uid) {
+    if (selectedWord && value && uid) {
       try {
         await updateDoc(doc(db, "userWords", uid), {
           words: arrayUnion({
-            word: word.word,
+            word: selectedWord.word,
             definition: value.definition,
             partOfSpeech: value.partOfSpeech || "",
             examples: value.examples || "",
@@ -227,14 +227,14 @@ const AddWordDialog = () => {
           </DialogContent>
           <DialogActions sx={{ p: "0 1.5rem 1rem" }}>
             <Tooltip
-              title={(!word || !value) && "Fill in all fields"}
+              title={(!selectedWord || !value) && "Fill in all fields"}
               placement="top"
             >
               <Box>
                 <Button
                   variant="contained"
                   type="submit"
-                  disabled={!word || !value}
+                  disabled={!selectedWord || !value}
                 >
                   Add
                 </Button>

@@ -13,7 +13,7 @@ const MainLayout = () => {
   const { isOpen } = useSelector((state: RootState) => state.menu);
 
   if (!user.email) {
-    return <Navigate to={"/register"} />;
+    return <Navigate to={"/login"} />;
   }
 
   return (

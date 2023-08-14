@@ -1,7 +1,6 @@
 import {
   Box,
   Card,
-  CardActions,
   CardContent,
   Container,
   Divider,
@@ -12,14 +11,13 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
-import { setWordDataDialog } from "../store/slices/dialogSlice";
+import { setAddWordDialog, setWordDataDialog } from "../store/slices/dialogSlice";
 import {
   ArrowBackIosNewRounded,
   ArrowForwardIosRounded,
   CloseRounded,
+  ModeEditRounded,
 } from "@mui/icons-material";
-import { useEffect } from "react";
-import { db } from "../firebase";
 import { setSelectedWord } from "../store/slices/wordSlice";
 import AudioPlayer from "../components/AudioPlayer";
 
@@ -42,6 +40,12 @@ const WordDataDialog = () => {
   const handleDialogClose = () => {
     dispatch(setWordDataDialog(false));
     dispatch(setSelectedWord(null));
+  };
+
+  const handleDialogEdit = () => {
+    console.log("edited!");
+    dispatch(setWordDataDialog(false));
+    dispatch(setAddWordDialog(true));
   };
 
   const handleBackClick = () => {
@@ -71,8 +75,12 @@ const WordDataDialog = () => {
               left: "50%",
               transform: "translate(-50%, -50%)",
               display: "flex",
+              flexWrap: { xs: "wrap", sm: "nowrap" },
               alignItems: "center",
               justifyContent: "center",
+              "&:focus-visible": {
+                outline: "none",
+              },
             }}
           >
             <IconButton
@@ -85,34 +93,40 @@ const WordDataDialog = () => {
                   theme.palette.mode === "light"
                     ? "background.default"
                     : "text.primary",
+                flexBasis: { xs: "40%", sm: "auto" },
               })}
             >
               <ArrowBackIosNewRounded fontSize="inherit" />
             </IconButton>
-            <Card sx={{ width: "100%" }}>
+            <Card sx={{ width: "100%", order: { xs: "-1", sm: "0" } }}>
               <CardContent
                 sx={{ overflow: "hidden", position: "relative", p: 4 }}
               >
                 <Typography
-                  variant="h3"
                   color="tertiary.main"
                   textAlign="center"
+                  sx={{
+                    fontSize: { xs: "2.5rem", sm: "3rem" },
+                    wordBreak: "break-all",
+                    hyphens: "auto",
+                  }}
                 >
                   {wordData.word}
-                  <Typography
-                    sx={{
-                      position: "absolute",
-                      top: -70,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      fontFamily: "Kavoon",
-                      fontSize: "8rem",
-                      opacity: 0.08,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {wordData.word}
-                  </Typography>
+                </Typography>
+                <Typography
+                  color="tertiary.main"
+                  sx={{
+                    position: "absolute",
+                    top: -70,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    fontFamily: "Kavoon",
+                    fontSize: "8rem",
+                    opacity: 0.08,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {wordData.word}
                 </Typography>
                 <IconButton
                   aria-label="close"
@@ -128,6 +142,21 @@ const WordDataDialog = () => {
                   }}
                 >
                   <CloseRounded />
+                </IconButton>
+                <IconButton
+                  aria-label="close"
+                  onClick={handleDialogEdit}
+                  sx={{
+                    position: "absolute",
+                    right: 48,
+                    top: 8,
+                    color: "text.disabled",
+                    "&:hover": {
+                      color: "text.secondary",
+                    },
+                  }}
+                >
+                  <ModeEditRounded />
                 </IconButton>
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                   {wordData.audioURL ? (
@@ -180,8 +209,6 @@ const WordDataDialog = () => {
                   </Box>
                 )}
               </CardContent>
-              {/* <CardActions>
-              </CardActions> */}
             </Card>
             <IconButton
               onClick={handleForwardClick}
@@ -193,6 +220,7 @@ const WordDataDialog = () => {
                   theme.palette.mode === "light"
                     ? "background.default"
                     : "text.primary",
+                flexBasis: { xs: "40%", sm: "auto" },
               })}
             >
               <ArrowForwardIosRounded fontSize="inherit" />

@@ -38,7 +38,6 @@ const FormPasswordReset = () => {
   const onSubmit: SubmitHandler<UserEmail> = async ({ email }) => {
     try {
       await sendPasswordResetEmail(auth, email);
-      console.log("sent");
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
