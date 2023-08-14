@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { dialogInitialState } from "../../types";
+import { DialogInitialState } from "../../types";
 
-const initialState: dialogInitialState = {
+const initialState: DialogInitialState = {
   isAddWordDialogOpen: false,
   isWordDataDialogOpen: false,
 };

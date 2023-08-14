@@ -33,5 +33,3 @@ export interface Word
   set: string;
   progress: number;
 }
-
-export type WordGridData = Omit<Word, 'partOfSpeech' | 'examples' | 'synonyms'>;

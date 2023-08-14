@@ -5,8 +5,8 @@ export type {
   ColorModeInitialState,
   PasswordResetInitialState,
   NavInitialState,
-  dialogInitialState,
-  SelectedWordInitialState,
+  DialogInitialState,
+  WordInitialState,
 } from "./sliceInitialStateProps";
 
 export type {
@@ -15,6 +15,7 @@ export type {
   UserProfileMenuProps,
   SearchProps,
   AudioPlayerProps,
+  SuccessMessageProps,
 } from "./componentProps";
 
 export type {

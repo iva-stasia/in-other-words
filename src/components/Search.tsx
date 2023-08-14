@@ -19,13 +19,15 @@ import { RootState } from "../store";
 import useOwnFilteredWords from "../hooks/useOwnFilteredWords";
 import useApiWords from "../hooks/useApiWords";
 import useWordOptions from "../hooks/useWordOptions";
-import { setSelectedWord } from "../store/slices/selectedWordSlice";
+import { setSelectedWord } from "../store/slices/wordSlice";
 
 const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 
 const Search = ({ withIcon, inDialog }: SearchProps) => {
   const dispatch = useDispatch();
-  const { word } = useSelector((state: RootState) => state.selectedWord);
+  const { selectedWord: word } = useSelector(
+    (state: RootState) => state.selectedWord
+  );
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<WordOption | null>(word);
   const ownFilteredWords = useOwnFilteredWords(inputValue);

@@ -24,23 +24,18 @@ interface EnhancedTableProps {
 interface HeadCell {
   disablePadding: boolean;
   id: keyof Word;
-  // id: keyof SortProperty;
   label: string;
   numeric: boolean;
   sortable: boolean;
   mobileDisplay: string;
 }
 
-type SortProperty = {
-  [K in keyof Word as undefined extends Word[K] ? never : K]: Word[K];
-};
-
 const headCells: readonly HeadCell[] = [
   {
     id: "audioURL",
     numeric: false,
     disablePadding: true,
-    label: "Listen",
+    label: "",
     sortable: false,
     mobileDisplay: "table-cell",
   },
@@ -61,20 +56,21 @@ const headCells: readonly HeadCell[] = [
     mobileDisplay: "table-cell",
   },
   // {
+  //   id: "set",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Set",
+  //   sortable: true,
+  //   mobileDisplay: "none",
+  // },
+  // {
   //   id: "progress",
   //   numeric: true,
   //   disablePadding: false,
   //   label: "Progress",
   //   sortable: true,
+  //   mobileDisplay: "none",
   // },
-  {
-    id: "set",
-    numeric: false,
-    disablePadding: false,
-    label: "Set",
-    sortable: true,
-    mobileDisplay: "none",
-  },
 ];
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {

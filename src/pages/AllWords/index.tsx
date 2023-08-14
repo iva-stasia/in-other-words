@@ -12,13 +12,16 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Order, Word } from "../../types";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import EnhancedTableHead from "./EnhancedTableHead";
 import { useDispatch } from "react-redux";
 import { setWordDataDialog } from "../../store/slices/dialogSlice";
-import { setSelectedWord } from "../../store/slices/selectedWordSlice";
+import {
+  setOwnSortedWords,
+  setSelectedWord,
+} from "../../store/slices/wordSlice";
 import useOwnWords from "../../hooks/useOwnWords";
 import AudioPlayer from "../../components/AudioPlayer";
 
@@ -62,12 +65,11 @@ const AllWords = () => {
   const words = useOwnWords();
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Word>("word");
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<Word[]>([]);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = words.map((n) => n.word);
-      setSelected(newSelected);
+      setSelected(words);
       return;
     }
     setSelected([]);
@@ -83,18 +85,17 @@ const AllWords = () => {
   };
 
   const handleRowClick = (_event: React.MouseEvent<unknown>, word: string) => {
-    console.log(word);
     dispatch(setWordDataDialog(true));
     dispatch(setSelectedWord({ word, source: "ownDictionary" }));
   };
 
   const handleCheckboxClick = (
     event: React.MouseEvent<unknown>,
-    word: string
+    word: Word
   ) => {
     event.stopPropagation();
     const selectedIndex = selected.indexOf(word);
-    let newSelected: string[] = [];
+    let newSelected: Word[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, word);
@@ -112,13 +113,18 @@ const AllWords = () => {
     setSelected(newSelected);
   };
 
-  const isSelected = (word: string) => selected.indexOf(word) !== -1;
+  const isSelected = (word: Word) => selected.indexOf(word) !== -1;
 
-  // const sortedRows = useMemo(
-  //   () => stableSort(words, getComparator(order, orderBy)),
-  //   [order, orderBy, words]
-  // );
-  const sortedRows = words;
+  const sortedRows = useMemo(() => {
+    if (orderBy === "word") {
+      return stableSort(words, getComparator(order, orderBy));
+    }
+    return words;
+  }, [order, orderBy, words]);
+
+  useEffect(() => {
+    dispatch(setOwnSortedWords(sortedRows));
+  }, [sortedRows, dispatch]);
 
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
@@ -137,11 +143,11 @@ const AllWords = () => {
           {activePage}
         </Typography>
         {!!words.length && (
-          <EnhancedTableToolbar numSelected={selected.length} />
+          <EnhancedTableToolbar selected={selected} setSelected={setSelected} />
         )}
       </Stack>
       {words.length ? (
-        <Paper elevation={0} sx={{ width: "100%" }}>
+        <Paper elevation={0} sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer>
             <Table aria-label="table">
               <EnhancedTableHead
@@ -154,7 +160,7 @@ const AllWords = () => {
               />
               <TableBody>
                 {sortedRows.map((row, index) => {
-                  const isItemSelected = isSelected(row.word);
+                  const isItemSelected = isSelected(row);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -173,9 +179,7 @@ const AllWords = () => {
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
-                          onClick={(event) =>
-                            handleCheckboxClick(event, row.word)
-                          }
+                          onClick={(event) => handleCheckboxClick(event, row)}
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
@@ -206,12 +210,12 @@ const AllWords = () => {
                         {row.word}
                       </TableCell>
                       <TableCell>{row.definition}</TableCell>
-                      {/* <TableCell align="right">{row.progress}</TableCell> */}
-                      <TableCell
+                      {/* <TableCell
                         sx={{ display: { xs: "none", sm: "table-cell" } }}
                       >
                         {row.set}
-                      </TableCell>
+                      </TableCell> */}
+                      {/* <TableCell align="right">{row.progress}</TableCell> */}
                     </TableRow>
                   );
                 })}

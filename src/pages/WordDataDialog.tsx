@@ -1,95 +1,204 @@
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Container,
+  Divider,
   IconButton,
+  Modal,
   Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
 import { setWordDataDialog } from "../store/slices/dialogSlice";
-import { CloseRounded } from "@mui/icons-material";
+import {
+  ArrowBackIosNewRounded,
+  ArrowForwardIosRounded,
+  CloseRounded,
+} from "@mui/icons-material";
 import { useEffect } from "react";
 import { db } from "../firebase";
-import useOwnWordData from "../hooks/useOwnWordData";
+import { setSelectedWord } from "../store/slices/wordSlice";
+import AudioPlayer from "../components/AudioPlayer";
 
 const WordDataDialog = () => {
   const dispatch = useDispatch();
   const { isWordDataDialogOpen } = useSelector(
     (state: RootState) => state.dialog
   );
-  const { word } = useSelector((state: RootState) => state.selectedWord);
-  const [wordData] = useOwnWordData(word);
-  // const { uid } = useSelector((state: RootState) => state.user);
-
-  // const isWordInfoDialogOpen = true;
-
-  // console.log(wordData);
-
-  // useEffect(() => {
-  // }, [word]);
+  const { selectedWord } = useSelector(
+    (state: RootState) => state.selectedWord
+  );
+  const { ownSortedWords } = useSelector(
+    (state: RootState) => state.selectedWord
+  );
+  const [wordData] = ownSortedWords.filter(
+    (word) => word.word === selectedWord?.word
+  );
+  const wordId = ownSortedWords.indexOf(wordData);
 
   const handleDialogClose = () => {
     dispatch(setWordDataDialog(false));
+    dispatch(setSelectedWord(null));
+  };
+
+  const handleBackClick = () => {
+    const prevWord = ownSortedWords[wordId - 1];
+    dispatch(setSelectedWord({ word: prevWord.word, source: "ownDictionary" }));
+  };
+
+  const handleForwardClick = () => {
+    const nextWord = ownSortedWords[wordId + 1];
+    dispatch(setSelectedWord({ word: nextWord.word, source: "ownDictionary" }));
   };
 
   return (
     wordData && (
       <>
-        <Dialog
+        <Modal
           open={isWordDataDialogOpen}
           onClose={handleDialogClose}
-          fullWidth
+          aria-labelledby="modal-word-info"
         >
-          {/* <form onSubmit={handleSubmit}> */}
-          <DialogTitle variant="h3" color="tertiary.main" textAlign="center">
-            {wordData.word}
+          <Container
+            maxWidth="sm"
+            sx={{
+              width: "100%",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <IconButton
-              aria-label="close"
-              onClick={handleDialogClose}
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-              }}
+              onClick={handleBackClick}
+              size="large"
+              disabled={wordId === 0}
+              sx={(theme) => ({
+                m: 2,
+                color:
+                  theme.palette.mode === "light"
+                    ? "background.default"
+                    : "text.primary",
+              })}
             >
-              <CloseRounded />
+              <ArrowBackIosNewRounded fontSize="inherit" />
             </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <Typography>{wordData.definition}</Typography>
-          </DialogContent>
-          <DialogActions sx={{ p: "0 1.5rem 1rem" }}>
-            {/* <Button onClick={handleDialogClose}>Close</Button> */}
-            {/* <Tooltip
-              title={(!word || !value) && "Fill in all fields"}
-              placement="top"
-            >
-              <Box>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  disabled={!word || !value}
+            <Card sx={{ width: "100%" }}>
+              <CardContent
+                sx={{ overflow: "hidden", position: "relative", p: 4 }}
+              >
+                <Typography
+                  variant="h3"
+                  color="tertiary.main"
+                  textAlign="center"
                 >
-                  Add
-                </Button>
-              </Box>
-            </Tooltip> */}
-          </DialogActions>
-          {/* </form> */}
-        </Dialog>
-        {/* <Snackbar
-        open={alertOpen}
-        autoHideDuration={3000}
-        onClose={handleAlertClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Alert onClose={handleAlertClose} severity="success">
-          Word has been successfully added!
-        </Alert>
-      </Snackbar> */}
+                  {wordData.word}
+                  <Typography
+                    sx={{
+                      position: "absolute",
+                      top: -70,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      fontFamily: "Kavoon",
+                      fontSize: "8rem",
+                      opacity: 0.08,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {wordData.word}
+                  </Typography>
+                </Typography>
+                <IconButton
+                  aria-label="close"
+                  onClick={handleDialogClose}
+                  sx={{
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "text.disabled",
+                    "&:hover": {
+                      color: "text.secondary",
+                    },
+                  }}
+                >
+                  <CloseRounded />
+                </IconButton>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  {wordData.audioURL ? (
+                    <AudioPlayer
+                      audioURL={wordData.audioURL}
+                      pronunciation={wordData.pronunciation}
+                    />
+                  ) : (
+                    !!wordData.pronunciation && (
+                      <Typography>[{wordData.pronunciation}]</Typography>
+                    )
+                  )}
+                </Box>
+                <Box mt={2} textAlign="center">
+                  {wordData.partOfSpeech && (
+                    <Divider>
+                      <Typography variant="h6" color="text.secondary">
+                        {wordData.partOfSpeech}
+                      </Typography>
+                    </Divider>
+                  )}
+                  <Typography variant="h6" fontWeight={400}>
+                    {wordData.definition}
+                  </Typography>
+                </Box>
+                {wordData.synonyms && (
+                  <Box mt={3} textAlign="center">
+                    <Divider>
+                      <Typography color="text.secondary" fontWeight={600}>
+                        Synonyms
+                      </Typography>
+                    </Divider>
+                    <Typography color="text.secondary">
+                      {wordData.synonyms.join(", ")}
+                    </Typography>
+                  </Box>
+                )}
+                {wordData.examples && (
+                  <Box mt={3} textAlign="center">
+                    <Divider>
+                      <Typography color="text.secondary" fontWeight={600}>
+                        Example
+                      </Typography>
+                    </Divider>
+                    {wordData.examples.map((example) => (
+                      <Typography key={wordData.word} color="text.secondary">
+                        {example}
+                      </Typography>
+                    ))}
+                  </Box>
+                )}
+              </CardContent>
+              {/* <CardActions>
+              </CardActions> */}
+            </Card>
+            <IconButton
+              onClick={handleForwardClick}
+              size="large"
+              disabled={wordId === ownSortedWords.length - 1}
+              sx={(theme) => ({
+                m: 2,
+                color:
+                  theme.palette.mode === "light"
+                    ? "background.default"
+                    : "text.primary",
+              })}
+            >
+              <ArrowForwardIosRounded fontSize="inherit" />
+            </IconButton>
+          </Container>
+        </Modal>
       </>
     )
   );

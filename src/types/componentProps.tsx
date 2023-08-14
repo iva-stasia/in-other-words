@@ -22,4 +22,11 @@ export interface SearchProps {
 
 export interface AudioPlayerProps {
   audioURL: string;
+  pronunciation?: string;
+}
+
+export interface SuccessMessageProps {
+  alertOpen: boolean;
+  setAlertOpen: (alertOpen: boolean) => void;
+  message: string;
 }

@@ -1,8 +1,8 @@
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { VolumeUpRounded } from "@mui/icons-material";
 import { AudioPlayerProps } from "../types";
 
-const AudioPlayer = ({ audioURL }: AudioPlayerProps) => {
+const AudioPlayer = ({ audioURL, pronunciation }: AudioPlayerProps) => {
   const audio = new Audio(audioURL);
 
   const playAudio = (e: React.MouseEvent) => {
@@ -11,8 +11,9 @@ const AudioPlayer = ({ audioURL }: AudioPlayerProps) => {
   };
 
   return (
-    <IconButton onClick={(e) => playAudio(e)}>
-      <VolumeUpRounded />
+    <IconButton color='primary' onClick={(e) => playAudio(e)}>
+      <VolumeUpRounded/>
+      {pronunciation && <Typography ml={1}>[{pronunciation}]</Typography>}
     </IconButton>
   );
 };

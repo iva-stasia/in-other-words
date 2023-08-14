@@ -1,5 +1,5 @@
 import ky from "ky";
-import { WordAudioResult } from '../types';
+import { WordAudioResult } from "../types";
 const WORDS_API_KEY = import.meta.env.VITE_WORDS_API_KEY as string;
 const VITE_WORD_AUDIO_API_KEY = import.meta.env
   .VITE_WORD_AUDIO_API_KEY as string;
@@ -29,7 +29,7 @@ export const getWordAudio = async (word: string) => {
       subdirectory = "bix";
     } else if (/^gg/.test(audio)) {
       subdirectory = "gg";
-    } else if (/^[0-9\p{P}]/.test(audio)) {
+    } else if (/^[0-9]\p{P}/.test(audio)) {
       subdirectory = "number";
     } else {
       subdirectory = audio.charAt(0);

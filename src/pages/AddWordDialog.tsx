@@ -1,5 +1,4 @@
 import {
-  Alert,
   Autocomplete,
   Box,
   Button,
@@ -12,7 +11,6 @@ import {
   IconButton,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
   Tooltip,
   Typography,
@@ -28,8 +26,9 @@ import { WordDefinition } from "../types";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import useWordApiData from "../hooks/useWordApiData";
-import { setSelectedWord } from "../store/slices/selectedWordSlice";
+import { setSelectedWord } from "../store/slices/wordSlice";
 import { CloseRounded } from "@mui/icons-material";
+import SuccessMessage from "../components/SuccessMessage";
 
 const filter = createFilterOptions<WordDefinition>();
 
@@ -39,7 +38,9 @@ const AddWordDialog = () => {
   const { isAddWordDialogOpen } = useSelector(
     (state: RootState) => state.dialog
   );
-  const { word } = useSelector((state: RootState) => state.selectedWord);
+  const { selectedWord: word } = useSelector(
+    (state: RootState) => state.selectedWord
+  );
   const [alertOpen, setAlertOpen] = useState(false);
   const [value, setValue] = useState<WordDefinition | null>(null);
   const [wordSet, setWordSet] = useState<string>("All words");
@@ -51,17 +52,6 @@ const AddWordDialog = () => {
   useEffect(() => {
     setValue(null);
   }, [word]);
-
-  const handleAlertClose = (
-    _event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setAlertOpen(false);
-  };
 
   const handleDialogClose = () => {
     dispatch(setAddWordDialog(false));
@@ -253,16 +243,11 @@ const AddWordDialog = () => {
           </DialogActions>
         </form>
       </Dialog>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={3000}
-        onClose={handleAlertClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Alert onClose={handleAlertClose} severity="success">
-          Word has been successfully added!
-        </Alert>
-      </Snackbar>
+      <SuccessMessage
+        alertOpen={alertOpen}
+        setAlertOpen={setAlertOpen}
+        message={"Word has been successfully added!"}
+      />
     </>
   );
 };

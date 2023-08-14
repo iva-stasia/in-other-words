@@ -7,7 +7,7 @@ import userSlice from "./slices/userSlice";
 import passwordResetSlice from "./slices/passwordResetSlice";
 import menuSlice from "./slices/menuSlice";
 import dialogSlice from "./slices/dialogSlice";
-import selectedWordSlice from "./slices/selectedWordSlice";
+import wordSlice from "./slices/wordSlice";
 
 const reducers = combineReducers({
   colorMode: colorModeReducer,
@@ -15,7 +15,7 @@ const reducers = combineReducers({
   passwordReset: passwordResetSlice,
   menu: menuSlice,
   dialog: dialogSlice,
-  selectedWord: selectedWordSlice,
+  selectedWord: wordSlice,
 });
 
 const persistConfig = {
