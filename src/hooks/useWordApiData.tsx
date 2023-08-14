@@ -16,7 +16,7 @@ const useWordApiData = (
   const [audioURL, setAudioURL] = useState<string>("");
 
   useEffect(() => {
-    if (word && word.source === "apiDictionary") {
+    if (word && word.source !== "custom") {
       const getWordData = async () => {
         const wordData = await wordsApi(`${word.word}`).json<WordApiResult>();
 
