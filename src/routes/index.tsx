@@ -6,6 +6,7 @@ import AllWords from "../pages/AllWords";
 import PasswordReset from "../pages/authentication/PasswordReset";
 import PasswordResetSent from "../pages/authentication/PasswordResetSent";
 import AuthLayout from "../layout/AuthLayout";
+import WordSets from "../pages/WordSets";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <AllWords />,
+      },
+      {
+        path: "/word-sets",
+        element: <WordSets />,
       },
     ],
   },

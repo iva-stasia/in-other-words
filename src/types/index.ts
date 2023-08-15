@@ -16,6 +16,8 @@ export type {
   SearchProps,
   AudioPlayerProps,
   SuccessMessageProps,
+  JdenticonGeneratorProps,
+  CreateSetDialogProps,
 } from "./componentProps";
 
 export type {
@@ -57,3 +59,8 @@ export interface SearchResult {
 }
 
 export type Order = "asc" | "desc";
+
+export interface WordSet {
+  pictureId: string;
+  title: string;
+}

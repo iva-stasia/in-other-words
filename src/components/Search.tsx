@@ -26,7 +26,7 @@ const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 const Search = ({ withIcon, inDialog }: SearchProps) => {
   const dispatch = useDispatch();
   const { selectedWord: word } = useSelector(
-    (state: RootState) => state.selectedWord
+    (state: RootState) => state.words
   );
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<WordOption | null>(word);

@@ -15,7 +15,7 @@ const reducers = combineReducers({
   passwordReset: passwordResetSlice,
   menu: menuSlice,
   dialog: dialogSlice,
-  selectedWord: wordSlice,
+  words: wordSlice,
 });
 
 const persistConfig = {

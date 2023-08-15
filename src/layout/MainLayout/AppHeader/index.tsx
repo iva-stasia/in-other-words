@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { toggleMenu } from "../../../store/slices/menuSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import AddWordDialog from "../../../pages/AddWordDialog";
+import AddWordDialog from "../../../pages/dialogs/AddWordDialog";
 
 const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
   const { isOpen } = useSelector((state: RootState) => state.menu);

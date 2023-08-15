@@ -18,17 +18,17 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
-import { setAddWordDialog } from "../store/slices/dialogSlice";
-import Search from "../components/Search";
-import { WordDefinition } from "../types";
+import { setAddWordDialog } from "../../store/slices/dialogSlice";
+import Search from "../../components/Search";
+import { WordDefinition } from "../../types";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import useWordApiData from "../hooks/useWordApiData";
-import { setSelectedWord } from "../store/slices/wordSlice";
+import { db } from "../../firebase";
+import useWordApiData from "../../hooks/useWordApiData";
+import { setSelectedWord } from "../../store/slices/wordSlice";
 import { CloseRounded } from "@mui/icons-material";
-import SuccessMessage from "../components/SuccessMessage";
+import SuccessMessage from "../../components/SuccessMessage";
 
 const filter = createFilterOptions<WordDefinition>();
 
@@ -38,16 +38,15 @@ const AddWordDialog = () => {
   const { isAddWordDialogOpen } = useSelector(
     (state: RootState) => state.dialog
   );
-  const { selectedWord } = useSelector(
-    (state: RootState) => state.selectedWord
-  );
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [value, setValue] = useState<WordDefinition | null>(null);
-  const [wordSet, setWordSet] = useState<string>("All words");
+  const { selectedWord } = useSelector((state: RootState) => state.words);
+  const { wordSets } = useSelector((state: RootState) => state.words);
   const { definitions, pronunciation, audioURL } = useWordApiData(
     isAddWordDialogOpen,
     selectedWord
   );
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [value, setValue] = useState<WordDefinition | null>(null);
+  const [wordSet, setWordSet] = useState<string>("All words");
 
   useEffect(() => {
     setValue(null);
@@ -222,6 +221,13 @@ const AddWordDialog = () => {
                 onChange={(e) => setWordSet(e.target.value)}
               >
                 <MenuItem value="All words">All words</MenuItem>
+                {wordSets
+                  .map((set) => set.title)
+                  .map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </DialogContent>

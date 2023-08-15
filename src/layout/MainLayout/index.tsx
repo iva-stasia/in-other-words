@@ -4,13 +4,24 @@ import { RootState } from "../../store";
 import Sidebar from "./Sidebar";
 import { Box, Toolbar, styled } from "@mui/material";
 import AppHeader from "./AppHeader";
-import WordDataDialog from "../../pages/WordDataDialog";
+import WordDataDialog from "../../pages/dialogs/WordDataDialog";
+import { useDispatch } from "react-redux";
+import useWordSets from "../../hooks/useWordSets";
+import { useEffect } from "react";
+import { setWordSets } from "../../store/slices/wordSlice";
 
 const drawerWidth = 280;
 
 const MainLayout = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const { isOpen } = useSelector((state: RootState) => state.menu);
+  const wordSets = useWordSets();
+
+  useEffect(() => {
+    if (!user.email) return;
+    dispatch(setWordSets(wordSets));
+  }, [wordSets, dispatch, user]);
 
   if (!user.email) {
     return <Navigate to={"/login"} />;
@@ -54,6 +65,8 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   padding: theme.spacing(3),
   backgroundColor: theme.palette.backgroundSecond.main,
   borderRadius: "0",
+  border: "3px solid",
+  borderColor: theme.palette.backgroundSecond.main,
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -67,7 +80,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    backgroundColor: theme.palette.backgroundSecond.main,
     marginLeft: 0,
     borderRadius: "12px 0 0 0",
   }),
