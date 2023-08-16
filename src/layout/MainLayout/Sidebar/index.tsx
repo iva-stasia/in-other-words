@@ -4,51 +4,49 @@ import {
   SchoolRounded,
   TrendingUpRounded,
 } from "@mui/icons-material";
-import {
-  Box,
-  Drawer,
-  Typography,
-  List,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Drawer, Typography, List, useMediaQuery } from "@mui/material";
 import { DrawerWidthProp } from "../../../types";
 import NavItem from "./NavItem";
 import ColorModeSwitch from "../../../components/ColorModeSwitch";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-// import { useTheme } from "@emotion/react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../../../store/slices/menuSlice";
+import { useEffect } from "react";
 
 const pages = [
   {
-    title: "All words",
+    title: "Dictionary",
     icon: <BookRounded />,
     path: "/",
   },
   {
     title: "Word sets",
     icon: <CollectionsBookmarkRounded />,
-    path: "/",
+    path: "/word-sets",
   },
   {
     title: "Study",
     icon: <SchoolRounded />,
-    path: "/",
+    path: "/study",
   },
   {
     title: "My progress",
     icon: <TrendingUpRounded />,
-    path: "/",
+    path: "/my-progress",
   },
 ];
 
 const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state: RootState) => state.menu);
-  // const theme = useTheme();
-  // const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
-  const matchUpMd = useMediaQuery('(min-width:900px)');
+  const matchUpMd = useMediaQuery("(min-width:900px)");
+
+  useEffect(() => {
+    if (!matchUpMd) {
+      dispatch(toggleMenu());
+    }
+  }, [matchUpMd, dispatch]);
 
   return (
     <Drawer

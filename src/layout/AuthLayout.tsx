@@ -14,13 +14,14 @@ import { auth } from '../firebase';
 import { saveUser } from '../store/slices/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import ColorModeSwitch from '../components/ColorModeSwitch';
 
 const AuthLayout = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -33,7 +34,7 @@ const AuthLayout = () => {
   }, [dispatch]);
 
   if (user.email) {
-    return <Navigate to={'/'} />;
+    navigate(-1)
   }
 
   return (

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { WordSet } from '.';
 
 export interface DrawerWidthProp {
   drawerWidth: number;
@@ -29,4 +30,12 @@ export interface SuccessMessageProps {
   alertOpen: boolean;
   setAlertOpen: (alertOpen: boolean) => void;
   message: string;
+}
+
+export interface JdenticonGeneratorProps {
+  value: string;
+}
+
+export interface CreateSetDialogProps {
+  currentSets: WordSet[];
 }

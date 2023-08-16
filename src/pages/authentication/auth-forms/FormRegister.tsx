@@ -48,6 +48,7 @@ const FormRegister = () => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       await setDoc(doc(db, "userWords", res.user.uid), {});
+      await setDoc(doc(db, "userSets", res.user.uid), {});
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }

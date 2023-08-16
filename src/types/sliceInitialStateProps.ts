@@ -1,5 +1,5 @@
 import { PaletteMode } from "@mui/material";
-import { Word, WordOption } from ".";
+import { Word, WordOption, WordSet } from ".";
 
 export interface UserInitialState {
   uid: string | null;
@@ -25,9 +25,11 @@ export interface NavInitialState {
 export interface DialogInitialState {
   isAddWordDialogOpen: boolean;
   isWordDataDialogOpen: boolean;
+  isCreateSetDialogOpen: boolean;
 }
 
 export interface WordInitialState {
   selectedWord: WordOption | null;
   ownSortedWords: Word[];
+  wordSets: WordSet[];
 }

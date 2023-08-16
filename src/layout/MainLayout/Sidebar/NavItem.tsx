@@ -5,28 +5,36 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-} from '@mui/material';
-import { NavItemProps } from '../../../types';
-import { useDispatch, useSelector } from 'react-redux';
-import { setActivePage } from '../../../store/slices/menuSlice';
-import { RootState } from '../../../store';
-import { Link as RouterLink } from 'react-router-dom';
+} from "@mui/material";
+import { NavItemProps } from "../../../types";
+import { useDispatch } from "react-redux";
+import { setActivePage } from "../../../store/slices/menuSlice";
+import { NavLink as RouterLink, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const NavItem = ({ title, icon, path }: NavItemProps) => {
   const dispatch = useDispatch();
-  const { activePage } = useSelector((state: RootState) => state.menu);
+  const { pathname } = useLocation();
+  const [currentLinkPath] = pathname.slice(1).split("/");
+
+  useEffect(() => {
+    if (path === `/${currentLinkPath}`) {
+      dispatch(setActivePage(title));
+    }
+  }, [currentLinkPath, path, title, dispatch]);
 
   return (
-    <ListItem disablePadding>
+    <ListItem disablePadding sx={{ pb: 1 }}>
       <Link
         component={RouterLink}
         to={path}
-        sx={{ width: '100%', textDecoration: 'none' }}>
+        sx={{ width: "100%", textDecoration: "none" }}
+      >
         <ListItemButton
-          disabled={title !== 'All words'}
-          sx={{ color: 'text.secondary' }}
-          selected={title === activePage}
-          onClick={() => dispatch(setActivePage(title))}>
+          disabled={title == "Study" || title == "My progress"}
+          sx={{ color: "text.secondary" }}
+          selected={path === `/${currentLinkPath}`}
+        >
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText
             primary={
@@ -34,7 +42,8 @@ const NavItem = ({ title, icon, path }: NavItemProps) => {
                 variant="body1"
                 fontWeight={600}
                 p={0}
-                component="span">
+                component="span"
+              >
                 {title}
               </Typography>
             }

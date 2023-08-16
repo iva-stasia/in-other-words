@@ -1,17 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import {
-  Word,
-  WordInitialState,
-  WordOption,
-} from "../../types";
+import { Word, WordInitialState, WordOption, WordSet } from "../../types";
 
 const initialState: WordInitialState = {
   selectedWord: null,
   ownSortedWords: [],
+  wordSets: [],
 };
 
 export const wordSlice = createSlice({
-  name: "selectedWord",
+  name: "words",
   initialState,
   reducers: {
     setSelectedWord: (state, action: PayloadAction<WordOption | null>) => {
@@ -20,8 +17,12 @@ export const wordSlice = createSlice({
     setOwnSortedWords: (state, action: PayloadAction<Word[]>) => {
       state.ownSortedWords = action.payload;
     },
+    setWordSets: (state, action: PayloadAction<WordSet[]>) => {
+      state.wordSets = action.payload;
+    },
   },
 });
 
-export const { setSelectedWord, setOwnSortedWords } = wordSlice.actions;
+export const { setSelectedWord, setOwnSortedWords, setWordSets } =
+  wordSlice.actions;
 export default wordSlice.reducer;

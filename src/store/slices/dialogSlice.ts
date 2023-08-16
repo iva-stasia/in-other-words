@@ -4,6 +4,7 @@ import { DialogInitialState } from "../../types";
 const initialState: DialogInitialState = {
   isAddWordDialogOpen: false,
   isWordDataDialogOpen: false,
+  isCreateSetDialogOpen: false,
 };
 
 export const dialogSlice = createSlice({
@@ -17,8 +18,12 @@ export const dialogSlice = createSlice({
       state.isAddWordDialogOpen = false;
       state.isWordDataDialogOpen = action.payload;
     },
+    setCreateSetDialog: (state, action: PayloadAction<boolean>) => {
+      state.isCreateSetDialogOpen = action.payload;
+    },
   },
 });
 
-export const { setAddWordDialog, setWordDataDialog } = dialogSlice.actions;
+export const { setAddWordDialog, setWordDataDialog, setCreateSetDialog } =
+  dialogSlice.actions;
 export default dialogSlice.reducer;

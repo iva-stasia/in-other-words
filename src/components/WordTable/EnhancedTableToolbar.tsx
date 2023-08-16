@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Word } from "../../types";
 import { Dispatch, SetStateAction, useState } from "react";
-import SuccessMessage from "../../components/SuccessMessage";
+import SuccessMessage from "../SuccessMessage";
 
 interface EnhancedTableToolbarProps {
   selected: Word[];
@@ -65,9 +65,9 @@ const EnhancedTableToolbar = ({
           </Tooltip>
         ) : (
           // <Tooltip title="Filter list">
-            <IconButton onClick={() => console.log("Filtered!")} disabled>
-              <FilterListRounded />
-            </IconButton>
+          <IconButton onClick={() => console.log("Filtered!")} disabled>
+            <FilterListRounded />
+          </IconButton>
           // </Tooltip>
         )}
       </Stack>

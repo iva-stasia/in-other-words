@@ -9,17 +9,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
-import { setAddWordDialog, setWordDataDialog } from "../store/slices/dialogSlice";
+import { setWordDataDialog } from "../../store/slices/dialogSlice";
 import {
   ArrowBackIosNewRounded,
   ArrowForwardIosRounded,
   CloseRounded,
-  ModeEditRounded,
 } from "@mui/icons-material";
-import { setSelectedWord } from "../store/slices/wordSlice";
-import AudioPlayer from "../components/AudioPlayer";
+import { setSelectedWord } from "../../store/slices/wordSlice";
+import AudioPlayer from "../../components/AudioPlayer";
 
 const WordDataDialog = () => {
   const dispatch = useDispatch();
@@ -27,10 +26,10 @@ const WordDataDialog = () => {
     (state: RootState) => state.dialog
   );
   const { selectedWord } = useSelector(
-    (state: RootState) => state.selectedWord
+    (state: RootState) => state.words
   );
   const { ownSortedWords } = useSelector(
-    (state: RootState) => state.selectedWord
+    (state: RootState) => state.words
   );
   const [wordData] = ownSortedWords.filter(
     (word) => word.word === selectedWord?.word
@@ -40,12 +39,6 @@ const WordDataDialog = () => {
   const handleDialogClose = () => {
     dispatch(setWordDataDialog(false));
     dispatch(setSelectedWord(null));
-  };
-
-  const handleDialogEdit = () => {
-    console.log("edited!");
-    dispatch(setWordDataDialog(false));
-    dispatch(setAddWordDialog(true));
   };
 
   const handleBackClick = () => {
@@ -142,21 +135,6 @@ const WordDataDialog = () => {
                   }}
                 >
                   <CloseRounded />
-                </IconButton>
-                <IconButton
-                  aria-label="close"
-                  onClick={handleDialogEdit}
-                  sx={{
-                    position: "absolute",
-                    right: 48,
-                    top: 8,
-                    color: "text.disabled",
-                    "&:hover": {
-                      color: "text.secondary",
-                    },
-                  }}
-                >
-                  <ModeEditRounded />
                 </IconButton>
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                   {wordData.audioURL ? (
