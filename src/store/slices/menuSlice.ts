@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NavInitialState as MenuInitialState } from '../../types';
 
 const initialState: MenuInitialState = {
-  activePage: 'All words',
+  activePage: 'Dictionary',
   isOpen: true,
 };
 

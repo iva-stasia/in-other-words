@@ -12,10 +12,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../../../store/slices/menuSlice";
+import { useEffect } from "react";
 
 const pages = [
   {
-    title: "All words",
+    title: "Dictionary",
     icon: <BookRounded />,
     path: "/",
   },
@@ -27,12 +28,12 @@ const pages = [
   {
     title: "Study",
     icon: <SchoolRounded />,
-    path: "/",
+    path: "/study",
   },
   {
     title: "My progress",
     icon: <TrendingUpRounded />,
-    path: "/",
+    path: "/my-progress",
   },
 ];
 
@@ -40,6 +41,12 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state: RootState) => state.menu);
   const matchUpMd = useMediaQuery("(min-width:900px)");
+
+  useEffect(() => {
+    if (!matchUpMd) {
+      dispatch(toggleMenu());
+    }
+  }, [matchUpMd, dispatch]);
 
   return (
     <Drawer

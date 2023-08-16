@@ -3,10 +3,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import useOwnWords from "../hooks/useOwnWords";
 import WordTable from "../components/WordTable";
+import { useParams } from "react-router-dom";
 
-const AllWords = () => {
+const Dictionary = () => {
+  const { setTitle } = useParams();
   const { activePage } = useSelector((state: RootState) => state.menu);
-  const words = useOwnWords();
+  let words = useOwnWords();
+
+  if (setTitle) {
+    words = words.filter(({ set }) => set === setTitle);
+  }
 
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
@@ -14,12 +20,12 @@ const AllWords = () => {
         {activePage}
       </Typography>
       {words.length ? (
-        <WordTable words={words} title="My dictionary" />
+        <WordTable words={words} title={setTitle || "All words"} />
       ) : (
-        "There are no words in the dictionary yet. Enter a word in the search to add it."
+        "There are no words yet. Enter a word in the search to add it."
       )}
     </Box>
   );
 };
 
-export default AllWords;
+export default Dictionary;

@@ -56,6 +56,7 @@ const AddWordDialog = () => {
     dispatch(setAddWordDialog(false));
     dispatch(setSelectedWord(null));
     setValue(null);
+    setWordSet("All words");
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

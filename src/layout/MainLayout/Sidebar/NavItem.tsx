@@ -7,14 +7,21 @@ import {
   Typography,
 } from "@mui/material";
 import { NavItemProps } from "../../../types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setActivePage } from "../../../store/slices/menuSlice";
-import { RootState } from "../../../store";
-import { Link as RouterLink } from "react-router-dom";
+import { NavLink as RouterLink, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const NavItem = ({ title, icon, path }: NavItemProps) => {
   const dispatch = useDispatch();
-  const { activePage } = useSelector((state: RootState) => state.menu);
+  const { pathname } = useLocation();
+  const [currentLinkPath] = pathname.slice(1).split("/");
+
+  useEffect(() => {
+    if (path === `/${currentLinkPath}`) {
+      dispatch(setActivePage(title));
+    }
+  }, [currentLinkPath, path, title, dispatch]);
 
   return (
     <ListItem disablePadding sx={{ pb: 1 }}>
@@ -26,8 +33,7 @@ const NavItem = ({ title, icon, path }: NavItemProps) => {
         <ListItemButton
           disabled={title == "Study" || title == "My progress"}
           sx={{ color: "text.secondary" }}
-          selected={title === activePage}
-          onClick={() => dispatch(setActivePage(title))}
+          selected={path === `/${currentLinkPath}`}
         >
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText
