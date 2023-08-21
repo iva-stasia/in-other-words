@@ -12,7 +12,7 @@ const useOwnFilteredWords = (value: string): string[] => {
     const preparedWords = ownWords.map(({ word }) => word);
     if (value && isAddWordDialogOpen) {
       const filteredOwnWords = preparedWords.filter((ownWord) =>
-        ownWord.includes(value, 0)
+        ownWord.includes(value.toLowerCase(), 0)
       );
       setFilteredOwnWords(filteredOwnWords);
       return undefined;

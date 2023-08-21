@@ -17,6 +17,7 @@ import { registerSchema } from "../validationSchema";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
+import AlertMessage from "../../../components/AlertMessage";
 
 const FormRegister = () => {
   const {
@@ -32,6 +33,8 @@ const FormRegister = () => {
     resolver: yupResolver(registerSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -50,7 +53,13 @@ const FormRegister = () => {
       await setDoc(doc(db, "userWords", res.user.uid), {});
       await setDoc(doc(db, "userSets", res.user.uid), {});
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) {
+        setError(true);
+        const message = error.message.includes("auth/email-already-in-use")
+          ? "This email has already been register"
+          : "Ops! Something went wrong. Please try again later.";
+        setErrorMessage(message);
+      }
     }
   };
 
@@ -116,6 +125,12 @@ const FormRegister = () => {
               </FormHelperText>
             </FormControl>
           )}
+        />
+        <AlertMessage
+          alertOpen={error}
+          setAlertOpen={setError}
+          message={errorMessage}
+          severity="error"
         />
         <Button
           type="submit"

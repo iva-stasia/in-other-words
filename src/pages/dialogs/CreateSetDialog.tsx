@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import React, { useState } from "react";
-import SuccessMessage from "../../components/SuccessMessage";
+import AlertMessage from "../../components/AlertMessage";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
@@ -32,7 +32,9 @@ const CreateSetDialog = ({ currentSets }: CreateSetDialogProps) => {
   const [title, setTitle] = useState<string>("");
   const [alertOpen, setAlertOpen] = useState(false);
 
-  const isSetExist = currentSets.map((set) => set.title).includes(title);
+  const isSetExist = currentSets
+    .map((set) => set.title.toLowerCase())
+    .includes(title.toLowerCase());
 
   const handleDialogClose = () => {
     dispatch(setCreateSetDialog(false));
@@ -120,10 +122,11 @@ const CreateSetDialog = ({ currentSets }: CreateSetDialogProps) => {
           </DialogActions>
         </form>
       </Dialog>
-      <SuccessMessage
+      <AlertMessage
         alertOpen={alertOpen}
         setAlertOpen={setAlertOpen}
         message={"Set has been successfully created!"}
+        severity="success"
       />
     </>
   );

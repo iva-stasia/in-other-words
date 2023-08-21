@@ -14,8 +14,9 @@ import { auth } from "../../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toggleResetEmail } from "../../../store/slices/passwordResetSlice";
+import AlertMessage from "../../../components/AlertMessage";
 
 const FormPasswordReset = () => {
   const {
@@ -30,20 +31,31 @@ const FormPasswordReset = () => {
     resolver: yupResolver(emailSchema),
   });
   const dispatch = useDispatch();
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    dispatch(toggleResetEmail(isSubmitted));
-  }, [isSubmitted, dispatch]);
+    if (!errorMessage) {
+      dispatch(toggleResetEmail(isSubmitted));
+    }
+  }, [isSubmitted, errorMessage, dispatch]);
 
   const onSubmit: SubmitHandler<UserEmail> = async ({ email }) => {
     try {
       await sendPasswordResetEmail(auth, email);
+      setErrorMessage("");
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) {
+        setError(true);
+        const message = error.message.includes("auth/user-not-found")
+          ? "Invalid email"
+          : "Ops! Something went wrong. Please try again later.";
+        setErrorMessage(message);
+      }
     }
   };
 
-  if (isSubmitted) {
+  if (isSubmitted && !errorMessage) {
     return <Navigate to={"/password-reset-sent"} />;
   }
 
@@ -76,6 +88,12 @@ const FormPasswordReset = () => {
             </FormHelperText>
           </FormControl>
         )}
+      />
+      <AlertMessage
+        alertOpen={error}
+        setAlertOpen={setError}
+        message={errorMessage}
+        severity="error"
       />
       <Button
         type="submit"

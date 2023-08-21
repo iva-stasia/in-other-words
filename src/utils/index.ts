@@ -1,0 +1,1 @@
+export { deleteWord } from "./deleteWord";

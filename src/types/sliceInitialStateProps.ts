@@ -30,6 +30,7 @@ export interface DialogInitialState {
 
 export interface WordInitialState {
   selectedWord: WordOption | null;
+  ownWords: Word[];
   ownSortedWords: Word[];
   wordSets: WordSet[];
 }

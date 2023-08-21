@@ -1,12 +1,13 @@
 import { DeleteRounded, FilterListRounded } from "@mui/icons-material";
 import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
-import { arrayRemove, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+// import { arrayRemove, doc, updateDoc } from "firebase/firestore";
+// import { db } from "../../firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Word } from "../../types";
 import { Dispatch, SetStateAction, useState } from "react";
-import SuccessMessage from "../SuccessMessage";
+import AlertMessage from "../AlertMessage";
+import { deleteWord } from "../../utils";
 
 interface EnhancedTableToolbarProps {
   selected: Word[];
@@ -21,27 +22,18 @@ const EnhancedTableToolbar = ({
   const [alertOpen, setAlertOpen] = useState(false);
   const [message, setMessage] = useState("");
 
-  const deleteWord = async (word: Word) => {
-    const newMessage =
-      selected.length > 1
-        ? `${selected.length} words have been successfully deleted!`
-        : "Word has been successfully deleted!";
-    if (uid) {
-      try {
-        await updateDoc(doc(db, "userWords", uid), {
-          words: arrayRemove(word),
-        });
-        setMessage(newMessage);
-        setSelected([]);
-        setAlertOpen(true);
-      } catch (error) {
-        if (error instanceof Error) console.error(error.message);
-      }
-    }
+  const getMessage = () => {
+    return selected.length > 1
+      ? `${selected.length} words have been successfully deleted!`
+      : "Word has been successfully deleted!";
   };
 
   const handleDeleteClick = () => {
-    selected.map(async (word) => await deleteWord(word));
+    const newMessage = getMessage();
+    setMessage(newMessage);
+    selected.map(async (word) => await deleteWord(word, uid));
+    setSelected([]);
+    setAlertOpen(true);
   };
 
   return (
@@ -71,10 +63,11 @@ const EnhancedTableToolbar = ({
           // </Tooltip>
         )}
       </Stack>
-      <SuccessMessage
+      <AlertMessage
         alertOpen={alertOpen}
         setAlertOpen={setAlertOpen}
         message={message}
+        severity="success"
       />
     </>
   );

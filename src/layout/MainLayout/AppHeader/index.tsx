@@ -2,6 +2,7 @@ import {
   AppBar,
   Box,
   IconButton,
+  Link,
   Stack,
   Toolbar,
   Typography,
@@ -10,11 +11,11 @@ import { DrawerWidthProp } from "../../../types";
 import UserProfile from "./UserProfile";
 import Search from "../../../components/Search";
 import { MenuOpenRounded, MenuRounded } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../../store/slices/menuSlice";
-import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import AddWordDialog from "../../../pages/dialogs/AddWordDialog";
+import { NavLink as RouterLink } from "react-router-dom";
 
 const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
   const { isOpen } = useSelector((state: RootState) => state.menu);
@@ -37,19 +38,26 @@ const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
           justifyContent="space-between"
           sx={{ flexBasis: { xs: "0", md: drawerWidth } }}
         >
-          <Typography
-            variant="h6"
-            color="primary"
-            fontFamily="Kavoon"
-            noWrap
-            p={0}
-            component="div"
-            sx={{
-              display: { xs: "none", md: "flex" },
-            }}
+          <Link
+            component={RouterLink}
+            to="/"
+            sx={{ width: "100%", textDecoration: "none" }}
           >
-            In Other Words
-          </Typography>
+            <Typography
+              variant="h6"
+              color="primary"
+              fontFamily="Kavoon"
+              noWrap
+              p={0}
+              component="div"
+              sx={{
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              In Other Words
+            </Typography>
+          </Link>
+
           <IconButton
             size="large"
             edge="start"

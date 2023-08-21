@@ -7,6 +7,7 @@ import {
   ButtonBase,
   IconButton,
   Link,
+  Tooltip,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -17,35 +18,25 @@ import CreateSetDialog from "./dialogs/CreateSetDialog";
 import { useDispatch } from "react-redux";
 import { setCreateSetDialog } from "../store/slices/dialogSlice";
 import { WordSet } from "../types";
-import { arrayRemove, doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import SuccessMessage from "../components/SuccessMessage";
 import { Link as RouterLink } from "react-router-dom";
+import DeleteSetDialog from "./dialogs/DeleteSetDialog";
 
 const WordSets = () => {
   const dispatch = useDispatch();
   const { activePage } = useSelector((state: RootState) => state.menu);
-  const { uid } = useSelector((state: RootState) => state.user);
   const { wordSets } = useSelector((state: RootState) => state.words);
-  const [alertOpen, setAlertOpen] = useState(false);
+  const [deleteSetOpen, setDeleteSetOpen] = useState(false);
+  const [selectedSet, setSelectedSet] = useState<WordSet | null>(null);
 
   const handleCreateSetClick = () => {
     dispatch(setCreateSetDialog(true));
   };
 
-  const handleDeleteSet = async (event: React.MouseEvent, set: WordSet) => {
+  const handleDeleteSet = (event: React.MouseEvent, set: WordSet) => {
     event.stopPropagation();
     event.preventDefault();
-    if (uid) {
-      try {
-        await updateDoc(doc(db, "userSets", uid), {
-          sets: arrayRemove(set),
-        });
-        setAlertOpen(true);
-      } catch (error) {
-        if (error instanceof Error) console.error(error.message);
-      }
-    }
+    setSelectedSet(set);
+    setDeleteSetOpen(true);
   };
 
   return (
@@ -125,32 +116,29 @@ const WordSets = () => {
                 to={`/word-sets/${set.title}`}
                 underline="none"
               >
-                <Card
-                  sx={{ height: 1, cursor: "pointer" }}
-                  elevation={0}
-                  onClick={() => console.log("Card was clicked!")}
-                >
+                <Card sx={{ height: 1, cursor: "pointer" }} elevation={0}>
                   <Box position="relative">
                     <Box sx={{ opacity: "0.8" }}>
                       <JdenticonGenerator value={set.pictureId} />
                     </Box>
-                    <IconButton
-                      aria-label="close"
-                      onClick={(e) => handleDeleteSet(e, set)}
-                      onMouseDown={(e) => e.stopPropagation()}
-                      sx={{
-                        position: "absolute",
-                        right: 8,
-                        top: 8,
-                        color: "background.default",
-                        bgcolor: "text.secondary",
-                        "&:hover": {
-                          bgcolor: "text.primary",
-                        },
-                      }}
-                    >
-                      <DeleteRounded />
-                    </IconButton>
+                    <Tooltip title="Delete">
+                      <IconButton
+                        aria-label="close"
+                        onClick={(e) => handleDeleteSet(e, set)}
+                        sx={{
+                          position: "absolute",
+                          right: 8,
+                          top: 8,
+                          color: "background.default",
+                          bgcolor: "text.secondary",
+                          "&:hover": {
+                            bgcolor: "text.primary",
+                          },
+                        }}
+                      >
+                        <DeleteRounded />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                   <CardContent>
                     <Typography variant="h6" component="div">
@@ -163,11 +151,13 @@ const WordSets = () => {
           ))}
       </Grid>
       <CreateSetDialog currentSets={wordSets} />
-      <SuccessMessage
-        alertOpen={alertOpen}
-        setAlertOpen={setAlertOpen}
-        message="Set has been successfully deleted!"
-      />
+      {selectedSet && (
+        <DeleteSetDialog
+          deleteSetOpen={deleteSetOpen}
+          set={selectedSet}
+          setDeleteSetOpen={setDeleteSetOpen}
+        />
+      )}
     </Box>
   );
 };

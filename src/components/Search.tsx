@@ -82,9 +82,9 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
       renderGroup={(params) => {
         const groupName =
           params.group === "apiDictionary"
-            ? "Words from dictionary"
+            ? "New words"
             : params.group === "ownDictionary"
-            ? "Words from your list"
+            ? "Words from your dictionary"
             : "Add your own word";
         return (
           <Box key={params.key}>

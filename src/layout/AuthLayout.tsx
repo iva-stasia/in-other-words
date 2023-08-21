@@ -1,21 +1,15 @@
-import {
-  Typography,
-  Grid,
-  Paper,
-  Box,
-  useTheme,
-} from '@mui/material';
-import LightThemeBgImage from '../assets/images/auth-bg/auth-bg-light-theme.png';
-import DarkThemeBgImage from '../assets/images/auth-bg/auth-bg-dark-theme.png';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase';
-import { saveUser } from '../store/slices/userSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
-import ColorModeSwitch from '../components/ColorModeSwitch';
+import { Typography, Grid, Paper, Box, useTheme } from "@mui/material";
+import LightThemeBgImage from "../assets/images/auth-bg/auth-bg-light-theme.png";
+import DarkThemeBgImage from "../assets/images/auth-bg/auth-bg-dark-theme.png";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
+import { saveUser } from "../store/slices/userSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import { Outlet, useNavigate } from "react-router-dom";
+import ColorModeSwitch from "../components/ColorModeSwitch";
 
 const AuthLayout = () => {
   const theme = useTheme();
@@ -34,11 +28,11 @@ const AuthLayout = () => {
   }, [dispatch]);
 
   if (user.email) {
-    navigate(-1)
+    navigate(-1);
   }
 
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container component="main" sx={{ height: "100vh" }}>
       <Grid
         item
         xs={12}
@@ -47,28 +41,31 @@ const AuthLayout = () => {
         component={Paper}
         elevation={0}
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
-          justifyContent: 'space-evenly',
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
         }}
-        square>
+        square
+      >
         <Box
           sx={{
             my: 8,
-            mx: 'auto',
+            mx: "auto",
             px: 4,
-            maxWidth: '26rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}>
+            maxWidth: "26rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Typography
             component="span"
             variant="h5"
             color="primary"
             fontFamily="Kavoon"
-            mb={4}>
+            mb={4}
+          >
             In Other Words
           </Typography>
           <Outlet />
@@ -82,13 +79,13 @@ const AuthLayout = () => {
         md={7}
         sx={{
           backgroundImage: `url('${
-            theme.palette.mode === 'light'
+            theme.palette.mode === "light"
               ? LightThemeBgImage
               : DarkThemeBgImage
           }')`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'left bottom',
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "left bottom",
         }}
       />
     </Grid>

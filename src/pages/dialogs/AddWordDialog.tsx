@@ -28,7 +28,7 @@ import { db } from "../../firebase";
 import useWordApiData from "../../hooks/useWordApiData";
 import { setSelectedWord } from "../../store/slices/wordSlice";
 import { CloseRounded } from "@mui/icons-material";
-import SuccessMessage from "../../components/SuccessMessage";
+import AlertMessage from "../../components/AlertMessage";
 
 const filter = createFilterOptions<WordDefinition>();
 
@@ -250,10 +250,11 @@ const AddWordDialog = () => {
           </DialogActions>
         </form>
       </Dialog>
-      <SuccessMessage
+      <AlertMessage
         alertOpen={alertOpen}
         setAlertOpen={setAlertOpen}
         message={"Word has been successfully added!"}
+        severity="success"
       />
     </>
   );

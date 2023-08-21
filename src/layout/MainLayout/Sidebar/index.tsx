@@ -4,15 +4,23 @@ import {
   SchoolRounded,
   TrendingUpRounded,
 } from "@mui/icons-material";
-import { Box, Drawer, Typography, List, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  Typography,
+  List,
+  useMediaQuery,
+  Link,
+} from "@mui/material";
 import { DrawerWidthProp } from "../../../types";
 import NavItem from "./NavItem";
 import ColorModeSwitch from "../../../components/ColorModeSwitch";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { useDispatch } from "react-redux";
-import { toggleMenu } from "../../../store/slices/menuSlice";
+import { setMenu, toggleMenu } from "../../../store/slices/menuSlice";
 import { useEffect } from "react";
+import { NavLink as RouterLink } from "react-router-dom";
 
 const pages = [
   {
@@ -43,8 +51,9 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
   const matchUpMd = useMediaQuery("(min-width:900px)");
 
   useEffect(() => {
-    if (!matchUpMd) {
-      dispatch(toggleMenu());
+    if (matchUpMd) {
+      dispatch(setMenu(true));
+      console.log("here");
     }
   }, [matchUpMd, dispatch]);
 
@@ -69,21 +78,27 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
       anchor="left"
     >
       <Box px={2} pt={2}>
-        <Typography
-          variant="h6"
-          color="primary"
-          fontFamily="Kavoon"
-          noWrap
-          p={0}
-          component="div"
-          sx={{
-            display: { xs: "flex", md: "none" },
-            justifyContent: "center",
-            pb: 2,
-          }}
+        <Link
+          component={RouterLink}
+          to="/"
+          sx={{ width: "100%", textDecoration: "none" }}
         >
-          In Other Words
-        </Typography>
+          <Typography
+            variant="h6"
+            color="primary"
+            fontFamily="Kavoon"
+            noWrap
+            p={0}
+            component="div"
+            sx={{
+              display: { xs: "flex", md: "none" },
+              justifyContent: "center",
+              pb: 2,
+            }}
+          >
+            In Other Words
+          </Typography>
+        </Link>
         <List disablePadding>
           {pages.map(({ title, icon, path }) => (
             <NavItem key={title} title={title} icon={icon} path={path} />

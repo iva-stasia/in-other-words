@@ -1,13 +1,13 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { NavInitialState as MenuInitialState } from '../../types';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { NavInitialState as MenuInitialState } from "../../types";
 
 const initialState: MenuInitialState = {
-  activePage: 'Dictionary',
-  isOpen: true,
+  activePage: "Dictionary",
+  isOpen: false,
 };
 
 export const menuSlice = createSlice({
-  name: 'navigation',
+  name: "navigation",
   initialState,
   reducers: {
     setActivePage: (state, action: PayloadAction<string>) => {
@@ -16,8 +16,11 @@ export const menuSlice = createSlice({
     toggleMenu: (state) => {
       state.isOpen = !state.isOpen;
     },
+    setMenu: (state, action: PayloadAction<boolean>) => {
+      state.isOpen = action.payload;
+    },
   },
 });
 
-export const { setActivePage, toggleMenu } = menuSlice.actions;
+export const { setActivePage, toggleMenu, setMenu } = menuSlice.actions;
 export default menuSlice.reducer;
