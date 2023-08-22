@@ -1,7 +1,5 @@
 import { DeleteRounded, FilterListRounded } from "@mui/icons-material";
 import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
-// import { arrayRemove, doc, updateDoc } from "firebase/firestore";
-// import { db } from "../../firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Word } from "../../types";

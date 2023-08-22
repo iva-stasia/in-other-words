@@ -17,7 +17,7 @@ interface EnhancedTableProps {
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
-  orderBy: string;
+  orderBy: string | null;
   rowCount: number;
 }
 
@@ -48,29 +48,21 @@ const headCells: readonly HeadCell[] = [
     mobileDisplay: "table-cell",
   },
   {
-    id: "definition",
+    id: "definitions",
     numeric: false,
     disablePadding: false,
     label: "Definition",
     sortable: false,
     mobileDisplay: "table-cell",
   },
-  // {
-  //   id: "set",
-  //   numeric: false,
-  //   disablePadding: false,
-  //   label: "Set",
-  //   sortable: true,
-  //   mobileDisplay: "none",
-  // },
-  // {
-  //   id: "progress",
-  //   numeric: true,
-  //   disablePadding: false,
-  //   label: "Progress",
-  //   sortable: true,
-  //   mobileDisplay: "none",
-  // },
+  {
+    id: "set",
+    numeric: false,
+    disablePadding: false,
+    label: "Set",
+    sortable: true,
+    mobileDisplay: "none",
+  },
 ];
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {

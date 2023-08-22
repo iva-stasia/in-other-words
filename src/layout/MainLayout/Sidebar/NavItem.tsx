@@ -27,8 +27,14 @@ const NavItem = ({ title, icon, path }: NavItemProps) => {
     <ListItem disablePadding sx={{ pb: 1 }}>
       <Link
         component={RouterLink}
-        to={path}
-        sx={{ width: "100%", textDecoration: "none" }}
+        to={title == "Study" || title == "My progress" ? pathname : path}
+        sx={{
+          width: "100%",
+          textDecoration: "none",
+          ...((title === "Study" || title == "My progress") && {
+            cursor: "auto",
+          }),
+        }}
       >
         <ListItemButton
           disabled={title == "Study" || title == "My progress"}

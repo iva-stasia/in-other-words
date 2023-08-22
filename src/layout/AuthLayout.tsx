@@ -27,68 +27,72 @@ const AuthLayout = () => {
     });
   }, [dispatch]);
 
-  if (user.email) {
-    navigate(-1);
-  }
+  useEffect(() => {
+    if (user.email) {
+      navigate(-1);
+    }
+  }, [user]);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        md={5}
-        component={Paper}
-        elevation={0}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-        }}
-        square
-      >
-        <Box
+    !user && (
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={0}
           sx={{
-            my: 8,
-            mx: "auto",
-            px: 4,
-            maxWidth: "26rem",
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "space-evenly",
           }}
+          square
         >
-          <Typography
-            component="span"
-            variant="h5"
-            color="primary"
-            fontFamily="Kavoon"
-            mb={4}
+          <Box
+            sx={{
+              my: 8,
+              mx: "auto",
+              px: 4,
+              maxWidth: "26rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            In Other Words
-          </Typography>
-          <Outlet />
-        </Box>
-        <ColorModeSwitch />
+            <Typography
+              component="span"
+              variant="h5"
+              color="primary"
+              fontFamily="Kavoon"
+              mb={4}
+            >
+              In Other Words
+            </Typography>
+            <Outlet />
+          </Box>
+          <ColorModeSwitch />
+        </Grid>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `url('${
+              theme.palette.mode === "light"
+                ? LightThemeBgImage
+                : DarkThemeBgImage
+            }')`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "left bottom",
+          }}
+        />
       </Grid>
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: `url('${
-            theme.palette.mode === "light"
-              ? LightThemeBgImage
-              : DarkThemeBgImage
-          }')`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "left bottom",
-        }}
-      />
-    </Grid>
+    )
   );
 };
 
