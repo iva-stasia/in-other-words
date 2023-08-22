@@ -18,7 +18,7 @@ import AddWordDialog from "../../../pages/dialogs/AddWordDialog";
 import { NavLink as RouterLink } from "react-router-dom";
 
 const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
-  const { isOpen } = useSelector((state: RootState) => state.menu);
+  const isOpen = useSelector((state: RootState) => state.menu.isOpen);
   const dispatch = useDispatch();
 
   return (

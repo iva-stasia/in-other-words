@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Sidebar from "./Sidebar";
@@ -8,27 +8,41 @@ import WordDataDialog from "../../pages/dialogs/WordDataDialog";
 import { useDispatch } from "react-redux";
 import useWordSets from "../../hooks/useWordSets";
 import { useEffect } from "react";
-import { setOwnWords, setWordSets } from "../../store/slices/wordSlice";
+import {
+  setLoading,
+  setOwnWords,
+  setWordSets,
+} from "../../store/slices/wordSlice";
 import useOwnWords from "../../hooks/useOwnWords";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
+import { saveUser } from "../../store/slices/userSlice";
 
 const drawerWidth = 280;
 
 const MainLayout = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const { isOpen } = useSelector((state: RootState) => state.menu);
-  const words = useOwnWords();
+  const navigate = useNavigate();
+  const isOpen = useSelector((state: RootState) => state.menu.isOpen);
+  const { words, loading } = useOwnWords();
   const wordSets = useWordSets();
 
   useEffect(() => {
-    if (!user.email) return;
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(saveUser(user));
+      } else {
+        dispatch(saveUser(null));
+        navigate("/login");
+      }
+    });
+  }, [navigate, dispatch]);
+
+  useEffect(() => {
     dispatch(setOwnWords(words));
     dispatch(setWordSets(wordSets));
-  }, [words, wordSets, dispatch, user]);
-
-  if (!user.email) {
-    return <Navigate to={"/login"} />;
-  }
+    dispatch(setLoading(loading));
+  }, [words, wordSets, dispatch, loading]);
 
   return (
     <Box

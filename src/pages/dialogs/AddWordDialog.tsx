@@ -23,15 +23,17 @@ import { CloseRounded } from "@mui/icons-material";
 import AlertMessage from "../../components/AlertMessage";
 import DefinitionInput from "../../components/DefinitionInput";
 import { createWord } from "../../utils";
-import WordSetSelect from "../../components/wordSetSelect";
+import WordSetSelect from "../../components/WordSetSelect";
 
 const AddWordDialog = () => {
   const dispatch = useDispatch();
-  const { uid } = useSelector((state: RootState) => state.user);
-  const { isAddWordDialogOpen } = useSelector(
-    (state: RootState) => state.dialog
+  const uid = useSelector((state: RootState) => state.user.uid);
+  const isAddWordDialogOpen = useSelector(
+    (state: RootState) => state.dialog.isAddWordDialogOpen
   );
-  const { selectedWord } = useSelector((state: RootState) => state.words);
+  const selectedWord = useSelector(
+    (state: RootState) => state.words.selectedWord
+  );
   const { definitions, pronunciation, audioURL } = useWordApiData(
     isAddWordDialogOpen,
     selectedWord

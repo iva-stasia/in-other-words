@@ -4,9 +4,9 @@ import { RootState } from "../store";
 import useOwnWords from "./useOwnWords";
 
 const useOwnFilteredWords = (value: string): string[] => {
-  const { isAddWordDialogOpen } = useSelector((state: RootState) => state.dialog);
+  const isAddWordDialogOpen = useSelector((state: RootState) => state.dialog.isAddWordDialogOpen);
   const [filteredOwnWords, setFilteredOwnWords] = useState<string[]>([]);
-  const ownWords = useOwnWords();
+  const {words: ownWords} = useOwnWords();
 
   useEffect(() => {
     const preparedWords = ownWords.map(({ word }) => word);

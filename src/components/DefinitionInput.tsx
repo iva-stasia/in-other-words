@@ -7,14 +7,7 @@ import {
   Typography,
   createFilterOptions,
 } from "@mui/material";
-import { WordDefinition } from "../types";
-
-interface DefinitionInputProps {
-  definitions: WordDefinition[];
-  value: WordDefinition | null;
-  required: boolean;
-  setValue: (value: WordDefinition | null) => void;
-}
+import { DefinitionInputProps, WordDefinition } from "../types";
 
 const filter = createFilterOptions<WordDefinition>();
 

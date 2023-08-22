@@ -25,9 +25,9 @@ import { CreateSetDialogProps } from "../../types";
 
 const CreateSetDialog = ({ currentSets }: CreateSetDialogProps) => {
   const dispatch = useDispatch();
-  const { uid } = useSelector((state: RootState) => state.user);
-  const { isCreateSetDialogOpen } = useSelector(
-    (state: RootState) => state.dialog
+  const uid = useSelector((state: RootState) => state.user.uid);
+  const isCreateSetDialogOpen = useSelector(
+    (state: RootState) => state.dialog.isCreateSetDialogOpen
   );
   const [title, setTitle] = useState<string>("");
   const [alertOpen, setAlertOpen] = useState(false);

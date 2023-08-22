@@ -8,6 +8,7 @@ import {
   IconButton,
   Link,
   Tooltip,
+  Skeleton,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -23,10 +24,11 @@ import DeleteSetDialog from "./dialogs/DeleteSetDialog";
 
 const WordSets = () => {
   const dispatch = useDispatch();
-  const { activePage } = useSelector((state: RootState) => state.menu);
-  const { wordSets } = useSelector((state: RootState) => state.words);
+  const activePage = useSelector((state: RootState) => state.menu.activePage);
+  const wordSets = useSelector((state: RootState) => state.words.wordSets);
   const [deleteSetOpen, setDeleteSetOpen] = useState(false);
   const [selectedSet, setSelectedSet] = useState<WordSet | null>(null);
+  const loading = useSelector((state: RootState) => state.words.loading);
 
   const handleCreateSetClick = () => {
     dispatch(setCreateSetDialog(true));
@@ -108,7 +110,20 @@ const WordSets = () => {
           </ButtonBase>
         </Grid>
 
-        {!!wordSets.length &&
+        {loading ? (
+          <>
+            <Grid item xs={6} sm={3} lg={2}>
+              <Skeleton variant="rounded" sx={{ height: 1 }} />
+            </Grid>
+            <Grid item xs={6} sm={3} lg={2}>
+              <Skeleton variant="rounded" sx={{ height: 1 }} />
+            </Grid>
+            <Grid item xs={6} sm={3} lg={2}>
+              <Skeleton variant="rounded" sx={{ height: 1 }} />
+            </Grid>
+          </>
+        ) : (
+          !!wordSets.length &&
           wordSets.map((set) => (
             <Grid item xs={6} sm={3} lg={2} key={set.title}>
               <Link
@@ -148,7 +163,50 @@ const WordSets = () => {
                 </Card>
               </Link>
             </Grid>
-          ))}
+          ))
+        )}
+
+        {/* {!!wordSets.length &&
+          wordSets.map((set) => (
+            <Grid item xs={6} sm={3} lg={2} key={set.title}>
+              <Link
+                component={RouterLink}
+                to={`/word-sets/${set.title}`}
+                underline="none"
+              >
+                <Card sx={{ height: 1, cursor: "pointer" }} elevation={0}>
+                  <Box position="relative">
+                    <Box sx={{ opacity: "0.8" }}>
+                      <JdenticonGenerator value={set.pictureId} />
+                    </Box>
+                    <Tooltip title="Delete">
+                      <IconButton
+                        aria-label="close"
+                        onClick={(e) => handleDeleteSet(e, set)}
+                        sx={{
+                          position: "absolute",
+                          right: 8,
+                          top: 8,
+                          color: "background.default",
+                          bgcolor: "text.secondary",
+                          "&:hover": {
+                            bgcolor: "text.primary",
+                          },
+                        }}
+                      >
+                        <DeleteRounded />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                  <CardContent>
+                    <Typography variant="h6" component="div">
+                      {set.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Link>
+            </Grid>
+          ))} */}
       </Grid>
       <CreateSetDialog currentSets={wordSets} />
       {selectedSet && (

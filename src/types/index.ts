@@ -19,6 +19,13 @@ export type {
   JdenticonGeneratorProps,
   CreateSetDialogProps,
   DeleteSetDialogProps,
+  DefinitionInputProps,
+  EnhancedTableProps,
+  HeadCell,
+  EnhancedTableToolbarProps,
+  WordTableProps,
+  WordSetSelectProps,
+  UpdateWordDialogProps,
 } from "./componentProps";
 
 export type {

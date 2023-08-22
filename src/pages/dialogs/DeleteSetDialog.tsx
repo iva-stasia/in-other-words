@@ -21,8 +21,8 @@ const DeleteSetDialog = ({
   set,
   setDeleteSetOpen,
 }: DeleteSetDialogProps) => {
-  const { uid } = useSelector((state: RootState) => state.user);
-  const { ownWords } = useSelector((state: RootState) => state.words);
+  const uid = useSelector((state: RootState) => state.user.uid);
+  const ownWords = useSelector((state: RootState) => state.words.ownWords);
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [deleteWithWords, setDeleteWithWords] = useState(false);

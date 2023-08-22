@@ -33,4 +33,5 @@ export interface WordInitialState {
   ownWords: Word[];
   ownSortedWords: Word[];
   wordSets: WordSet[];
+  loading: boolean;
 }

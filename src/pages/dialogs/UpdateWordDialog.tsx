@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Word, WordDefinition, WordOption } from "../../types";
+import { UpdateWordDialogProps, WordDefinition, WordOption } from "../../types";
 import {
   Box,
   Button,
@@ -19,13 +19,7 @@ import { updateWord } from "../../utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import AlertMessage from "../../components/AlertMessage";
-import WordSetSelect from "../../components/wordSetSelect";
-
-interface UpdateWordDialogProps {
-  open: boolean;
-  wordData: Word;
-  setOpen: (open: boolean) => void;
-}
+import WordSetSelect from "../../components/WordSetSelect";
 
 const isEqual = (
   def: WordDefinition,
@@ -44,7 +38,7 @@ const UpdateWordDialog = ({
   setOpen,
 }: UpdateWordDialogProps) => {
   const dispatch = useDispatch();
-  const { uid } = useSelector((state: RootState) => state.user);
+  const uid = useSelector((state: RootState) => state.user.uid);
   const [value, setValue] = useState<WordDefinition | null>(null);
   const [selectedDefs, setSelectedDefs] = useState<WordDefinition[]>([]);
   const [selectedWord, setSelectedWord] = useState<WordOption | null>(null);

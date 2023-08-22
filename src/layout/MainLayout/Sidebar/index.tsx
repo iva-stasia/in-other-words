@@ -47,13 +47,12 @@ const pages = [
 
 const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
   const dispatch = useDispatch();
-  const { isOpen } = useSelector((state: RootState) => state.menu);
+  const isOpen = useSelector((state: RootState) => state.menu.isOpen);
   const matchUpMd = useMediaQuery("(min-width:900px)");
 
   useEffect(() => {
     if (matchUpMd) {
       dispatch(setMenu(true));
-      console.log("here");
     }
   }, [matchUpMd, dispatch]);
 

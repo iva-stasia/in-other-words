@@ -1,12 +1,12 @@
-import { ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
-import { UserProfileMenuProps } from '../../../../types';
-import { LogoutRounded, SettingsRounded } from '@mui/icons-material';
-import { auth } from '../../../../firebase';
-import { signOut } from 'firebase/auth';
+import { ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
+import { UserProfileMenuProps } from "../../../../types";
+import { LogoutRounded, SettingsRounded } from "@mui/icons-material";
+import { auth } from "../../../../firebase";
+import { signOut } from "firebase/auth";
 
 const settings = [
-  { title: 'Settings', icon: <SettingsRounded fontSize="small" /> },
-  { title: 'Logout', icon: <LogoutRounded fontSize="small" /> },
+  { title: "Settings", icon: <SettingsRounded fontSize="small" /> },
+  { title: "Logout", icon: <LogoutRounded fontSize="small" /> },
 ];
 
 const logout = async () => {
@@ -23,33 +23,35 @@ const UserProfileMenu = ({
 }: UserProfileMenuProps) => {
   const handleClick = async (title: string) => {
     setAnchorElUser(null);
-    if (title === 'Logout') {
+    if (title === "Logout") {
       await logout();
     }
   };
 
   return (
     <Menu
-      sx={{ mt: '45px' }}
+      sx={{ mt: "45px" }}
       id="menu-appbar"
       anchorEl={anchorElUser}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       keepMounted
       elevation={6}
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={Boolean(anchorElUser)}
-      onClose={() => setAnchorElUser(null)}>
+      onClose={() => setAnchorElUser(null)}
+    >
       {settings.map(({ title, icon }) => (
         <MenuItem
           key={title}
           onClick={() => handleClick(title)}
-          disabled={title !== 'Logout'}>
+          disabled={title !== "Logout"}
+        >
           <ListItemIcon>{icon}</ListItemIcon>
           <Typography textAlign="center">{title}</Typography>
         </MenuItem>

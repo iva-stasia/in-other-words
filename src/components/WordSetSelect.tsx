@@ -1,15 +1,14 @@
 import { FormControl, FormLabel, MenuItem, Select } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { WordSetSelectProps } from "../types";
 
-interface WordSetSelectProps {
-  required: boolean;
-  wordSet: string;
-  setWordSet: (set: string) => void;
-}
-
-const WordSetSelect = ({ wordSet, setWordSet, required }: WordSetSelectProps) => {
-  const { wordSets } = useSelector((state: RootState) => state.words);
+const WordSetSelect = ({
+  wordSet,
+  setWordSet,
+  required,
+}: WordSetSelectProps) => {
+  const wordSets = useSelector((state: RootState) => state.words.wordSets);
 
   return (
     <FormControl

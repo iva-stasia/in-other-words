@@ -2,21 +2,16 @@ import { DeleteRounded, FilterListRounded } from "@mui/icons-material";
 import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { Word } from "../../types";
-import { Dispatch, SetStateAction, useState } from "react";
+import { EnhancedTableToolbarProps } from "../../types";
+import { useState } from "react";
 import AlertMessage from "../AlertMessage";
 import { deleteWord } from "../../utils";
-
-interface EnhancedTableToolbarProps {
-  selected: Word[];
-  setSelected: Dispatch<SetStateAction<Word[]>>;
-}
 
 const EnhancedTableToolbar = ({
   selected,
   setSelected,
 }: EnhancedTableToolbarProps) => {
-  const { uid } = useSelector((state: RootState) => state.user);
+  const uid = useSelector((state: RootState) => state.user.uid);
   const [alertOpen, setAlertOpen] = useState(false);
   const [message, setMessage] = useState("");
 

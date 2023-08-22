@@ -6,6 +6,7 @@ const initialState: WordInitialState = {
   ownWords: [],
   ownSortedWords: [],
   wordSets: [],
+  loading: true,
 };
 
 export const wordSlice = createSlice({
@@ -24,9 +25,17 @@ export const wordSlice = createSlice({
     setWordSets: (state, action: PayloadAction<WordSet[]>) => {
       state.wordSets = action.payload;
     },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
   },
 });
 
-export const { setSelectedWord, setOwnWords, setOwnSortedWords, setWordSets } =
-  wordSlice.actions;
+export const {
+  setSelectedWord,
+  setOwnWords,
+  setOwnSortedWords,
+  setLoading,
+  setWordSets,
+} = wordSlice.actions;
 export default wordSlice.reducer;

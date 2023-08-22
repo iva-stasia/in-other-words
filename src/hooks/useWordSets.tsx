@@ -6,7 +6,7 @@ import { db } from "../firebase";
 import { WordSet } from "../types";
 
 const useWordSets = () => {
-  const { uid } = useSelector((state: RootState) => state.user);
+  const uid = useSelector((state: RootState) => state.user.uid);
   const [wordSets, setWordSets] = useState<WordSet[]>([]);
 
   useEffect(() => {

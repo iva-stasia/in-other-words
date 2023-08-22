@@ -7,28 +7,7 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { Order, Word } from "../../types";
-
-interface EnhancedTableProps {
-  numSelected: number;
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof Word
-  ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string | null;
-  rowCount: number;
-}
-
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Word;
-  label: string;
-  numeric: boolean;
-  sortable: boolean;
-  mobileDisplay: string;
-}
+import { EnhancedTableProps, HeadCell, Word } from "../../types";
 
 const headCells: readonly HeadCell[] = [
   {

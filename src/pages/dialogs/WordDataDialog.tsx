@@ -26,11 +26,12 @@ import { useState } from "react";
 const WordDataDialog = () => {
   const dispatch = useDispatch();
   const [updateOpen, setUpdateOpen] = useState(false);
-  const { isWordDataDialogOpen } = useSelector(
-    (state: RootState) => state.dialog
+  const isWordDataDialogOpen = useSelector(
+    (state: RootState) => state.dialog.isWordDataDialogOpen
   );
-  const { selectedWord } = useSelector((state: RootState) => state.words);
-  const { ownSortedWords } = useSelector((state: RootState) => state.words);
+  const { selectedWord, ownSortedWords } = useSelector(
+    (state: RootState) => state.words
+  );
   const [wordData] = ownSortedWords.filter(
     (word) => word.word === selectedWord?.word
   );

@@ -1,5 +1,5 @@
 import { ArrowBackRounded } from "@mui/icons-material";
-import { Box, Button, Link, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import {
   useRouteError,
   isRouteErrorResponse,
@@ -8,7 +8,6 @@ import {
 
 export default function ErrorPage() {
   const error = useRouteError();
-  const isNotFound = isRouteErrorResponse(error) && error.status === 404;
 
   return (
     <Box
@@ -25,10 +24,9 @@ export default function ErrorPage() {
         <Typography variant="h1" fontFamily="Kavoon" color="tertiary.main">
           Oops!
         </Typography>
-        <Typography component="p" mt={2}>
-          {isNotFound
-            ? "You are lost"
-            : "Sorry, an unexpected error has occurred."}
+        <Typography component="p" mt={2} color="text.secondary">
+          {error instanceof Error && error.message}
+          {isRouteErrorResponse(error) && (error.statusText || error.status)}
         </Typography>
       </Box>
       <Link

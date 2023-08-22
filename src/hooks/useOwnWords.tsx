@@ -5,9 +5,10 @@ import { Word } from "../types";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
-const useOwnWords = (): Word[] => {
+const useOwnWords = () => {
   const { uid } = useSelector((state: RootState) => state.user);
   const [words, setWords] = useState<Word[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (uid) {
@@ -22,6 +23,8 @@ const useOwnWords = (): Word[] => {
 
           setWords(sortedByDateWords);
         }
+
+        setLoading(false);
       });
 
       return () => {
@@ -30,7 +33,7 @@ const useOwnWords = (): Word[] => {
     }
   }, [uid]);
 
-  return words;
+  return { words, loading };
 };
 
 export default useOwnWords;
