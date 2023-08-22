@@ -15,9 +15,10 @@ export type {
   UserProfileMenuProps,
   SearchProps,
   AudioPlayerProps,
-  SuccessMessageProps,
+  AlertMessageProps,
   JdenticonGeneratorProps,
   CreateSetDialogProps,
+  DeleteSetDialogProps,
 } from "./componentProps";
 
 export type {

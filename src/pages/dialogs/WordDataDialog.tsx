@@ -16,21 +16,21 @@ import {
   ArrowBackIosNewRounded,
   ArrowForwardIosRounded,
   CloseRounded,
+  EditRounded,
 } from "@mui/icons-material";
 import { setSelectedWord } from "../../store/slices/wordSlice";
 import AudioPlayer from "../../components/AudioPlayer";
+import UpdateWordDialog from "./UpdateWordDialog";
+import { useState } from "react";
 
 const WordDataDialog = () => {
   const dispatch = useDispatch();
+  const [updateOpen, setUpdateOpen] = useState(false);
   const { isWordDataDialogOpen } = useSelector(
     (state: RootState) => state.dialog
   );
-  const { selectedWord } = useSelector(
-    (state: RootState) => state.words
-  );
-  const { ownSortedWords } = useSelector(
-    (state: RootState) => state.words
-  );
+  const { selectedWord } = useSelector((state: RootState) => state.words);
+  const { ownSortedWords } = useSelector((state: RootState) => state.words);
   const [wordData] = ownSortedWords.filter(
     (word) => word.word === selectedWord?.word
   );
@@ -49,6 +49,11 @@ const WordDataDialog = () => {
   const handleForwardClick = () => {
     const nextWord = ownSortedWords[wordId + 1];
     dispatch(setSelectedWord({ word: nextWord.word, source: "ownDictionary" }));
+  };
+
+  const handleEdit = () => {
+    setUpdateOpen(true);
+    dispatch(setWordDataDialog(false));
   };
 
   return (
@@ -123,6 +128,21 @@ const WordDataDialog = () => {
                 </Typography>
                 <IconButton
                   aria-label="close"
+                  onClick={handleEdit}
+                  sx={{
+                    position: "absolute",
+                    right: 48,
+                    top: 8,
+                    color: "text.disabled",
+                    "&:hover": {
+                      color: "text.secondary",
+                    },
+                  }}
+                >
+                  <EditRounded />
+                </IconButton>
+                <IconButton
+                  aria-label="close"
                   onClick={handleDialogClose}
                   sx={{
                     position: "absolute",
@@ -148,44 +168,62 @@ const WordDataDialog = () => {
                     )
                   )}
                 </Box>
-                <Box mt={2} textAlign="center">
-                  {wordData.partOfSpeech && (
-                    <Divider>
-                      <Typography variant="h6" color="text.secondary">
-                        {wordData.partOfSpeech}
+                {wordData.definitions.map((def, index) => (
+                  <Box key={index}>
+                    <Box mt={2} textAlign="center">
+                      {def.partOfSpeech && (
+                        <Divider>
+                          <Typography variant="h6" color="text.secondary">
+                            {def.partOfSpeech}
+                          </Typography>
+                        </Divider>
+                      )}
+                      <Typography variant="h6" fontWeight={400}>
+                        {def.definition}
                       </Typography>
-                    </Divider>
-                  )}
-                  <Typography variant="h6" fontWeight={400}>
-                    {wordData.definition}
-                  </Typography>
-                </Box>
-                {wordData.synonyms && (
-                  <Box mt={3} textAlign="center">
-                    <Divider>
-                      <Typography color="text.secondary" fontWeight={600}>
-                        Synonyms
-                      </Typography>
-                    </Divider>
-                    <Typography color="text.secondary">
-                      {wordData.synonyms.join(", ")}
-                    </Typography>
+                    </Box>
+                    <Box mt={2} textAlign="center">
+                      {def.synonyms && (
+                        <Box>
+                          <Typography>
+                            <Typography
+                              component="span"
+                              color="text.secondary"
+                              fontWeight={600}
+                            >
+                              Synonyms:{" "}
+                            </Typography>
+                            <Typography component="span" color="text.secondary">
+                              {def.synonyms.join(", ")}
+                            </Typography>
+                          </Typography>
+                        </Box>
+                      )}
+                      {def.examples && (
+                        <Box>
+                          <Typography>
+                            <Typography
+                              component="span"
+                              color="text.secondary"
+                              fontWeight={600}
+                            >
+                              Example:{" "}
+                            </Typography>
+                            {def.examples.map((example) => (
+                              <Typography
+                                component="span"
+                                key={wordData.word}
+                                color="text.secondary"
+                              >
+                                {example}
+                              </Typography>
+                            ))}
+                          </Typography>
+                        </Box>
+                      )}
+                    </Box>
                   </Box>
-                )}
-                {wordData.examples && (
-                  <Box mt={3} textAlign="center">
-                    <Divider>
-                      <Typography color="text.secondary" fontWeight={600}>
-                        Example
-                      </Typography>
-                    </Divider>
-                    {wordData.examples.map((example) => (
-                      <Typography key={wordData.word} color="text.secondary">
-                        {example}
-                      </Typography>
-                    ))}
-                  </Box>
-                )}
+                ))}
               </CardContent>
             </Card>
             <IconButton
@@ -205,6 +243,13 @@ const WordDataDialog = () => {
             </IconButton>
           </Container>
         </Modal>
+        {updateOpen && (
+          <UpdateWordDialog
+            open={updateOpen}
+            wordData={wordData}
+            setOpen={setUpdateOpen}
+          />
+        )}
       </>
     )
   );

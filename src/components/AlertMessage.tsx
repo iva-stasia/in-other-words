@@ -1,7 +1,12 @@
 import { Alert, Snackbar } from "@mui/material";
-import { SuccessMessageProps } from "../types";
+import { AlertMessageProps } from "../types";
 
-const SuccessMessage = ({ alertOpen, setAlertOpen, message }: SuccessMessageProps) => {
+const AlertMessage = ({
+  alertOpen,
+  setAlertOpen,
+  message,
+  severity,
+}: AlertMessageProps) => {
   const handleAlertClose = (
     _event: React.SyntheticEvent | Event,
     reason?: string
@@ -20,11 +25,11 @@ const SuccessMessage = ({ alertOpen, setAlertOpen, message }: SuccessMessageProp
       onClose={handleAlertClose}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
     >
-      <Alert onClose={handleAlertClose} severity="success">
+      <Alert onClose={handleAlertClose} severity={severity}>
         {message}
       </Alert>
     </Snackbar>
   );
 };
 
-export default SuccessMessage;
+export default AlertMessage;

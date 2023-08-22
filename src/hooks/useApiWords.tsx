@@ -10,7 +10,7 @@ const useApiWords = (inputValue: string): string[] => {
 
     const searchWord = async () => {
       const words = await wordsApi(
-        `?letterPattern=%5E${inputValue}%5B%5Cw.-%5D*%24&limit=5&page=1`
+        `?letterPattern=%5E${inputValue.toLowerCase()}%5B%5Cw.-%5D*%24&limit=5&page=1`
       ).json<SearchResult>();
 
       setApiWords(words.results.data);

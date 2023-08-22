@@ -1,14 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import useOwnWords from "../hooks/useOwnWords";
 import WordTable from "../components/WordTable";
 import { useParams } from "react-router-dom";
 
 const Dictionary = () => {
   const { setTitle } = useParams();
   const { activePage } = useSelector((state: RootState) => state.menu);
-  let words = useOwnWords();
+  let words = useSelector((state: RootState) => state.words.ownWords);
 
   if (setTitle) {
     words = words.filter(({ set }) => set === setTitle);

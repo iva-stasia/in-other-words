@@ -7,11 +7,13 @@ import PasswordReset from "../pages/authentication/PasswordReset";
 import PasswordResetSent from "../pages/authentication/PasswordResetSent";
 import AuthLayout from "../layout/AuthLayout";
 import WordSets from "../pages/WordSets";
+import ErrorPage from "../pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

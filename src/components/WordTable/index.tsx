@@ -64,7 +64,7 @@ interface WordTableProps {
 const WordTable = ({ words, title }: WordTableProps) => {
   const dispatch = useDispatch();
   const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<keyof Word>("word");
+  const [orderBy, setOrderBy] = useState<keyof Word | null>(null);
   const [selected, setSelected] = useState<Word[]>([]);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +116,7 @@ const WordTable = ({ words, title }: WordTableProps) => {
   const isSelected = (word: Word) => selected.indexOf(word) !== -1;
 
   const sortedRows = useMemo(() => {
-    if (orderBy === "word") {
+    if (orderBy === "word" || orderBy === "set") {
       return stableSort(words, getComparator(order, orderBy));
     }
     return words;
@@ -134,12 +134,7 @@ const WordTable = ({ words, title }: WordTableProps) => {
         alignItems="center"
         mb={2}
       >
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          color='text.secondary'
-        >
+        <Typography variant="h6" noWrap component="div" color="text.secondary">
           {title}
         </Typography>
         {!!words.length && (
@@ -208,13 +203,16 @@ const WordTable = ({ words, title }: WordTableProps) => {
                     >
                       {row.word}
                     </TableCell>
-                    <TableCell>{row.definition}</TableCell>
-                    {/* <TableCell
-                        sx={{ display: { xs: "none", sm: "table-cell" } }}
-                      >
-                        {row.set}
-                      </TableCell> */}
-                    {/* <TableCell align="right">{row.progress}</TableCell> */}
+                    <TableCell>
+                      {row.definitions.map((def, index) => (
+                        <Box key={index}>{def.definition}</Box>
+                      ))}
+                    </TableCell>
+                    <TableCell
+                      sx={{ display: { xs: "none", sm: "table-cell" } }}
+                    >
+                      {row.set}
+                    </TableCell>
                   </TableRow>
                 );
               })}

@@ -11,7 +11,7 @@ const AuthFirebaseGoogle = () => {
       await setDoc(doc(db, "userWords", res.user.uid), {}, { merge: true });
       await setDoc(doc(db, "userSets", res.user.uid), {}, { merge: true });
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) console.error(error.message);
     }
   };
 

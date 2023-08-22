@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { WordSet } from '.';
+import { WordSet } from ".";
+import { AlertColor } from '@mui/material';
 
 export interface DrawerWidthProp {
   drawerWidth: number;
@@ -26,10 +27,11 @@ export interface AudioPlayerProps {
   pronunciation?: string;
 }
 
-export interface SuccessMessageProps {
+export interface AlertMessageProps {
   alertOpen: boolean;
   setAlertOpen: (alertOpen: boolean) => void;
   message: string;
+  severity: AlertColor;
 }
 
 export interface JdenticonGeneratorProps {
@@ -38,4 +40,10 @@ export interface JdenticonGeneratorProps {
 
 export interface CreateSetDialogProps {
   currentSets: WordSet[];
+}
+
+export interface DeleteSetDialogProps {
+  deleteSetOpen: boolean;
+  set: WordSet;
+  setDeleteSetOpen: (deleteSetOpen: boolean) => void;
 }

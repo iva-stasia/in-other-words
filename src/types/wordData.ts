@@ -26,10 +26,12 @@ export interface WordApiData {
   audioURL?: string;
 }
 
-export interface Word
-  extends Omit<WordDefinition, "inputValue">,
-    Omit<WordApiData, "definitions"> {
+export interface Word {
   word: string;
   set: string;
   progress: number;
+  audioURL?: string;
+  pronunciation?: string;
+  definitions: WordDefinition[];
+  creationDate: Date;
 }

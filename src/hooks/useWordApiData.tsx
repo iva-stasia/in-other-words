@@ -18,10 +18,12 @@ const useWordApiData = (
   useEffect(() => {
     if (word && word.source !== "custom") {
       const getWordData = async () => {
-        const wordData = await wordsApi(`${word.word}`).json<WordApiResult>();
+        const wordApiData = await wordsApi(
+          `${word.word}`
+        ).json<WordApiResult>();
 
-        if (wordData.results) {
-          const definitions = wordData.results.map(
+        if (wordApiData.results) {
+          const result = wordApiData.results.map(
             ({ definition, partOfSpeech, examples, synonyms }) => ({
               definition,
               partOfSpeech,
@@ -29,12 +31,12 @@ const useWordApiData = (
               synonyms,
             })
           );
-          setDefinitions(definitions);
+          setDefinitions(result);
         }
 
-        if (wordData.pronunciation) {
-          const pronunciation = Object.entries(wordData.pronunciation)[0]
-            ? Object.entries(wordData.pronunciation)[0][1]
+        if (wordApiData.pronunciation) {
+          const pronunciation = Object.entries(wordApiData.pronunciation)[0]
+            ? Object.entries(wordApiData.pronunciation)[0][1]
             : "";
 
           setPronunciation(pronunciation);

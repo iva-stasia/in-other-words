@@ -8,7 +8,8 @@ import WordDataDialog from "../../pages/dialogs/WordDataDialog";
 import { useDispatch } from "react-redux";
 import useWordSets from "../../hooks/useWordSets";
 import { useEffect } from "react";
-import { setWordSets } from "../../store/slices/wordSlice";
+import { setOwnWords, setWordSets } from "../../store/slices/wordSlice";
+import useOwnWords from "../../hooks/useOwnWords";
 
 const drawerWidth = 280;
 
@@ -16,12 +17,14 @@ const MainLayout = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const { isOpen } = useSelector((state: RootState) => state.menu);
+  const words = useOwnWords();
   const wordSets = useWordSets();
 
   useEffect(() => {
     if (!user.email) return;
+    dispatch(setOwnWords(words));
     dispatch(setWordSets(wordSets));
-  }, [wordSets, dispatch, user]);
+  }, [words, wordSets, dispatch, user]);
 
   if (!user.email) {
     return <Navigate to={"/login"} />;

@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Box,
   Button,
   Dialog,
@@ -9,12 +8,7 @@ import {
   FormControl,
   FormLabel,
   IconButton,
-  MenuItem,
-  Select,
-  TextField,
   Tooltip,
-  Typography,
-  createFilterOptions,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -23,14 +17,13 @@ import { useDispatch } from "react-redux";
 import { setAddWordDialog } from "../../store/slices/dialogSlice";
 import Search from "../../components/Search";
 import { WordDefinition } from "../../types";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
 import useWordApiData from "../../hooks/useWordApiData";
 import { setSelectedWord } from "../../store/slices/wordSlice";
 import { CloseRounded } from "@mui/icons-material";
-import SuccessMessage from "../../components/SuccessMessage";
-
-const filter = createFilterOptions<WordDefinition>();
+import AlertMessage from "../../components/AlertMessage";
+import DefinitionInput from "../../components/DefinitionInput";
+import { createWord } from "../../utils";
+import WordSetSelect from "../../components/wordSetSelect";
 
 const AddWordDialog = () => {
   const dispatch = useDispatch();
@@ -39,7 +32,6 @@ const AddWordDialog = () => {
     (state: RootState) => state.dialog
   );
   const { selectedWord } = useSelector((state: RootState) => state.words);
-  const { wordSets } = useSelector((state: RootState) => state.words);
   const { definitions, pronunciation, audioURL } = useWordApiData(
     isAddWordDialogOpen,
     selectedWord
@@ -63,24 +55,19 @@ const AddWordDialog = () => {
     event.preventDefault();
     handleDialogClose();
 
-    if (selectedWord && value && uid) {
+    if (value && selectedWord && uid) {
       try {
-        await updateDoc(doc(db, "userWords", uid), {
-          words: arrayUnion({
-            word: selectedWord.word,
-            definition: value.definition,
-            partOfSpeech: value.partOfSpeech || "",
-            examples: value.examples || "",
-            synonyms: value.synonyms || "",
-            pronunciation: pronunciation || "",
-            audioURL,
-            set: wordSet,
-            progress: 0,
-          }),
-        });
+        await createWord(
+          uid,
+          selectedWord,
+          value,
+          wordSet,
+          audioURL,
+          pronunciation
+        );
         setAlertOpen(true);
       } catch (error) {
-        if (error instanceof Error) alert(error.message);
+        if (error instanceof Error) console.error(error.message);
       }
     }
   };
@@ -110,127 +97,18 @@ const AddWordDialog = () => {
               </FormLabel>
               <Search withIcon={false} inDialog={true} />
             </FormControl>
-            <Autocomplete
+            <DefinitionInput
+              definitions={definitions}
               value={value}
-              onChange={(_event, newValue) => {
-                if (typeof newValue === "string") {
-                  setValue({
-                    definition: newValue,
-                  });
-                } else if (newValue && newValue.inputValue) {
-                  setValue({
-                    definition: newValue.inputValue.trim(),
-                  });
-                } else {
-                  setValue(newValue);
-                }
-              }}
-              filterOptions={(options, params) => {
-                const filtered = filter(options, params);
-
-                const { inputValue } = params;
-                const isExisting = options.some(
-                  (option) => inputValue === option.definition
-                );
-                if (inputValue !== "" && !isExisting) {
-                  filtered.push({
-                    inputValue,
-                    definition: `Add "${inputValue}"`,
-                  });
-                }
-
-                return filtered;
-              }}
-              clearOnBlur
-              autoComplete
-              id="definition"
-              options={definitions}
-              getOptionLabel={(option) => {
-                if (typeof option === "string") {
-                  return option;
-                }
-                if (option.inputValue) {
-                  return option.inputValue;
-                }
-                return option.definition;
-              }}
-              renderOption={(props, option) => (
-                <li {...props}>
-                  <Box>
-                    <Typography component="span">
-                      {option.definition}
-                    </Typography>
-                    {option.partOfSpeech && (
-                      <Typography component="span" sx={{ fontStyle: "italic" }}>
-                        , {option.partOfSpeech}
-                      </Typography>
-                    )}
-                  </Box>
-                </li>
-              )}
-              freeSolo
-              renderInput={(params) => (
-                <FormControl
-                  fullWidth
-                  sx={{ my: 1 }}
-                  variant="outlined"
-                  required
-                >
-                  <FormLabel
-                    htmlFor="definition"
-                    sx={{
-                      color: "text.primary",
-                      "& .Mui-focused": {
-                        color: "red",
-                      },
-                    }}
-                  >
-                    Definition
-                  </FormLabel>
-                  <TextField
-                    {...params}
-                    placeholder="Select or enter a definition"
-                    id="definition"
-                    size="small"
-                  />
-                </FormControl>
-              )}
-              slotProps={{
-                paper: {
-                  elevation: 6,
-                },
-              }}
-              sx={{
-                "&.Mui-focused label": {
-                  color: "primary.main",
-                },
-              }}
+              setValue={setValue}
+              required={true}
             />
 
-            <FormControl
-              fullWidth
-              sx={{ my: 1 }}
-              variant="outlined"
-              size="small"
-            >
-              <FormLabel htmlFor="wordSet" sx={{ color: "text.primary" }}>
-                Set
-              </FormLabel>
-              <Select
-                id="select"
-                value={wordSet}
-                onChange={(e) => setWordSet(e.target.value)}
-              >
-                <MenuItem value="All words">All words</MenuItem>
-                {wordSets
-                  .map((set) => set.title)
-                  .map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+            <WordSetSelect
+              wordSet={wordSet}
+              setWordSet={setWordSet}
+              required={true}
+            />
           </DialogContent>
           <DialogActions sx={{ p: "0 1.5rem 1rem" }}>
             <Tooltip
@@ -250,10 +128,11 @@ const AddWordDialog = () => {
           </DialogActions>
         </form>
       </Dialog>
-      <SuccessMessage
+      <AlertMessage
         alertOpen={alertOpen}
         setAlertOpen={setAlertOpen}
         message={"Word has been successfully added!"}
+        severity="success"
       />
     </>
   );

@@ -1,4 +1,4 @@
-import { VisibilityOff, Visibility, Close } from "@mui/icons-material";
+import { VisibilityOff, Visibility } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -13,8 +13,6 @@ import {
   Stack,
   FormLabel,
   FormHelperText,
-  Alert,
-  Collapse,
 } from "@mui/material";
 import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -28,6 +26,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { Link as RouterLink } from "react-router-dom";
+import AlertMessage from "../../../components/AlertMessage";
 
 const FormLogin = () => {
   const {
@@ -45,7 +44,7 @@ const FormLogin = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -68,7 +67,12 @@ const FormLogin = () => {
     } catch (error) {
       if (error instanceof Error) {
         setError(true);
-        setOpen(true);
+        const message =
+          error.message.includes("auth/wrong-password") ||
+          error.message.includes("auth/user-not-found")
+            ? "Email or password was invalid"
+            : "Ops! Something went wrong. Please try again later.";
+        setErrorMessage(message);
       }
     }
   };
@@ -108,10 +112,7 @@ const FormLogin = () => {
           control={control}
           render={({ field }) => (
             <FormControl fullWidth sx={{ my: 1 }} variant="outlined" required>
-              <FormLabel
-                htmlFor="password"
-                sx={{ color: "text.primary" }}
-              >
+              <FormLabel htmlFor="password" sx={{ color: "text.primary" }}>
                 Password
               </FormLabel>
               <OutlinedInput
@@ -165,28 +166,12 @@ const FormLogin = () => {
             Forgot password?
           </Link>
         </Stack>
-        {error && (
-          <Collapse in={open}>
-            <Alert
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  <Close fontSize="inherit" />
-                </IconButton>
-              }
-              severity="error"
-              sx={{ mt: 1 }}
-            >
-              Email or password was invalid.
-            </Alert>
-          </Collapse>
-        )}
+        <AlertMessage
+          alertOpen={error}
+          setAlertOpen={setError}
+          message={errorMessage}
+          severity="error"
+        />
         <Button
           type="submit"
           fullWidth

@@ -15,9 +15,12 @@ const useOwnWords = (): Word[] => {
         const wordsData = doc.data();
 
         if (wordsData) {
-          wordsData.words !== undefined
-            ? setWords(wordsData.words as Word[])
-            : setWords([]);
+          const ownWords = Object.values(wordsData) as Word[];
+          const sortedByDateWords = ownWords.sort(
+            (a, b) => Number(b.creationDate) - Number(a.creationDate)
+          );
+
+          setWords(sortedByDateWords);
         }
       });
 
