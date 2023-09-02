@@ -153,7 +153,10 @@ const WordTable = ({ words, title }: WordTableProps) => {
         )}
       </Stack>
 
-      <Paper elevation={0} sx={{ width: "100%", overflow: "hidden" }}>
+      <Paper
+        elevation={0}
+        sx={{ width: "100%", overflow: "hidden", transition: "all 300ms ease" }}
+      >
         <TableContainer>
           {loading ? (
             <Table>

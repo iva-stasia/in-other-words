@@ -58,11 +58,19 @@ const MainLayout = () => {
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
+          transition: (theme) =>
+            theme.transitions.create(["background-color", "color"]),
+          transitionDuration: (theme) => theme.transitions.create("standard"),
         }}
       >
         <Toolbar />
         <Main open={isOpen}>
-          <Box sx={{ width: "100%", overflow: "auto" }}>
+          <Box
+            sx={{
+              width: "100%",
+              overflow: "auto",
+            }}
+          >
             <Outlet />
           </Box>
         </Main>
@@ -84,19 +92,13 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   borderRadius: "0",
   border: "3px solid",
   borderColor: theme.palette.backgroundSecond.main,
-  transition: theme.transitions.create("margin", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
+  transition: "all 300ms ease, margin 195ms cubic-bezier(0.4, 0, 0.6, 1)",
   marginLeft: `-${drawerWidth}px`,
   [theme.breakpoints.down("md")]: {
     marginLeft: 0,
   },
   ...(open && {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+    transition: "all 300ms ease, margin 225ms cubic-bezier(0.0, 0, 0.2, 1)",
     marginLeft: 0,
     borderRadius: "12px 0 0 0",
   }),

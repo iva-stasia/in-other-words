@@ -1,13 +1,13 @@
-import { Theme } from '@mui/material';
+import { Theme } from "@mui/material";
 
 export const getDesignTokens = (theme: Theme) => ({
   palette: theme.palette,
   typography: {
-    fontFamily: 'Nunito, Arial',
+    fontFamily: "Nunito, Arial",
     fontWeightMedium: 600,
     button: {
-      fontSize: '0.875rem',
-      fontFamily: 'Nunito, Arial',
+      fontSize: "0.875rem",
+      fontFamily: "Nunito, Arial",
     },
   },
   shape: {
@@ -17,12 +17,12 @@ export const getDesignTokens = (theme: Theme) => ({
     MuiButton: {
       styleOverrides: {
         root: {
-          boxShadow: 'none',
-          '&:hover': {
-            boxShadow: 'none',
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none",
           },
-          '&:focus': {
-            boxShadow: 'none',
+          "&:focus": {
+            boxShadow: "none",
           },
         },
       },
@@ -31,13 +31,13 @@ export const getDesignTokens = (theme: Theme) => ({
       styleOverrides: {
         root: {
           input: {
-            '&:-webkit-autofill': {
+            "&:-webkit-autofill": {
               WebkitBoxShadow: `0 0 0 100px ${theme.palette.secondary.main} inset`,
               WebkitTextFillColor: theme.palette.text.primary,
             },
-            '::-webkit-search-cancel-button': {
-              WebkitAppearance: 'none',
-              appearance: 'none',
+            "::-webkit-search-cancel-button": {
+              WebkitAppearance: "none",
+              appearance: "none",
             },
           },
         },
@@ -46,34 +46,31 @@ export const getDesignTokens = (theme: Theme) => ({
     MuiTextField: {
       styleOverrides: {
         root: {
-          borderRadius: '8px',
+          borderRadius: "8px",
         },
       },
     },
     MuiListItemIcon: {
       styleOverrides: {
         root: {
-          minWidth: 'calc(24px + 1rem)',
-          color: 'inherit',
+          minWidth: "calc(24px + 1rem)",
+          color: "inherit",
         },
       },
     },
     MuiListItemButton: {
       styleOverrides: {
         root: {
-          borderRadius: '8px',
-          '&.Mui-selected': {
-            // color: theme.palette.text.primary,
-            // color: theme.palette.primary.main,
+          borderRadius: "8px",
+          "&.Mui-selected": {
             color: theme.palette.primary.contrastText,
-            // backgroundColor: theme.palette.secondary.main,
             backgroundColor: theme.palette.primary.main,
-            '&:hover': {
+            "&:hover": {
               color: theme.palette.primary.contrastText,
               backgroundColor: theme.palette.primary.dark,
             },
           },
-          '&:hover': {
+          "&:hover": {
             backgroundColor: theme.palette.secondary.light,
           },
         },
@@ -83,19 +80,20 @@ export const getDesignTokens = (theme: Theme) => ({
       styleOverrides: {
         body: {
           scrollbarColor: `${theme.palette.secondary.dark} ${theme.palette.backgroundSecond.main}`,
-          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
-            width: '10px',
+          "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+            width: "10px",
             backgroundColor: theme.palette.backgroundSecond.main,
           },
-          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+          "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
             borderRadius: 8,
             backgroundColor: theme.palette.secondary.dark,
             minHeight: 24,
-            border: 'none',
+            border: "none",
           },
-          '&::-webkit-scrollbar-button, & *::-webkit-scrollbar-button': {
+          "&::-webkit-scrollbar-button, & *::-webkit-scrollbar-button": {
             backgroundColor: theme.palette.backgroundSecond.main,
           },
+          transition: "background-color 300ms ease",
         },
       },
     },

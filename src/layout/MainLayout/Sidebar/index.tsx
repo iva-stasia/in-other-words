@@ -68,6 +68,7 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
           boxSizing: "border-box",
           gap: "1rem",
           border: "none",
+          transition: "all 300ms ease",
         },
       }}
       variant={matchUpMd ? "persistent" : "temporary"}

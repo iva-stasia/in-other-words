@@ -28,6 +28,7 @@ const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
       sx={{
         bgcolor: "background.default",
         color: "text.primary",
+        transition: "all 300ms ease",
       }}
     >
       <Toolbar sx={{ display: "flex" }}>

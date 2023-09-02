@@ -26,7 +26,16 @@ const AuthLayout = () => {
   }, [dispatch, navigate]);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid
+      container
+      component="main"
+      sx={{
+        height: "100vh",
+        "& .MuiPaper-root": {
+          transition: "all 300ms ease",
+        },
+      }}
+    >
       <Grid
         item
         xs={12}

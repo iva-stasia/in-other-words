@@ -7,11 +7,11 @@ const JdenticonGenerator = ({ value }: JdenticonGeneratorProps) => {
 
   useEffect(() => {
     if (iconRef.current) {
-      jdenticon.update(iconRef.current, value, {padding: 0});
+      jdenticon.update(iconRef.current, value, { padding: 0 });
     }
   }, [value]);
 
-  return <svg ref={iconRef}  />;
+  return <svg ref={iconRef} style={{ display: "block" }} />;
 };
 
 export default JdenticonGenerator;

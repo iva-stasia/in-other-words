@@ -8,6 +8,7 @@ import PasswordResetSent from "../pages/authentication/PasswordResetSent";
 import AuthLayout from "../layout/AuthLayout";
 import WordSets from "../pages/WordSets";
 import ErrorPage from "../pages/ErrorPage";
+import Study from '../pages/Study';
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "/word-sets/:setTitle",
         element: <Dictionary />,
+      },
+      {
+        path: "/study",
+        element: <Study />,
       },
     ],
   },
