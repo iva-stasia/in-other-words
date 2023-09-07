@@ -69,14 +69,15 @@ const WordDataDialog = () => {
             maxWidth="sm"
             sx={{
               width: "100%",
+              height: "100%",
               position: "absolute",
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               display: "flex",
               flexWrap: { xs: "wrap", sm: "nowrap" },
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: { xs: "flex-end", sm: "center" },
+              justifyContent: { xs: "space-between", sm: "center" },
               "&:focus-visible": {
                 outline: "none",
               },
@@ -92,7 +93,6 @@ const WordDataDialog = () => {
                   theme.palette.mode === "light"
                     ? "background.default"
                     : "text.primary",
-                flexBasis: { xs: "40%", sm: "auto" },
               })}
             >
               <ArrowBackIosNewRounded fontSize="inherit" />
@@ -237,7 +237,6 @@ const WordDataDialog = () => {
                   theme.palette.mode === "light"
                     ? "background.default"
                     : "text.primary",
-                flexBasis: { xs: "40%", sm: "auto" },
               })}
             >
               <ArrowForwardIosRounded fontSize="inherit" />

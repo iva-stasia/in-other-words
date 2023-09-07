@@ -26,7 +26,7 @@ export const createWord = async (
           examples: definition.examples || "",
         },
       ],
-      [word + ".creationDate"]: Timestamp.now(),
+      [word + ".createdAt"]: Timestamp.now(),
     });
   } catch (error) {
     if (error instanceof Error) console.error(error.message);

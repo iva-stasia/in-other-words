@@ -10,7 +10,7 @@ import {
   Tooltip,
   Fade,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import JdenticonGenerator from "../components/JdenticonGenerator";
@@ -25,14 +25,15 @@ import { TransitionGroup } from "react-transition-group";
 
 const WordSets = () => {
   const dispatch = useDispatch();
-  const activePage = useSelector((state: RootState) => state.menu.activePage);
   const wordSets = useSelector((state: RootState) => state.words.wordSets);
   const [deleteSetOpen, setDeleteSetOpen] = useState(false);
   const [selectedSet, setSelectedSet] = useState<WordSet | null>(null);
-  const loading = useSelector((state: RootState) => state.words.loading);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleCreateSetClick = () => {
     dispatch(setCreateSetDialog(true));
+    if (buttonRef.current === null) return;
+    buttonRef.current.blur();
   };
 
   const handleDeleteSet = (event: React.MouseEvent, set: WordSet) => {
@@ -43,16 +44,7 @@ const WordSets = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", overflowX: "auto" }}>
-      <Typography
-        mb={2}
-        variant="h5"
-        noWrap
-        component="div"
-        sx={{ fontWeight: 600 }}
-      >
-        {activePage}
-      </Typography>
+    <Box sx={{ mt: 2 }}>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}
@@ -64,7 +56,9 @@ const WordSets = () => {
             <ButtonBase
               focusRipple
               disableRipple
+              disableTouchRipple
               onClick={handleCreateSetClick}
+              ref={buttonRef}
               sx={{
                 height: 1,
                 width: "100%",
@@ -128,7 +122,7 @@ const WordSets = () => {
                         transition: (theme) =>
                           theme.transitions.create("background-color"),
                         "&:hover .MuiBox-root > .MuiBox-root": {
-                          scale: "1.2",
+                          scale: "1.1",
                         },
                       }}
                       elevation={0}

@@ -17,6 +17,7 @@ import useOwnWords from "../../hooks/useOwnWords";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
 import { saveUser } from "../../store/slices/userSlice";
+import PageHeader from "../../components/PageHeader";
 
 const drawerWidth = 280;
 
@@ -55,24 +56,16 @@ const MainLayout = () => {
       <Sidebar drawerWidth={drawerWidth} />
       <Box
         sx={{
-          flexGrow: 1,
+          height: "100%",
+          width: "100%",
           display: "flex",
           flexDirection: "column",
-          transition: (theme) =>
-            theme.transitions.create(["background-color", "color"]),
-          transitionDuration: (theme) => theme.transitions.create("standard"),
         }}
       >
         <Toolbar />
         <Main open={isOpen}>
-          <Box
-            sx={{
-              width: "100%",
-              overflow: "auto",
-            }}
-          >
-            <Outlet />
-          </Box>
+          <PageHeader />
+          <Outlet />
         </Main>
       </Box>
       <WordDataDialog />
@@ -88,17 +81,19 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   overflow: "auto",
   flexGrow: 1,
   padding: theme.spacing(3),
+  display: "flex",
+  flexDirection: "column",
   backgroundColor: theme.palette.backgroundSecond.main,
   borderRadius: "0",
-  border: "3px solid",
+  borderTop: "3px solid",
   borderColor: theme.palette.backgroundSecond.main,
-  transition: "all 300ms ease, margin 195ms cubic-bezier(0.4, 0, 0.6, 1)",
+  transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1)",
   marginLeft: `-${drawerWidth}px`,
   [theme.breakpoints.down("md")]: {
     marginLeft: 0,
   },
   ...(open && {
-    transition: "all 300ms ease, margin 225ms cubic-bezier(0.0, 0, 0.2, 1)",
+    transition: "margin 225ms cubic-bezier(0.0, 0, 0.2, 1)",
     marginLeft: 0,
     borderRadius: "12px 0 0 0",
   }),

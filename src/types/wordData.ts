@@ -33,5 +33,5 @@ export interface Word {
   audioURL?: string;
   pronunciation?: string;
   definitions: WordDefinition[];
-  creationDate: Date;
+  createdAt: Date;
 }

@@ -11,6 +11,7 @@ import {
   List,
   useMediaQuery,
   Link,
+  Theme,
 } from "@mui/material";
 import { DrawerWidthProp } from "../../../types";
 import NavItem from "./NavItem";
@@ -48,7 +49,7 @@ const pages = [
 const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state: RootState) => state.menu.isOpen);
-  const matchUpMd = useMediaQuery("(min-width:900px)");
+  const matchUpMd = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
   useEffect(() => {
     if (matchUpMd) {
@@ -68,7 +69,6 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
           boxSizing: "border-box",
           gap: "1rem",
           border: "none",
-          transition: "all 300ms ease",
         },
       }}
       variant={matchUpMd ? "persistent" : "temporary"}

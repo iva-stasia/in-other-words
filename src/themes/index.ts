@@ -79,10 +79,9 @@ export const getDesignTokens = (theme: Theme) => ({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          scrollbarColor: `${theme.palette.secondary.dark} ${theme.palette.backgroundSecond.main}`,
+          scrollbarColor: `${theme.palette.secondary.dark}`,
           "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-            width: "10px",
-            backgroundColor: theme.palette.backgroundSecond.main,
+            width: "8px",
           },
           "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
             borderRadius: 8,
@@ -93,7 +92,7 @@ export const getDesignTokens = (theme: Theme) => ({
           "&::-webkit-scrollbar-button, & *::-webkit-scrollbar-button": {
             backgroundColor: theme.palette.backgroundSecond.main,
           },
-          transition: "background-color 300ms ease",
+          WebkitTapHighlightColor: "transparent",
         },
       },
     },

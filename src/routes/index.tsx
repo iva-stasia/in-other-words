@@ -9,6 +9,7 @@ import AuthLayout from "../layout/AuthLayout";
 import WordSets from "../pages/WordSets";
 import ErrorPage from "../pages/ErrorPage";
 import Study from '../pages/Study';
+import Flashcards from '../pages/flashcards/Flashcards';
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: "/study",
         element: <Study />,
+      },
+      {
+        path: "/study/flashcards",
+        element: <Flashcards />,
       },
     ],
   },
