@@ -16,10 +16,10 @@ import {
 } from "../store/slices/dialogSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import useOwnFilteredWords from "../hooks/useOwnFilteredWords";
-import useApiWords from "../hooks/useApiWords";
-import useWordOptions from "../hooks/useWordOptions";
 import { setSelectedWord } from "../store/slices/wordSlice";
+import useApiWords from "../hooks/useApiWords";
+import useOwnFilteredWords from "../hooks/useOwnFilteredWords";
+import useWordOptions from "../hooks/useWordOptions";
 
 const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 

@@ -16,7 +16,6 @@ export const createWord = async (
       [word + ".word"]: word,
       [word + ".audioURL"]: audioURL,
       [word + ".set"]: wordSet,
-      [word + ".progress"]: 0,
       [word + ".pronunciation"]: pronunciation || "",
       [word + ".definitions"]: [
         {
@@ -27,6 +26,12 @@ export const createWord = async (
         },
       ],
       [word + ".createdAt"]: Timestamp.now(),
+      [word + ".learning"]: {
+        dueDate: Timestamp.now(),
+        interval: 0,
+        factor: 2500,
+        progress: 0,
+      },
     });
   } catch (error) {
     if (error instanceof Error) console.error(error.message);

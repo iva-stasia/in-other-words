@@ -1,3 +1,5 @@
+import { type Timestamp } from "firebase/firestore";
+
 export interface WordOption {
   word: string;
   source: "apiDictionary" | "ownDictionary" | "custom";
@@ -29,9 +31,14 @@ export interface WordApiData {
 export interface Word {
   word: string;
   set: string;
-  progress: number;
   audioURL?: string;
   pronunciation?: string;
   definitions: WordDefinition[];
-  createdAt: Date;
+  createdAt: Timestamp;
+  learning: {
+    dueDate: Timestamp;
+    interval: number;
+    factor: number;
+    progress: number;
+  };
 }

@@ -52,7 +52,7 @@ const WordSets = () => {
         alignItems="stretch"
       >
         <TransitionGroup component={null}>
-          <Grid item xs={6} sm={3} lg={2}>
+          <Grid item xs={6} sm={4} lg={2}>
             <ButtonBase
               focusRipple
               disableRipple
@@ -108,8 +108,8 @@ const WordSets = () => {
 
           {!!wordSets.length &&
             wordSets.map((set) => (
-              <Fade>
-                <Grid item xs={6} sm={3} lg={2} key={set.title}>
+              <Fade key={set.title}>
+                <Grid item xs={6} sm={4} lg={2} key={set.title}>
                   <Link
                     component={RouterLink}
                     to={`/word-sets/${set.title}`}

@@ -1,38 +1,4 @@
-import { Box, Typography, styled } from "@mui/material";
-import { useState } from "react";
-import { Word } from "../../../types";
-import AudioPlayer from "../../../components/AudioPlayer";
-
-interface FlashcardComponentProps {
-  word: Word;
-}
-
-const FlashcardComponent = ({ word }: FlashcardComponentProps) => {
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  return (
-    <CardContainer
-      flipped={isFlipped ? 1 : 0}
-      onClick={() => setIsFlipped((prev) => !prev)}
-    >
-      <CardFront>
-        <Typography p={3} variant="h4">
-          {word.word}
-        </Typography>
-        {word.audioURL && <AudioPlayer audioURL={word.audioURL} />}
-      </CardFront>
-      <CardBack>
-        {word.definitions.map((def, index) => (
-          <Typography p={3} variant="body1" key={index}>
-            {def.definition}
-          </Typography>
-        ))}
-      </CardBack>
-    </CardContainer>
-  );
-};
-
-export default FlashcardComponent;
+import { Box, styled } from "@mui/material";
 
 const CardContainer = styled(Box)<{ flipped: number }>(
   ({ flipped, theme }) => ({
@@ -74,3 +40,5 @@ const CardBack = styled(CardFront)({
   transform: "rotateY(180deg)",
   wordBreak: "normal",
 });
+
+export { CardContainer, CardFront, CardBack };

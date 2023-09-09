@@ -8,8 +8,9 @@ import PasswordResetSent from "../pages/authentication/PasswordResetSent";
 import AuthLayout from "../layout/AuthLayout";
 import WordSets from "../pages/WordSets";
 import ErrorPage from "../pages/ErrorPage";
-import Study from '../pages/Study';
-import Flashcards from '../pages/flashcards/Flashcards';
+import Flashcards from "../pages/flashcards/Flashcards";
+import StudyPage from "../pages/study/StudyPage";
+import ReviewPage from "../pages/review/ReviewPage";
 
 export const router = createBrowserRouter([
   {
@@ -31,11 +32,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/study",
-        element: <Study />,
+        element: <StudyPage />,
       },
       {
         path: "/study/flashcards",
         element: <Flashcards />,
+      },
+      {
+        path: "/study/review",
+        element: <ReviewPage />,
       },
     ],
   },
