@@ -52,7 +52,7 @@ const MainLayout = () => {
       }}
     >
       <AppHeader drawerWidth={drawerWidth} />
-      <Sidebar drawerWidth={drawerWidth} />
+      <Sidebar />
       <Box
         sx={{
           flexGrow: 1,
@@ -61,7 +61,7 @@ const MainLayout = () => {
         }}
       >
         <Toolbar />
-        <Main open={isOpen}>
+        <Main>
           <Box sx={{ width: "100%", overflow: "auto" }}>
             <Outlet />
           </Box>
@@ -74,30 +74,15 @@ const MainLayout = () => {
 
 export default MainLayout;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
+const Main = styled("main")(({ theme }) => ({
   overflow: "auto",
   flexGrow: 1,
   padding: theme.spacing(3),
   backgroundColor: theme.palette.backgroundSecond.main,
-  borderRadius: "0",
+  borderRadius: "12px 0 0 0",
   border: "3px solid",
   borderColor: theme.palette.backgroundSecond.main,
-  transition: theme.transitions.create("margin", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
   [theme.breakpoints.down("md")]: {
-    marginLeft: 0,
+    borderRadius: "0",
   },
-  ...(open && {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-    borderRadius: "12px 0 0 0",
-  }),
 }));
