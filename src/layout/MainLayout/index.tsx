@@ -53,7 +53,7 @@ const MainLayout = () => {
       }}
     >
       <AppHeader drawerWidth={drawerWidth} />
-      <Sidebar drawerWidth={drawerWidth} />
+      <Sidebar />
       <Box
         sx={{
           height: "100%",
@@ -63,9 +63,10 @@ const MainLayout = () => {
         }}
       >
         <Toolbar />
-        <Main open={isOpen}>
-          <PageHeader />
-          <Outlet />
+        <Main>
+          <Box sx={{ width: "100%", overflow: "auto" }}>
+            <Outlet />
+          </Box>
         </Main>
       </Box>
       <WordDataDialog />
@@ -75,26 +76,17 @@ const MainLayout = () => {
 
 export default MainLayout;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
+const Main = styled("main")(({ theme }) => ({
   overflow: "auto",
   flexGrow: 1,
   padding: theme.spacing(3),
   display: "flex",
   flexDirection: "column",
   backgroundColor: theme.palette.backgroundSecond.main,
-  borderRadius: "0",
-  borderTop: "3px solid",
+  borderRadius: "12px 0 0 0",
+  border: "3px solid",
   borderColor: theme.palette.backgroundSecond.main,
-  transition: "margin 195ms cubic-bezier(0.4, 0, 0.6, 1)",
-  marginLeft: `-${drawerWidth}px`,
   [theme.breakpoints.down("md")]: {
-    marginLeft: 0,
+    borderRadius: "0",
   },
-  ...(open && {
-    transition: "margin 225ms cubic-bezier(0.0, 0, 0.2, 1)",
-    marginLeft: 0,
-    borderRadius: "12px 0 0 0",
-  }),
 }));

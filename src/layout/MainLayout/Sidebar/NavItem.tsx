@@ -4,6 +4,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { NavItemProps } from "../../../types";
@@ -11,11 +12,14 @@ import { useDispatch } from "react-redux";
 import { setActivePage } from "../../../store/slices/menuSlice";
 import { NavLink as RouterLink, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const NavItem = ({ title, icon, path }: NavItemProps) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [currentLinkPath] = pathname.slice(1).split("/");
+  const isOpen = useSelector((state: RootState) => state.menu.isOpen);
 
   useEffect(() => {
     if (path === `/${currentLinkPath}`) {
@@ -36,26 +40,31 @@ const NavItem = ({ title, icon, path }: NavItemProps) => {
           }),
         }}
       >
-        <ListItemButton
-          disabled={title == "My progress"}
-          sx={{ color: "text.secondary" }}
-          selected={path === `/${currentLinkPath}`}
-          disableRipple
-        >
-          <ListItemIcon>{icon}</ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography
-                variant="body1"
-                fontWeight={600}
-                p={0}
-                component="span"
-              >
-                {title}
-              </Typography>
-            }
-          />
-        </ListItemButton>
+        <Tooltip title={isOpen ? "" : title} placement="right">
+          <ListItemButton
+            disabled={title == "My progress"}
+            sx={{ color: "text.secondary" }}
+            selected={path === `/${currentLinkPath}`}
+          >
+            <ListItemIcon>{icon}</ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography
+                  variant="body1"
+                  fontWeight={600}
+                  p={0}
+                  component="span"
+                >
+                  {title}
+                </Typography>
+              }
+              sx={{
+                opacity: { md: isOpen ? 1 : 0 },
+                transition: (theme) => theme.transitions.create("opacity"),
+              }}
+            />
+          </ListItemButton>
+        </Tooltip>
       </Link>
     </ListItem>
   );

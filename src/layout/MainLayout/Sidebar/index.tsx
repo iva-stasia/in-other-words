@@ -6,14 +6,14 @@ import {
 } from "@mui/icons-material";
 import {
   Box,
-  Drawer,
   Typography,
   List,
   useMediaQuery,
   Link,
+  CSSObject,
+  styled,
   Theme,
 } from "@mui/material";
-import { DrawerWidthProp } from "../../../types";
 import NavItem from "./NavItem";
 import ColorModeSwitch from "../../../components/ColorModeSwitch";
 import { useSelector } from "react-redux";
@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import { setMenu, toggleMenu } from "../../../store/slices/menuSlice";
 import { useEffect } from "react";
 import { NavLink as RouterLink } from "react-router-dom";
+import MuiDrawer from "@mui/material/Drawer";
 
 const pages = [
   {
@@ -46,7 +47,9 @@ const pages = [
   },
 ];
 
-const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
+const drawerWidth = 280;
+
+const Sidebar = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state: RootState) => state.menu.isOpen);
   const matchUpMd = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
@@ -59,19 +62,7 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
 
   return (
     <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          mt: matchUpMd ? "64px" : 0,
-          width: drawerWidth,
-          height: matchUpMd ? "calc(100% - 64px)" : "100%",
-          boxSizing: "border-box",
-          gap: "1rem",
-          border: "none",
-        },
-      }}
-      variant={matchUpMd ? "persistent" : "temporary"}
+      variant={matchUpMd ? "permanent" : "temporary"}
       open={isOpen}
       {...(matchUpMd ? {} : { onClick: () => dispatch(toggleMenu()) })}
       ModalProps={{ keepMounted: true }}
@@ -121,3 +112,45 @@ const Sidebar = ({ drawerWidth }: DrawerWidthProp) => {
 };
 
 export default Sidebar;
+
+const openedMixin = (theme: Theme): CSSObject => ({
+  marginTop: 64,
+  height: "calc(100% - 64px)",
+  width: drawerWidth,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: "hidden",
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  marginTop: 64,
+  height: "calc(100% - 64px)",
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: "hidden",
+  width: 88,
+});
+
+const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  "& .MuiPaper-root": {
+    borderRight: "none",
+    width: drawerWidth,
+  },
+  [theme.breakpoints.up("md")]: {
+    ...(open && {
+      ...openedMixin(theme),
+      "& .MuiDrawer-paper": openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      "& .MuiDrawer-paper": closedMixin(theme),
+    }),
+  },
+}));
