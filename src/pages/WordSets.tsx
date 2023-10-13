@@ -51,61 +51,61 @@ const WordSets = () => {
         direction="row"
         alignItems="stretch"
       >
-        <TransitionGroup component={null}>
-          <Grid item xs={6} sm={4} lg={2}>
-            <ButtonBase
-              focusRipple
-              disableRipple
-              disableTouchRipple
-              onClick={handleCreateSetClick}
-              ref={buttonRef}
+        <Grid item xs={6} sm={4} lg={2}>
+          <ButtonBase
+            focusRipple
+            disableRipple
+            disableTouchRipple
+            onClick={handleCreateSetClick}
+            ref={buttonRef}
+            sx={{
+              height: 1,
+              width: "100%",
+              borderRadius: (theme) => `${theme.shape.borderRadius}px`,
+              "&:hover, &.Mui-focusVisible": {
+                "& .MuiCard-root": {
+                  bgcolor: "background.default",
+                },
+              },
+            }}
+          >
+            <Card
+              elevation={0}
               sx={{
                 height: 1,
                 width: "100%",
-                borderRadius: (theme) => `${theme.shape.borderRadius}px`,
-                "&:hover, &.Mui-focusVisible": {
-                  "& .MuiCard-root": {
-                    bgcolor: "background.default",
-                  },
-                },
+                border: "2px dashed",
+                borderColor: "primary.main",
+                bgcolor: "backgroundSecond.main",
+                transition: (theme) =>
+                  theme.transitions.create("background-color"),
               }}
             >
-              <Card
-                elevation={0}
-                sx={{
-                  height: 1,
-                  width: "100%",
-                  border: "2px dashed",
-                  borderColor: "primary.main",
-                  bgcolor: "backgroundSecond.main",
-                  transition: (theme) =>
-                    theme.transitions.create("background-color"),
-                }}
-              >
-                <Box position="relative">
-                  <AddRounded
-                    fontSize="large"
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      color: "primary.main",
-                    }}
-                  />
-                  <Box sx={{ opacity: "0.15" }}>
-                    <JdenticonGenerator value="0" />
-                  </Box>
+              <Box position="relative">
+                <AddRounded
+                  fontSize="large"
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    color: "primary.main",
+                  }}
+                />
+                <Box sx={{ opacity: "0.15" }}>
+                  <JdenticonGenerator value="0" />
                 </Box>
-                <CardContent>
-                  <Typography variant="h6" component="div" color="primary">
-                    Create new set
-                  </Typography>
-                </CardContent>
-              </Card>
-            </ButtonBase>
-          </Grid>
+              </Box>
+              <CardContent>
+                <Typography variant="h6" component="div" color="primary">
+                  Create new set
+                </Typography>
+              </CardContent>
+            </Card>
+          </ButtonBase>
+        </Grid>
 
+        <TransitionGroup component={null}>
           {!!wordSets.length &&
             wordSets.map((set) => (
               <Fade key={set.title}>

@@ -87,6 +87,9 @@ const FailBtn = styled(IconButton)(({ theme }) => ({
   backgroundColor: `${theme.palette.error.light}20`,
   border: "2px solid",
   borderColor: theme.palette.error.light,
+  "&:disabled": {
+    borderColor: theme.palette.action.disabled,
+  },
 }));
 
 const PassBtn = styled(FailBtn)(({ theme }) => ({

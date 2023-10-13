@@ -40,6 +40,7 @@ const NavItem = ({ title, icon, path }: NavItemProps) => {
           disabled={title == "My progress"}
           sx={{ color: "text.secondary" }}
           selected={path === `/${currentLinkPath}`}
+          disableRipple
         >
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText

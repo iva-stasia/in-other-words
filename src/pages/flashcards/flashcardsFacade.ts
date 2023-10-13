@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import type { Swiper as SwiperType } from "swiper";
@@ -12,14 +12,19 @@ const useFlashcardsFacade = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [curIndex, setCurIndex] = useState(0);
   const [cardEnd, setCardEnd] = useState(false);
+  const [wordsToDisplay, setWordsToDisplay] = useState(words);
   const matchDownMd = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("md")
   );
   const { updateProgress } = useUpdateProgress();
 
-  const learningWords = words.filter(
-    ({ learning }) => learning.progress !== Progress.Learnt
-  );
+  useEffect(() => {
+    const newWords = words.filter(
+      ({ learning }) => learning.progress === Progress.New
+    );
+
+    setWordsToDisplay(newWords);
+  }, []);
 
   const handleFail = async () => {
     await handleBtn(Answer.Fail, Progress.New);
@@ -32,23 +37,19 @@ const useFlashcardsFacade = () => {
   const handleBtn = async (answer: Answer, progress: Progress) => {
     if (!swiperRef.current) return;
 
-    const { dueDate, factor, interval } = schedule(answer, words[curIndex]);
+    const word = wordsToDisplay[curIndex];
+
+    const { dueDate, factor, interval } = schedule(answer, word);
 
     try {
-      await updateProgress(
-        words[curIndex].word,
-        progress,
-        dueDate,
-        interval,
-        factor
-      );
+      await updateProgress(word.word, progress, dueDate, interval, factor);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
 
     swiperRef.current.slideNext();
 
-    if (!(curIndex === learningWords.length - 1)) return;
+    if (!(curIndex === wordsToDisplay.length - 1)) return;
     setCardEnd(true);
   };
 
@@ -58,7 +59,7 @@ const useFlashcardsFacade = () => {
     matchDownMd,
     handleFail,
     handlePass,
-    learningWords,
+    wordsToDisplay,
     swiperRef,
   };
 };

@@ -10,7 +10,7 @@ import WordSets from "../pages/WordSets";
 import ErrorPage from "../pages/ErrorPage";
 import Flashcards from "../pages/flashcards/Flashcards";
 import StudyPage from "../pages/study/StudyPage";
-import ReviewPage from "../pages/review/ReviewPage";
+import ReviewComponent from "../pages/study/components/review/ReviewComponent";
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/study/review",
-        element: <ReviewPage />,
+        element: <ReviewComponent />,
       },
     ],
   },

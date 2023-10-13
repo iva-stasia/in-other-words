@@ -1,14 +1,17 @@
 import { Box, Card, CardContent, styled } from "@mui/material";
 
-const StyledCard = styled(Card)({
+const StyledCard = styled(Card)<{ wordnum: number }>(({ wordnum }) => ({
   position: "relative",
   height: 200,
   cursor: "pointer",
-  "&:hover .MuiBox-root": {
+  ...(!wordnum && {
+    opacity: 0.6,
+  }),
+  "&:hover > .MuiBox-root": {
     scale: "1.1",
     opacity: "0.8",
   },
-});
+}));
 
 const StyledCardContent = styled(CardContent)({
   position: "relative",

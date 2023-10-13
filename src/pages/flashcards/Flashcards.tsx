@@ -14,21 +14,28 @@ import {
 } from "./Flashcards.styled";
 import useFlashcardsFacade from "./flashcardsFacade";
 import FlashcardComponent from "./components/flashcard/FlashcardComponent";
+import { Word } from "../../types";
 
-const Flashcards = () => {
+interface FlashcardsProps {
+  words?: Word[];
+}
+
+const Flashcards = ({ words }: FlashcardsProps) => {
   const {
     setCurIndex,
     cardEnd,
     matchDownMd,
     handleFail,
     handlePass,
-    learningWords,
     swiperRef,
+    wordsToDisplay,
   } = useFlashcardsFacade();
+
+  const currentWords = words ? words : wordsToDisplay;
 
   return (
     <FlashcardsContainer>
-      <FailBtn size="large" onClick={handleFail}>
+      <FailBtn size="large" onClick={handleFail} disabled={cardEnd}>
         <CloseRounded fontSize="inherit" />
       </FailBtn>
 
@@ -53,7 +60,7 @@ const Flashcards = () => {
           type: "progressbar",
         }}
       >
-        {learningWords.map((word) => (
+        {currentWords.map((word) => (
           <StyledSwiperSlide key={word.word}>
             <FlashcardComponent word={word} />
           </StyledSwiperSlide>
@@ -65,7 +72,7 @@ const Flashcards = () => {
         </CardEnd>
       </StyledSwiper>
 
-      <PassBtn size="large" onClick={handlePass}>
+      <PassBtn size="large" onClick={handlePass} disabled={cardEnd}>
         <CheckRounded fontSize="inherit" />
       </PassBtn>
     </FlashcardsContainer>

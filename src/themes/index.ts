@@ -78,7 +78,11 @@ export const getDesignTokens = (theme: Theme) => ({
     },
     MuiCssBaseline: {
       styleOverrides: {
+        "*::selection": {
+          backgroundColor: `${theme.palette.tertiary.main}40`,
+        },
         body: {
+          WebkitTapHighlightColor: "transparent",
           scrollbarColor: `${theme.palette.secondary.dark}`,
           "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
             width: "8px",
@@ -92,7 +96,6 @@ export const getDesignTokens = (theme: Theme) => ({
           "&::-webkit-scrollbar-button, & *::-webkit-scrollbar-button": {
             backgroundColor: theme.palette.backgroundSecond.main,
           },
-          WebkitTapHighlightColor: "transparent",
         },
       },
     },
