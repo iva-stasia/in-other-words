@@ -6,17 +6,18 @@ import { Box, Toolbar, styled } from "@mui/material";
 import AppHeader from "./AppHeader";
 import WordDataDialog from "../../pages/dialogs/WordDataDialog";
 import { useDispatch } from "react-redux";
-import useWordSets from "../../hooks/useWordSets";
 import { useEffect } from "react";
 import {
   setLoading,
   setOwnWords,
   setWordSets,
 } from "../../store/slices/wordSlice";
-import useOwnWords from "../../hooks/useOwnWords";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
 import { saveUser } from "../../store/slices/userSlice";
+import PageHeader from "../../components/PageHeader";
+import useOwnWords from "../../hooks/useOwnWords";
+import useWordSets from "../../hooks/useWordSets";
 
 const drawerWidth = 280;
 
@@ -55,7 +56,8 @@ const MainLayout = () => {
       <Sidebar />
       <Box
         sx={{
-          flexGrow: 1,
+          height: "100%",
+          width: "100%",
           display: "flex",
           flexDirection: "column",
         }}
@@ -78,6 +80,8 @@ const Main = styled("main")(({ theme }) => ({
   overflow: "auto",
   flexGrow: 1,
   padding: theme.spacing(3),
+  display: "flex",
+  flexDirection: "column",
   backgroundColor: theme.palette.backgroundSecond.main,
   borderRadius: "12px 0 0 0",
   border: "3px solid",

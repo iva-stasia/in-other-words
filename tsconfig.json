@@ -20,7 +20,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "vite.config.ts"],
   "exclude": ["my-electron-app/main.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

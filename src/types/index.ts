@@ -72,3 +72,18 @@ export interface WordSet {
   pictureId: string;
   title: string;
 }
+
+export enum Progress {
+  New,
+  Step1,
+  Step2,
+  Step3,
+  Learnt,
+}
+
+export enum Answer {
+  Fail,
+  PassHard,
+  Pass,
+  PassEasy,
+}

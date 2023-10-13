@@ -52,7 +52,7 @@ const drawerWidth = 280;
 const Sidebar = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state: RootState) => state.menu.isOpen);
-  const matchUpMd = useMediaQuery("(min-width:900px)");
+  const matchUpMd = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
   useEffect(() => {
     if (matchUpMd) {

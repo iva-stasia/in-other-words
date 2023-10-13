@@ -8,9 +8,9 @@ import {
   IconButton,
   Link,
   Tooltip,
-  Skeleton,
+  Fade,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import JdenticonGenerator from "../components/JdenticonGenerator";
@@ -21,17 +21,19 @@ import { setCreateSetDialog } from "../store/slices/dialogSlice";
 import { WordSet } from "../types";
 import { Link as RouterLink } from "react-router-dom";
 import DeleteSetDialog from "./dialogs/DeleteSetDialog";
+import { TransitionGroup } from "react-transition-group";
 
 const WordSets = () => {
   const dispatch = useDispatch();
-  const activePage = useSelector((state: RootState) => state.menu.activePage);
   const wordSets = useSelector((state: RootState) => state.words.wordSets);
   const [deleteSetOpen, setDeleteSetOpen] = useState(false);
   const [selectedSet, setSelectedSet] = useState<WordSet | null>(null);
-  const loading = useSelector((state: RootState) => state.words.loading);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleCreateSetClick = () => {
     dispatch(setCreateSetDialog(true));
+    if (buttonRef.current === null) return;
+    buttonRef.current.blur();
   };
 
   const handleDeleteSet = (event: React.MouseEvent, set: WordSet) => {
@@ -42,27 +44,20 @@ const WordSets = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", overflowX: "auto" }}>
-      <Typography
-        mb={2}
-        variant="h5"
-        noWrap
-        component="div"
-        sx={{ fontWeight: 600 }}
-      >
-        {activePage}
-      </Typography>
+    <Box sx={{ mt: 2 }}>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}
         direction="row"
         alignItems="stretch"
       >
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={6} sm={4} lg={2}>
           <ButtonBase
             focusRipple
             disableRipple
+            disableTouchRipple
             onClick={handleCreateSetClick}
+            ref={buttonRef}
             sx={{
               height: 1,
               width: "100%",
@@ -110,103 +105,69 @@ const WordSets = () => {
           </ButtonBase>
         </Grid>
 
-        {loading ? (
-          <>
-            <Grid item xs={6} sm={3} lg={2}>
-              <Skeleton variant="rounded" sx={{ height: 1 }} />
-            </Grid>
-            <Grid item xs={6} sm={3} lg={2}>
-              <Skeleton variant="rounded" sx={{ height: 1 }} />
-            </Grid>
-            <Grid item xs={6} sm={3} lg={2}>
-              <Skeleton variant="rounded" sx={{ height: 1 }} />
-            </Grid>
-          </>
-        ) : (
-          !!wordSets.length &&
-          wordSets.map((set) => (
-            <Grid item xs={6} sm={3} lg={2} key={set.title}>
-              <Link
-                component={RouterLink}
-                to={`/word-sets/${set.title}`}
-                underline="none"
-              >
-                <Card sx={{ height: 1, cursor: "pointer" }} elevation={0}>
-                  <Box position="relative">
-                    <Box sx={{ opacity: "0.8" }}>
-                      <JdenticonGenerator value={set.pictureId} />
-                    </Box>
-                    <Tooltip title="Delete">
-                      <IconButton
-                        aria-label="close"
-                        onClick={(e) => handleDeleteSet(e, set)}
-                        sx={{
-                          position: "absolute",
-                          right: 8,
-                          top: 8,
-                          color: "background.default",
-                          bgcolor: "text.secondary",
-                          "&:hover": {
-                            bgcolor: "text.primary",
-                          },
-                        }}
-                      >
-                        <DeleteRounded />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                  <CardContent>
-                    <Typography variant="h6" component="div">
-                      {set.title}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
-          ))
-        )}
-
-        {/* {!!wordSets.length &&
-          wordSets.map((set) => (
-            <Grid item xs={6} sm={3} lg={2} key={set.title}>
-              <Link
-                component={RouterLink}
-                to={`/word-sets/${set.title}`}
-                underline="none"
-              >
-                <Card sx={{ height: 1, cursor: "pointer" }} elevation={0}>
-                  <Box position="relative">
-                    <Box sx={{ opacity: "0.8" }}>
-                      <JdenticonGenerator value={set.pictureId} />
-                    </Box>
-                    <Tooltip title="Delete">
-                      <IconButton
-                        aria-label="close"
-                        onClick={(e) => handleDeleteSet(e, set)}
-                        sx={{
-                          position: "absolute",
-                          right: 8,
-                          top: 8,
-                          color: "background.default",
-                          bgcolor: "text.secondary",
-                          "&:hover": {
-                            bgcolor: "text.primary",
-                          },
-                        }}
-                      >
-                        <DeleteRounded />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                  <CardContent>
-                    <Typography variant="h6" component="div">
-                      {set.title}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
-          ))} */}
+        <TransitionGroup component={null}>
+          {!!wordSets.length &&
+            wordSets.map((set) => (
+              <Fade key={set.title}>
+                <Grid item xs={6} sm={4} lg={2} key={set.title}>
+                  <Link
+                    component={RouterLink}
+                    to={`/word-sets/${set.title}`}
+                    underline="none"
+                  >
+                    <Card
+                      sx={{
+                        height: 1,
+                        cursor: "pointer",
+                        transition: (theme) =>
+                          theme.transitions.create("background-color"),
+                        "&:hover .MuiBox-root > .MuiBox-root": {
+                          scale: "1.1",
+                        },
+                      }}
+                      elevation={0}
+                    >
+                      <Box position="relative" overflow="hidden">
+                        <Box
+                          sx={{
+                            opacity: "0.8",
+                            height: "fit-content",
+                            transition: (theme) =>
+                              theme.transitions.create("scale"),
+                          }}
+                        >
+                          <JdenticonGenerator value={set.pictureId} />
+                        </Box>
+                        <Tooltip title="Delete">
+                          <IconButton
+                            aria-label="close"
+                            onClick={(e) => handleDeleteSet(e, set)}
+                            sx={{
+                              position: "absolute",
+                              right: 8,
+                              top: 8,
+                              color: "background.default",
+                              bgcolor: "text.secondary",
+                              "&:hover": {
+                                bgcolor: "text.primary",
+                              },
+                            }}
+                          >
+                            <DeleteRounded />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                      <CardContent>
+                        <Typography variant="h6" component="div">
+                          {set.title}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </Grid>
+              </Fade>
+            ))}
+        </TransitionGroup>
       </Grid>
       <CreateSetDialog currentSets={wordSets} />
       {selectedSet && (

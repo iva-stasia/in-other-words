@@ -26,7 +26,13 @@ const AuthLayout = () => {
   }, [dispatch, navigate]);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid
+      container
+      component="main"
+      sx={{
+        height: "100vh",
+      }}
+    >
       <Grid
         item
         xs={12}

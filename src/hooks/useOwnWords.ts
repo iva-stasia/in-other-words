@@ -18,7 +18,7 @@ const useOwnWords = () => {
         if (wordsData) {
           const ownWords = Object.values(wordsData) as Word[];
           const sortedByDateWords = ownWords.sort(
-            (a, b) => Number(b.creationDate) - Number(a.creationDate)
+            (a, b) => Number(b.createdAt) - Number(a.createdAt)
           );
 
           setWords(sortedByDateWords);

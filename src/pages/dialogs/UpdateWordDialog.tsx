@@ -13,13 +13,13 @@ import {
 import { useDispatch } from "react-redux";
 import { setWordDataDialog } from "../../store/slices/dialogSlice";
 import DefinitionInput from "../../components/DefinitionInput";
-import useWordApiData from "../../hooks/useWordApiData";
 import { DeleteRounded } from "@mui/icons-material";
 import { updateWord } from "../../utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import AlertMessage from "../../components/AlertMessage";
 import WordSetSelect from "../../components/WordSetSelect";
+import useWordApiData from "../../hooks/useWordApiData";
 
 const isEqual = (
   def: WordDefinition,

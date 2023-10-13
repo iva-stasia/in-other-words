@@ -1,8 +1,8 @@
 import {
   Box,
   Checkbox,
+  Fade,
   Paper,
-  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -25,6 +25,7 @@ import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import RowSkeleton from "./RowSkeleton";
+import { TransitionGroup } from "react-transition-group";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -127,34 +128,41 @@ const WordTable = ({ words, title }: WordTableProps) => {
   }, [sortedRows, dispatch]);
 
   return (
-    <Box sx={{ width: "100%", overflowX: "auto" }}>
+    <Box
+      sx={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}
+    >
       <Stack
         direction="row"
         justifyContent="space-between"
         alignItems="center"
         mb={2}
       >
-        {loading ? (
-          <Skeleton>
-            <Typography variant="h5">{title}</Typography>
-          </Skeleton>
-        ) : (
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            color="text.secondary"
-          >
-            {title}
-          </Typography>
-        )}
+        <Typography variant="h6" noWrap component="div" color="text.secondary">
+          {title}
+        </Typography>
         {!!words.length && (
           <EnhancedTableToolbar selected={selected} setSelected={setSelected} />
         )}
       </Stack>
 
-      <Paper elevation={0} sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer>
+      <Paper
+        elevation={0}
+        sx={{
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
+        <TableContainer
+          sx={{
+            height: "100%",
+            overflow: "auto",
+          }}
+        >
           {loading ? (
             <Table>
               <TableBody>
@@ -164,7 +172,7 @@ const WordTable = ({ words, title }: WordTableProps) => {
               </TableBody>
             </Table>
           ) : words.length ? (
-            <Table aria-label="table">
+            <Table stickyHeader aria-label="table">
               <EnhancedTableHead
                 numSelected={selected.length}
                 order={order}
@@ -174,68 +182,73 @@ const WordTable = ({ words, title }: WordTableProps) => {
                 rowCount={words.length}
               />
               <TableBody>
-                {sortedRows.map((row, index) => {
-                  const isItemSelected = isSelected(row);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                <TransitionGroup component={null}>
+                  {sortedRows.map((row, index) => {
+                    const isItemSelected = isSelected(row);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleRowClick(event, row.word)}
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.word}
-                      selected={isItemSelected}
-                      sx={{
-                        cursor: "pointer",
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          onClick={(event) => handleCheckboxClick(event, row)}
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
+                    return (
+                      <Fade key={row.word}>
+                        <TableRow
+                          hover
+                          onClick={(event) => handleRowClick(event, row.word)}
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          selected={isItemSelected}
+                          sx={{
+                            cursor: "pointer",
+                            "&:last-child td, &:last-child th": { border: 0 },
                           }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        sx={{ fontWeight: 700, pr: 2 }}
-                      >
-                        {row.audioURL ? (
-                          <AudioPlayer audioURL={row.audioURL} />
-                        ) : (
-                          ""
-                        )}
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        sx={{ fontWeight: 700 }}
-                      >
-                        {row.word}
-                      </TableCell>
-                      <TableCell>
-                        {row.definitions.map((def, index) => (
-                          <Box key={index}>{def.definition}</Box>
-                        ))}
-                      </TableCell>
-                      <TableCell
-                        sx={{ display: { xs: "none", sm: "table-cell" } }}
-                      >
-                        {row.set}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              onClick={(event) =>
+                                handleCheckboxClick(event, row)
+                              }
+                              color="primary"
+                              checked={isItemSelected}
+                              inputProps={{
+                                "aria-labelledby": labelId,
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                            sx={{ fontWeight: 700, pr: 2 }}
+                          >
+                            {row.audioURL ? (
+                              <AudioPlayer audioURL={row.audioURL} />
+                            ) : (
+                              ""
+                            )}
+                          </TableCell>
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                            sx={{ fontWeight: 700 }}
+                          >
+                            {row.word}
+                          </TableCell>
+                          <TableCell>
+                            {row.definitions.map((def, index) => (
+                              <Box key={index}>{def.definition}</Box>
+                            ))}
+                          </TableCell>
+                          <TableCell
+                            sx={{ display: { xs: "none", sm: "table-cell" } }}
+                          >
+                            {row.set}
+                          </TableCell>
+                        </TableRow>
+                      </Fade>
+                    );
+                  })}
+                </TransitionGroup>
               </TableBody>
             </Table>
           ) : (
