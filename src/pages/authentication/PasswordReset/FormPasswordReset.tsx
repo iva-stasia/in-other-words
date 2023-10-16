@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -8,15 +7,15 @@ import {
 } from "@mui/material";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { UserEmail } from "../../../types";
-import { emailSchema } from "../validationSchema";
+import { emailSchema } from "../../../utils/authFormValidationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { auth } from "../../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { toggleResetEmail } from "../../../store/slices/passwordResetSlice";
 import AlertMessage from "../../../components/AlertMessage";
+import ButtonLarge from "../../../components/ButtonLarge";
 
 const FormPasswordReset = () => {
   const {
@@ -55,10 +54,6 @@ const FormPasswordReset = () => {
     }
   };
 
-  if (isSubmitted && !errorMessage) {
-    return <Navigate to={"/password-reset-sent"} />;
-  }
-
   return (
     <Box
       component="form"
@@ -89,22 +84,15 @@ const FormPasswordReset = () => {
           </FormControl>
         )}
       />
+
       <AlertMessage
         alertOpen={error}
         setAlertOpen={setError}
         message={errorMessage}
         severity="error"
       />
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        size="large"
-        disabled={isSubmitting}
-        sx={{ mt: 3, mb: 2 }}
-      >
-        Send
-      </Button>
+
+      <ButtonLarge title="Send" disabled={isSubmitting} />
     </Box>
   );
 };

@@ -11,6 +11,7 @@ const FlashcardsContainer = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.down("md")]: {
     overflow: "hidden",
+    marginTop: 0,
     height: "100%",
     flexWrap: "wrap",
     justifyContent: "space-between",

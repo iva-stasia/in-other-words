@@ -1,36 +1,46 @@
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import {
   Box,
-  Button,
+  FormControlLabel,
+  Checkbox,
   FormControl,
   InputAdornment,
   IconButton,
   OutlinedInput,
+  Link,
+  Typography,
+  Stack,
   FormLabel,
   FormHelperText,
 } from "@mui/material";
 import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UserRegisterInput } from "../../../types";
-import { registerSchema } from "../validationSchema";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { UserLoginInput } from "../../../types";
+import { loginSchema } from "../../../utils/authFormValidationSchema";
+import {
+  setPersistence,
+  signInWithEmailAndPassword,
+  browserSessionPersistence,
+} from "firebase/auth";
+import { auth } from "../../../firebase";
+import { Link as RouterLink } from "react-router-dom";
 import AlertMessage from "../../../components/AlertMessage";
+import ButtonLarge from "../../../components/ButtonLarge";
 
-const FormRegister = () => {
+const FormLogin = () => {
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<UserRegisterInput>({
+  } = useForm<UserLoginInput>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "user@gmail.com",
+      password: "user1234!",
+      remember: true,
     },
     mode: "onBlur",
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(loginSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
@@ -44,20 +54,24 @@ const FormRegister = () => {
     event.preventDefault();
   };
 
-  const onSubmit: SubmitHandler<UserRegisterInput> = async ({
+  const onSubmit: SubmitHandler<UserLoginInput> = async ({
     email,
     password,
+    remember,
   }) => {
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      await setDoc(doc(db, "userWords", res.user.uid), {});
-      await setDoc(doc(db, "userSets", res.user.uid), {});
+      if (!remember) {
+        await setPersistence(auth, browserSessionPersistence);
+      }
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       if (error instanceof Error) {
         setError(true);
-        const message = error.message.includes("auth/email-already-in-use")
-          ? "This email has already been register"
-          : "Ops! Something went wrong. Please try again later.";
+        const message =
+          error.message.includes("auth/wrong-password") ||
+          error.message.includes("auth/user-not-found")
+            ? "Email or password was invalid"
+            : "Ops! Something went wrong. Please try again later.";
         setErrorMessage(message);
       }
     }
@@ -93,6 +107,7 @@ const FormRegister = () => {
             </FormControl>
           )}
         />
+
         <Controller
           name="password"
           control={control}
@@ -116,7 +131,7 @@ const FormRegister = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                placeholder="Min. 8 characters"
+                placeholder="Your password"
                 size="small"
                 {...field}
               />
@@ -126,25 +141,45 @@ const FormRegister = () => {
             </FormControl>
           )}
         />
+
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Controller
+            name="remember"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    color="primary"
+                    size="small"
+                    checked={field.value}
+                    {...field}
+                  />
+                }
+                label={<Typography variant="body2">Remember me</Typography>}
+              />
+            )}
+          />
+          <Link component={RouterLink} to={"/password-reset"} variant="body2">
+            Forgot password?
+          </Link>
+        </Stack>
+
         <AlertMessage
           alertOpen={error}
           setAlertOpen={setError}
           message={errorMessage}
           severity="error"
         />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          size="large"
-          disabled={isSubmitting}
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Sign Up
-        </Button>
+
+        <ButtonLarge title="Sign In" disabled={isSubmitting} />
       </Box>
     </>
   );
 };
 
-export default FormRegister;
+export default FormLogin;

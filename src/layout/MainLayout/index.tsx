@@ -1,6 +1,4 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 import Sidebar from "./Sidebar";
 import { Box, Toolbar, styled } from "@mui/material";
 import AppHeader from "./AppHeader";
@@ -15,7 +13,6 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
 import { saveUser } from "../../store/slices/userSlice";
-import PageHeader from "../../components/PageHeader";
 import useOwnWords from "../../hooks/useOwnWords";
 import useWordSets from "../../hooks/useWordSets";
 
@@ -24,7 +21,6 @@ const drawerWidth = 280;
 const MainLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isOpen = useSelector((state: RootState) => state.menu.isOpen);
   const { words, loading } = useOwnWords();
   const wordSets = useWordSets();
 
@@ -64,7 +60,7 @@ const MainLayout = () => {
       >
         <Toolbar />
         <Main>
-          <Box sx={{ width: "100%", overflow: "auto" }}>
+          <Box sx={{ width: "100%", overflow: "auto", height: "100%" }}>
             <Outlet />
           </Box>
         </Main>

@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import GoogleIcon from "../../../assets/images/icons/google.svg";
+import GoogleIcon from "/google.svg";
 import { auth, db, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
