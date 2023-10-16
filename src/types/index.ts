@@ -10,7 +10,6 @@ export type {
 } from "./sliceInitialStateProps";
 
 export type {
-  DrawerWidthProp,
   NavItemProps,
   UserProfileMenuProps,
   SearchProps,

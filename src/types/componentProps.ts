@@ -2,10 +2,6 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Order, Word, WordDefinition, WordSet } from ".";
 import { AlertColor } from "@mui/material";
 
-export interface DrawerWidthProp {
-  drawerWidth: number;
-}
-
 export interface NavItemProps {
   title: string;
   icon: ReactNode;

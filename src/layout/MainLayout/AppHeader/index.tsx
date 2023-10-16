@@ -1,5 +1,4 @@
 import {
-  AppBar,
   Box,
   IconButton,
   Link,
@@ -7,7 +6,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { DrawerWidthProp } from "../../../types";
 import UserProfile from "./UserProfile";
 import Search from "../../../components/Search";
 import { MenuOpenRounded, MenuRounded } from "@mui/icons-material";
@@ -16,27 +14,22 @@ import { toggleMenu } from "../../../store/slices/menuSlice";
 import { RootState } from "../../../store";
 import AddWordDialog from "../../../pages/dialogs/AddWordDialog";
 import { NavLink as RouterLink } from "react-router-dom";
+import { DRAWER_WIDTH } from "../../../constants";
+import { StyledAppBar } from "./AppHeader.styled";
 
-const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
+const AppHeader = () => {
   const isOpen = useSelector((state: RootState) => state.menu.isOpen);
   const dispatch = useDispatch();
 
   return (
-    <AppBar
-      position="fixed"
-      elevation={0}
-      sx={{
-        bgcolor: "background.default",
-        color: "text.primary",
-      }}
-    >
+    <StyledAppBar position="fixed" elevation={0}>
       <Toolbar sx={{ display: "flex" }}>
         <Stack
           flexGrow="0"
           direction="row"
           alignItems="center"
           justifyContent="space-between"
-          sx={{ flexBasis: { xs: "0", md: drawerWidth } }}
+          sx={{ flexBasis: { xs: "0", md: DRAWER_WIDTH } }}
         >
           <Link
             component={RouterLink}
@@ -83,7 +76,7 @@ const AppHeader = ({ drawerWidth }: DrawerWidthProp) => {
           </Box>
         </Stack>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
 };
 

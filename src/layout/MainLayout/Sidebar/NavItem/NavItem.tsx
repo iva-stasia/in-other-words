@@ -1,19 +1,18 @@
 import {
-  Link,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { NavItemProps } from "../../../types";
+import { NavItemProps } from "../../../../types";
 import { useDispatch } from "react-redux";
-import { setActivePage } from "../../../store/slices/menuSlice";
+import { setActivePage } from "../../../../store/slices/menuSlice";
 import { NavLink as RouterLink, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { RootState } from "../../../../store";
+import { StyledLink, StyledListItemText } from "./NavItem.styled";
 
 const NavItem = ({ title, icon, path }: NavItemProps) => {
   const dispatch = useDispatch();
@@ -29,25 +28,20 @@ const NavItem = ({ title, icon, path }: NavItemProps) => {
 
   return (
     <ListItem disablePadding sx={{ pb: 1 }}>
-      <Link
+      <StyledLink
         component={RouterLink}
         to={title == "My progress" ? pathname : path}
-        sx={{
-          width: "100%",
-          textDecoration: "none",
-          ...((title === "Study" || title == "My progress") && {
-            cursor: "auto",
-          }),
-        }}
       >
         <Tooltip title={isOpen ? "" : title} placement="right">
           <ListItemButton
+            disableRipple
             disabled={title == "My progress"}
             sx={{ color: "text.secondary" }}
             selected={path === `/${currentLinkPath}`}
           >
             <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText
+            <StyledListItemText
+              open={isOpen}
               primary={
                 <Typography
                   variant="body1"
@@ -58,14 +52,10 @@ const NavItem = ({ title, icon, path }: NavItemProps) => {
                   {title}
                 </Typography>
               }
-              sx={{
-                opacity: { md: isOpen ? 1 : 0 },
-                transition: (theme) => theme.transitions.create("opacity"),
-              }}
             />
           </ListItemButton>
         </Tooltip>
-      </Link>
+      </StyledLink>
     </ListItem>
   );
 };
