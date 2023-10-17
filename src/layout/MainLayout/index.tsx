@@ -15,12 +15,7 @@ import { auth } from "../../firebase";
 import { saveUser } from "../../store/slices/userSlice";
 import useOwnWords from "../../hooks/useOwnWords";
 import useWordSets from "../../hooks/useWordSets";
-import {
-  Main,
-  MainContainer,
-  MainLayoutContainer,
-  OutletContainer,
-} from "./MainLayout.styled";
+import { Main, MainContainer, MainLayoutContainer } from "./MainLayout.styled";
 import PageHeader from "../../components/PageHeader";
 
 const MainLayout = () => {
@@ -55,14 +50,12 @@ const MainLayout = () => {
         <Toolbar />
 
         <Main>
-          <OutletContainer>
-            <PageHeader />
-            <Outlet />
-          </OutletContainer>
+          <PageHeader />
+          <Outlet />
         </Main>
       </MainContainer>
 
-      <WordDataDialog />
+      {/* <WordDataDialog /> */}
     </MainLayoutContainer>
   );
 };

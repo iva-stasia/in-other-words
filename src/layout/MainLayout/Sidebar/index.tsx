@@ -1,5 +1,5 @@
 import { Box, List, useMediaQuery, Link, Theme } from "@mui/material";
-import NavItem from "./NavItem/NavItem";
+import NavItem from "./NavItem";
 import ColorModeSwitch from "../../../components/ColorModeSwitch";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";

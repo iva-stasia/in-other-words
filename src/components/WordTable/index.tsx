@@ -1,16 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  Fade,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Stack, Table, TableBody, Typography } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { Order, Word, WordTableProps } from "../../types";
 import { useDispatch } from "react-redux";
@@ -19,13 +7,14 @@ import {
   setOwnSortedWords,
   setSelectedWord,
 } from "../../store/slices/wordSlice";
-import AudioPlayer from "../../components/AudioPlayer";
 import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import RowSkeleton from "./RowSkeleton";
-import { TransitionGroup } from "react-transition-group";
+import {
+  Container,
+  StyledPaper,
+  StyledTableContainer,
+} from "./WordTable.styled";
+import WordTableRow from "./WordTableRow";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -66,7 +55,6 @@ const WordTable = ({ words, title }: WordTableProps) => {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Word | null>(null);
   const [selected, setSelected] = useState<Word[]>([]);
-  const loading = useSelector((state: RootState) => state.words.loading);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -128,14 +116,7 @@ const WordTable = ({ words, title }: WordTableProps) => {
   }, [sortedRows, dispatch]);
 
   return (
-    <Box
-      sx={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-      }}
-    >
+    <Container>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -150,28 +131,9 @@ const WordTable = ({ words, title }: WordTableProps) => {
         )}
       </Stack>
 
-      <Paper
-        elevation={0}
-        sx={{
-          width: "100%",
-          overflow: "hidden",
-        }}
-      >
-        <TableContainer
-          sx={{
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          {loading ? (
-            <Table>
-              <TableBody>
-                <RowSkeleton />
-                <RowSkeleton />
-                <RowSkeleton />
-              </TableBody>
-            </Table>
-          ) : words.length ? (
+      <StyledPaper elevation={0}>
+        <StyledTableContainer>
+          {words.length ? (
             <Table stickyHeader aria-label="table">
               <EnhancedTableHead
                 numSelected={selected.length}
@@ -182,73 +144,21 @@ const WordTable = ({ words, title }: WordTableProps) => {
                 rowCount={words.length}
               />
               <TableBody>
-                <TransitionGroup component={null}>
-                  {sortedRows.map((row, index) => {
-                    const isItemSelected = isSelected(row);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+                {sortedRows.map((row, index) => {
+                  const isItemSelected = isSelected(row);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                      <Fade key={row.word}>
-                        <TableRow
-                          hover
-                          onClick={(event) => handleRowClick(event, row.word)}
-                          aria-checked={isItemSelected}
-                          tabIndex={-1}
-                          selected={isItemSelected}
-                          sx={{
-                            cursor: "pointer",
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              onClick={(event) =>
-                                handleCheckboxClick(event, row)
-                              }
-                              color="primary"
-                              checked={isItemSelected}
-                              inputProps={{
-                                "aria-labelledby": labelId,
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            padding="none"
-                            sx={{ fontWeight: 700, pr: 2 }}
-                          >
-                            {row.audioURL ? (
-                              <AudioPlayer audioURL={row.audioURL} />
-                            ) : (
-                              ""
-                            )}
-                          </TableCell>
-                          <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            padding="none"
-                            sx={{ fontWeight: 700 }}
-                          >
-                            {row.word}
-                          </TableCell>
-                          <TableCell>
-                            {row.definitions.map((def, index) => (
-                              <Box key={index}>{def.definition}</Box>
-                            ))}
-                          </TableCell>
-                          <TableCell
-                            sx={{ display: { xs: "none", sm: "table-cell" } }}
-                          >
-                            {row.set}
-                          </TableCell>
-                        </TableRow>
-                      </Fade>
-                    );
-                  })}
-                </TransitionGroup>
+                  return (
+                    <WordTableRow
+                      key={row.word}
+                      row={row}
+                      isItemSelected={isItemSelected}
+                      labelId={labelId}
+                      handleCheckboxClick={handleCheckboxClick}
+                      handleRowClick={handleRowClick}
+                    />
+                  );
+                })}
               </TableBody>
             </Table>
           ) : (
@@ -256,9 +166,9 @@ const WordTable = ({ words, title }: WordTableProps) => {
               There are no words yet. Enter a word in the search to add it.
             </Box>
           )}
-        </TableContainer>
-      </Paper>
-    </Box>
+        </StyledTableContainer>
+      </StyledPaper>
+    </Container>
   );
 };
 

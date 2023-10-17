@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { wordsApi } from '../api';
-import { SearchResult } from '../types';
+import { wordsApi } from "../api";
+import { SearchResult } from "../types";
 
 const useApiWords = (inputValue: string): string[] => {
   const [apiWords, setApiWords] = useState<string[]>([]);

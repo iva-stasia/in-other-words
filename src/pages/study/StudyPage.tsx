@@ -1,6 +1,6 @@
 import { Box, Grid, Link, Typography } from "@mui/material";
-import flashcardIcon from "../../assets/images/icons/flashcard.png";
-import reviewIcon from "../../assets/images/icons/review.png";
+import flashcardIcon from "/flashcard.png";
+import reviewIcon from "/review.png";
 import { Link as RouterLink } from "react-router-dom";
 import { BgImage, StyledCard, StyledCardContent } from "./Study.styled";
 import { useSelector } from "react-redux";

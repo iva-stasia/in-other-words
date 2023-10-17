@@ -1,15 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
-import Dictionary from "../pages/Dictionary";
+import Dictionary from "../pages/dictionary";
 import PasswordReset from "../pages/authentication/PasswordReset";
 import AuthLayout from "../layout/AuthLayout";
-import WordSets from "../pages/WordSets";
 import ErrorPage from "../pages/ErrorPage";
 import Flashcards from "../pages/flashcards/Flashcards";
 import StudyPage from "../pages/study/StudyPage";
 import ReviewComponent from "../pages/study/components/review/ReviewComponent";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
+import WordSets from "../pages/word-sets";
 
 export const router = createBrowserRouter([
   {

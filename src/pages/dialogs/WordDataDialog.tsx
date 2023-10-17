@@ -22,6 +22,7 @@ import { setSelectedWord } from "../../store/slices/wordSlice";
 import AudioPlayer from "../../components/AudioPlayer";
 import UpdateWordDialog from "./UpdateWordDialog";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const WordDataDialog = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,10 @@ const WordDataDialog = () => {
   const { selectedWord, ownSortedWords } = useSelector(
     (state: RootState) => state.words
   );
+
+  const location = useLocation();
+  console.log(location);
+
   const [wordData] = ownSortedWords.filter(
     (word) => word.word === selectedWord?.word
   );
@@ -243,6 +248,7 @@ const WordDataDialog = () => {
             </IconButton>
           </Container>
         </Modal>
+
         {updateOpen && (
           <UpdateWordDialog
             open={updateOpen}
