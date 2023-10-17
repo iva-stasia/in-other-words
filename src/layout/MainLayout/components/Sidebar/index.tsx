@@ -1,13 +1,13 @@
 import { Box, List, useMediaQuery, Link, Theme } from "@mui/material";
 import NavItem from "./NavItem";
-import ColorModeSwitch from "../../../components/ColorModeSwitch";
+import ColorModeSwitch from "../../../../components/ColorModeSwitch";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { RootState } from "../../../../store";
 import { useDispatch } from "react-redux";
-import { setMenu, toggleMenu } from "../../../store/slices/menuSlice";
+import { setMenu, toggleMenu } from "../../../../store/slices/menuSlice";
 import { useEffect } from "react";
 import { NavLink as RouterLink } from "react-router-dom";
-import { pages } from "../../../constants/pages";
+import { pages } from "../../../../constants/pages";
 import {
   AppTitle,
   ColorModeSwitchContainer,

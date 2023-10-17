@@ -4,6 +4,10 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import "swiper/css/pagination";
 import { CheckRounded, CloseRounded } from "@mui/icons-material";
+
+import useFlashcardModeFacade from "./flashcardModeFacade";
+import FlashcardComponent from "./components/flashcard/FlashcardComponent";
+import { Word } from "../../../../types";
 import {
   CardEnd,
   FailBtn,
@@ -11,16 +15,13 @@ import {
   PassBtn,
   StyledSwiper,
   StyledSwiperSlide,
-} from "./Flashcards.styled";
-import useFlashcardsFacade from "./flashcardsFacade";
-import FlashcardComponent from "./components/flashcard/FlashcardComponent";
-import { Word } from "../../types";
+} from "./FlashcardMode.styled";
 
-interface FlashcardsProps {
-  words?: Word[];
+interface FlashcardModeProps {
+  words: Word[];
 }
 
-const Flashcards = ({ words }: FlashcardsProps) => {
+const FlashcardMode = ({ words }: FlashcardModeProps) => {
   const {
     setCurIndex,
     cardEnd,
@@ -28,10 +29,7 @@ const Flashcards = ({ words }: FlashcardsProps) => {
     handleFail,
     handlePass,
     swiperRef,
-    wordsToDisplay,
-  } = useFlashcardsFacade();
-
-  const currentWords = words ? words : wordsToDisplay;
+  } = useFlashcardModeFacade(words);
 
   return (
     <FlashcardsContainer>
@@ -60,12 +58,12 @@ const Flashcards = ({ words }: FlashcardsProps) => {
           type: "progressbar",
         }}
       >
-        {currentWords.map((word) => (
+        {words.map((word) => (
           <StyledSwiperSlide key={word.word}>
             <FlashcardComponent word={word} />
           </StyledSwiperSlide>
         ))}
-        <CardEnd cardend={cardEnd ? 1 : 0} slot="wrapper-end">
+        <CardEnd cardEnd={cardEnd} slot="wrapper-end">
           <Typography p={3} variant="h4">
             All cards are sorted 🎉
           </Typography>
@@ -79,4 +77,4 @@ const Flashcards = ({ words }: FlashcardsProps) => {
   );
 };
 
-export default Flashcards;
+export default FlashcardMode;

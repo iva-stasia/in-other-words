@@ -8,13 +8,19 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { DeleteSetDialogProps } from "../../types";
-import AlertMessage from "../../components/AlertMessage";
+import AlertMessage from "../../../../components/AlertMessage";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { RootState } from "../../../../store";
 import { arrayRemove, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-import { deleteWord } from "../../utils";
+import { db } from "../../../../firebase";
+import { deleteWord } from "../../../../utils";
+import { WordSet } from "../../../../types";
+
+interface DeleteSetDialogProps {
+  deleteSetOpen: boolean;
+  set: WordSet;
+  setDeleteSetOpen: (deleteSetOpen: boolean) => void;
+}
 
 const DeleteSetDialog = ({
   deleteSetOpen,
@@ -85,6 +91,7 @@ const DeleteSetDialog = ({
           <Button onClick={handleDeleteSet}>Delete</Button>
         </DialogActions>
       </Dialog>
+
       <AlertMessage
         alertOpen={alertOpen}
         setAlertOpen={setAlertOpen}

@@ -1,10 +1,12 @@
 import { Box, Card, CardContent, styled } from "@mui/material";
 
-const StyledCard = styled(Card)<{ wordnum: number }>(({ wordnum }) => ({
+const StyledCard = styled(Card, {
+  shouldForwardProp: (prop) => prop != "active",
+})<{ active: boolean }>(({ active }) => ({
   position: "relative",
   height: 200,
   cursor: "pointer",
-  ...(!wordnum && {
+  ...(!active && {
     opacity: 0.6,
   }),
   "&:hover > .MuiBox-root": {

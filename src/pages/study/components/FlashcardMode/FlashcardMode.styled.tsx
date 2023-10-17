@@ -99,7 +99,9 @@ const PassBtn = styled(FailBtn)(({ theme }) => ({
   borderColor: theme.palette.success.light,
 }));
 
-const CardEnd = styled(Box)<{ cardend: number }>(({ cardend, theme }) => ({
+const CardEnd = styled(Box, {
+  shouldForwardProp: (prop) => prop != "cardEnd",
+})<{ cardEnd: boolean }>(({ cardEnd, theme }) => ({
   position: "absolute",
   top: -2,
   left: 0,
@@ -116,7 +118,7 @@ const CardEnd = styled(Box)<{ cardend: number }>(({ cardend, theme }) => ({
   borderColor: `${theme.palette.primary.main}20`,
   opacity: 0,
   transition: theme.transitions.create("opacity"),
-  ...(cardend && {
+  ...(cardEnd && {
     opacity: 1,
     zIndex: "999",
   }),

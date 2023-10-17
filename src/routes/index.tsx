@@ -3,13 +3,14 @@ import MainLayout from "../layout/MainLayout";
 import Dictionary from "../pages/dictionary";
 import PasswordReset from "../pages/authentication/PasswordReset";
 import AuthLayout from "../layout/AuthLayout";
-import ErrorPage from "../pages/ErrorPage";
-import Flashcards from "../pages/flashcards/Flashcards";
-import StudyPage from "../pages/study/StudyPage";
-import ReviewComponent from "../pages/study/components/review/ReviewComponent";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import WordSets from "../pages/word-sets";
+import Study from "../pages/study";
+import Flashcards from "../pages/study/views/flashcards";
+import WordSet from "../pages/word-sets/views/word-set";
+import Review from "../pages/study/views/review";
+import ErrorPage from "../pages/error";
 
 export const router = createBrowserRouter([
   {
@@ -27,11 +28,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/word-sets/:setTitle",
-        element: <Dictionary />,
+        element: <WordSet />,
       },
       {
         path: "/study",
-        element: <StudyPage />,
+        element: <Study />,
       },
       {
         path: "/study/flashcards",
@@ -39,7 +40,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/study/review",
-        element: <ReviewComponent />,
+        element: <Review />,
       },
     ],
   },

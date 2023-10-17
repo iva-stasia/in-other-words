@@ -1,5 +1,11 @@
-import { Alert, Snackbar } from "@mui/material";
-import { AlertMessageProps } from "../types";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
+
+interface AlertMessageProps {
+  alertOpen: boolean;
+  setAlertOpen: (alertOpen: boolean) => void;
+  message: string;
+  severity: AlertColor;
+}
 
 const AlertMessage = ({
   alertOpen,

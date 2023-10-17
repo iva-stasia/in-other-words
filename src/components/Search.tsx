@@ -8,7 +8,7 @@ import {
   createFilterOptions,
 } from "@mui/material";
 import { useState } from "react";
-import { SearchProps, WordOption } from "../types";
+import { WordOption } from "../types";
 import { useDispatch } from "react-redux";
 import {
   setAddWordDialog,
@@ -20,6 +20,11 @@ import { setSelectedWord } from "../store/slices/wordSlice";
 import useApiWords from "../hooks/useApiWords";
 import useOwnFilteredWords from "../hooks/useOwnFilteredWords";
 import useWordOptions from "../hooks/useWordOptions";
+
+interface SearchProps {
+  withIcon: boolean;
+  inDialog: boolean;
+}
 
 const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 

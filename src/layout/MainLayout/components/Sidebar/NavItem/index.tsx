@@ -5,14 +5,19 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { NavItemProps } from "../../../../types";
 import { useDispatch } from "react-redux";
-import { setActivePage } from "../../../../store/slices/menuSlice";
+import { setActivePage } from "../../../../../store/slices/menuSlice";
 import { NavLink as RouterLink, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
+import { RootState } from "../../../../../store";
 import { StyledLink, StyledListItemText } from "./NavItem.styled";
+
+interface NavItemProps {
+  title: string;
+  icon: ReactNode;
+  path: string;
+}
 
 const NavItem = ({ title, icon, path }: NavItemProps) => {
   const dispatch = useDispatch();

@@ -1,5 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { DialogInitialState } from "../../types";
+
+interface DialogInitialState {
+  isAddWordDialogOpen: boolean;
+  isWordDataDialogOpen: boolean;
+  isCreateSetDialogOpen: boolean;
+}
 
 const initialState: DialogInitialState = {
   isAddWordDialogOpen: false,

@@ -7,14 +7,14 @@ import {
   Typography,
 } from "@mui/material";
 import UserProfile from "./UserProfile";
-import Search from "../../../components/Search";
+import Search from "../../../../components/Search";
 import { MenuOpenRounded, MenuRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu } from "../../../store/slices/menuSlice";
-import { RootState } from "../../../store";
-import AddWordDialog from "../../../pages/dialogs/AddWordDialog";
+import { toggleMenu } from "../../../../store/slices/menuSlice";
+import { RootState } from "../../../../store";
+import AddWordDialog from "../../../../pages/dialogs/AddWordDialog";
 import { NavLink as RouterLink } from "react-router-dom";
-import { DRAWER_WIDTH } from "../../../constants";
+import { DRAWER_WIDTH } from "../../../../constants";
 import { StyledAppBar } from "./AppHeader.styled";
 
 const AppHeader = () => {

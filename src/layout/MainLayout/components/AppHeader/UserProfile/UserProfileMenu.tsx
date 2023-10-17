@@ -1,8 +1,13 @@
 import { ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
-import { UserProfileMenuProps } from "../../../../types";
+import { UserProfileMenuProps } from "../../../../../types";
 import { LogoutRounded, SettingsRounded } from "@mui/icons-material";
-import { auth } from "../../../../firebase";
+import { auth } from "../../../../../firebase";
 import { signOut } from "firebase/auth";
+
+interface UserProfileMenuProps {
+  anchorElUser: null | HTMLElement;
+  setAnchorElUser: (anchorElUser: null | HTMLElement) => void;
+}
 
 const settings = [
   { title: "Settings", icon: <SettingsRounded fontSize="small" /> },

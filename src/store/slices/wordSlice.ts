@@ -1,5 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Word, WordInitialState, WordOption, WordSet } from "../../types";
+import { Word, WordOption, WordSet } from "../../types";
+
+interface WordInitialState {
+  selectedWord: WordOption | null;
+  ownWords: Word[];
+  ownSortedWords: Word[];
+  wordSets: WordSet[];
+  loading: boolean;
+}
 
 const initialState: WordInitialState = {
   selectedWord: null,

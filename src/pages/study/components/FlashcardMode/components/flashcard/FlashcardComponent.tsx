@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import { CardBack, CardContainer, CardFront } from "./Flashcard.styled";
-import { Word } from "@src/types";
-import AudioPlayer from "../../../../components/AudioPlayer";
+import AudioPlayer from "../../../../../../components/AudioPlayer";
+import { Word } from "../../../../../../types";
 
 interface FlashcardComponentProps {
   word: Word;

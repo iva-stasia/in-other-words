@@ -1,6 +1,10 @@
 import { IconButton, Typography } from "@mui/material";
 import { VolumeUpRounded } from "@mui/icons-material";
-import { AudioPlayerProps } from "../types";
+
+interface AudioPlayerProps {
+  audioURL: string;
+  pronunciation?: string;
+}
 
 const AudioPlayer = ({ audioURL, pronunciation }: AudioPlayerProps) => {
   const audio = new Audio(audioURL);
@@ -11,8 +15,8 @@ const AudioPlayer = ({ audioURL, pronunciation }: AudioPlayerProps) => {
   };
 
   return (
-    <IconButton color='primary' onClick={(e) => playAudio(e)}>
-      <VolumeUpRounded/>
+    <IconButton color="primary" onClick={(e) => playAudio(e)}>
+      <VolumeUpRounded />
       {pronunciation && <Typography ml={1}>[{pronunciation}]</Typography>}
     </IconButton>
   );

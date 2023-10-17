@@ -2,10 +2,15 @@ import { DeleteRounded, FilterListRounded } from "@mui/icons-material";
 import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { EnhancedTableToolbarProps } from "../../types";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import AlertMessage from "../AlertMessage";
 import { deleteWord } from "../../utils";
+import { Word } from "../../types";
+
+interface EnhancedTableToolbarProps {
+  selected: Word[];
+  setSelected: Dispatch<SetStateAction<Word[]>>;
+}
 
 const EnhancedTableToolbar = ({
   selected,

@@ -1,5 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { NavInitialState as MenuInitialState } from "../../types";
+
+interface MenuInitialState {
+  activePage: string;
+  isOpen: boolean;
+}
 
 const initialState: MenuInitialState = {
   activePage: "Dictionary",

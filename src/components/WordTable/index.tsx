@@ -1,6 +1,6 @@
 import { Box, Stack, Table, TableBody, Typography } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
-import { Order, Word, WordTableProps } from "../../types";
+import { Order, Word } from "../../types";
 import { useDispatch } from "react-redux";
 import { setWordDataDialog } from "../../store/slices/dialogSlice";
 import {
@@ -15,6 +15,11 @@ import {
   StyledTableContainer,
 } from "./WordTable.styled";
 import WordTableRow from "./WordTableRow";
+
+interface WordTableProps {
+  words: Word[];
+  title: string;
+}
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

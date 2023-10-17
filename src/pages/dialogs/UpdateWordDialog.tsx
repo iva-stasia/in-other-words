@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { UpdateWordDialogProps, WordDefinition, WordOption } from "../../types";
+import { Word, WordDefinition, WordOption } from "../../types";
 import {
   Box,
   Button,
@@ -20,6 +20,12 @@ import { RootState } from "../../store";
 import AlertMessage from "../../components/AlertMessage";
 import WordSetSelect from "../../components/WordSetSelect";
 import useWordApiData from "../../hooks/useWordApiData";
+
+interface UpdateWordDialogProps {
+  open: boolean;
+  wordData: Word;
+  setOpen: (open: boolean) => void;
+}
 
 const isEqual = (
   def: WordDefinition,

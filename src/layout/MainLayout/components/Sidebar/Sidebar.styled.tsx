@@ -7,7 +7,7 @@ import {
   TypographyProps,
   styled,
 } from "@mui/material";
-import { DRAWER_WIDTH } from "../../../constants";
+import { DRAWER_WIDTH } from "../../../../constants";
 
 const openedMixin = (theme: Theme): CSSObject => ({
   marginTop: 64,

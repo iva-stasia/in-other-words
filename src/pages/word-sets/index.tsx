@@ -2,15 +2,15 @@ import { Grid, Fade } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import CreateSetDialog from "../dialogs/CreateSetDialog";
 import { useDispatch } from "react-redux";
 import { setCreateSetDialog } from "../../store/slices/dialogSlice";
 import { WordSet } from "../../types";
-import DeleteSetDialog from "../dialogs/DeleteSetDialog";
 import { TransitionGroup } from "react-transition-group";
 import { WordSetsContainer } from "./WordSets.styled";
 import CreateSetBtn from "./components/CreateSetBtn";
 import SetCard from "./components/SetCard";
+import CreateSetDialog from "./components/CreateSetDialog";
+import DeleteSetDialog from "./components/DeleteSetDialog";
 
 const WordSets = () => {
   const dispatch = useDispatch();

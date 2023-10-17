@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import Sidebar from "./components/Sidebar";
 import { Toolbar } from "@mui/material";
-import AppHeader from "./AppHeader";
+import AppHeader from "./components/AppHeader";
 import WordDataDialog from "../../pages/dialogs/WordDataDialog";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";

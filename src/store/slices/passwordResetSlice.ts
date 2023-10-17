@@ -1,12 +1,15 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { PasswordResetInitialState } from '../../types';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+interface PasswordResetInitialState {
+  isResetEmailSent: boolean;
+}
 
 const initialState: PasswordResetInitialState = {
   isResetEmailSent: false,
 };
 
 export const passwordResetSlice = createSlice({
-  name: 'passwordReset',
+  name: "passwordReset",
   initialState,
   reducers: {
     toggleResetEmail: (state, action: PayloadAction<boolean>) => {

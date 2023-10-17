@@ -32,10 +32,10 @@ const studyModes = [
 ];
 
 const getWordAccToNum = (words: Word[]) => {
-  return words.length === 1 ? "1 word" : `${words.length} words`;
+  return words.length === 1 ? "word" : `${words.length} words`;
 };
 
-const StudyPage = () => {
+const Study = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
 
   return (
@@ -49,6 +49,8 @@ const StudyPage = () => {
       >
         {studyModes.map(({ title, path, icon, description, getWords }) => {
           const curWords = getWords(words);
+          const active = !!curWords.length;
+          const wordAccToNum = getWordAccToNum(curWords);
 
           return (
             <Grid item xs={12} sm={6} lg={3} key={title}>
@@ -58,14 +60,14 @@ const StudyPage = () => {
                 underline="none"
                 sx={{ pointerEvents: curWords.length ? "auto" : "none" }}
               >
-                <StyledCard elevation={0} wordnum={curWords.length}>
+                <StyledCard elevation={0} active={active}>
                   <StyledCardContent>
                     <Box>
                       <Typography variant="h6" component="div">
                         {title}
                       </Typography>
                       <Typography variant="body2" component="div">
-                        {getWordAccToNum(curWords)}
+                        {wordAccToNum}
                       </Typography>
                     </Box>
                     <Typography variant="body2" color="text.secondary">
@@ -83,4 +85,4 @@ const StudyPage = () => {
   );
 };
 
-export default StudyPage;
+export default Study;

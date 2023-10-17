@@ -14,14 +14,18 @@ import {
   Tooltip,
 } from "@mui/material";
 import React, { useState } from "react";
-import AlertMessage from "../../components/AlertMessage";
+import AlertMessage from "../../../../components/AlertMessage";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { RootState } from "../../../../store";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../../../firebase";
 import { useDispatch } from "react-redux";
-import { setCreateSetDialog } from "../../store/slices/dialogSlice";
-import { CreateSetDialogProps } from "../../types";
+import { setCreateSetDialog } from "../../../../store/slices/dialogSlice";
+import { WordSet } from "../../../../types";
+
+interface CreateSetDialogProps {
+  currentSets: WordSet[];
+}
 
 const CreateSetDialog = ({ currentSets }: CreateSetDialogProps) => {
   const dispatch = useDispatch();
@@ -122,6 +126,7 @@ const CreateSetDialog = ({ currentSets }: CreateSetDialogProps) => {
           </DialogActions>
         </form>
       </Dialog>
+
       <AlertMessage
         alertOpen={alertOpen}
         setAlertOpen={setAlertOpen}
