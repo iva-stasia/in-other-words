@@ -71,6 +71,7 @@ const AppHeader = () => {
             <Search withIcon={true} inDialog={false} />
             <AddWordDialog />
           </Box>
+
           <Box sx={{ flexGrow: 0 }}>
             <UserProfile />
           </Box>

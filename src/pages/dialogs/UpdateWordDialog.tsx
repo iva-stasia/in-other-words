@@ -71,8 +71,8 @@ const UpdateWordDialog = ({
   }, [value]);
 
   const handleClose = () => {
-    setOpen(false);
     dispatch(setWordDataDialog(true));
+    setOpen(false);
   };
 
   const handleDeleteClick = (index: number) => {
@@ -98,6 +98,7 @@ const UpdateWordDialog = ({
     <>
       <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>Edit word "{wordData.word}"</DialogTitle>
+
         <DialogContent>
           <DefinitionInput
             definitions={filteredDefs}
@@ -142,11 +143,13 @@ const UpdateWordDialog = ({
             required={false}
           />
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={(e) => handleSave(e)}>Save</Button>
         </DialogActions>
       </Dialog>
+
       <AlertMessage
         alertOpen={alertOpen}
         setAlertOpen={setAlertOpen}

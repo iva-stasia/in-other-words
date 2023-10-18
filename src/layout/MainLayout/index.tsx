@@ -2,7 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import { Toolbar } from "@mui/material";
 import AppHeader from "./components/AppHeader";
-import WordDataDialog from "../../pages/dialogs/WordDataDialog";
+import WordDataDialog from "../../pages/dialogs/word-data-dialog";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
@@ -55,7 +55,7 @@ const MainLayout = () => {
         </Main>
       </MainContainer>
 
-      {/* <WordDataDialog /> */}
+      <WordDataDialog />
     </MainLayoutContainer>
   );
 };

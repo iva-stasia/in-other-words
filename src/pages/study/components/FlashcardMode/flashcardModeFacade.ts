@@ -1,18 +1,23 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Theme, useMediaQuery } from "@mui/material";
 import { Answer, Progress, Word } from "../../../../types";
 import { schedule } from "../../../../utils/schedule";
 import useUpdateProgress from "../../../../hooks/useUpdateProgress";
 
-const useFlashcardModeFacade = (wordsToDisplay: Word[]) => {
+const useFlashcardModeFacade = (words: Word[]) => {
   const swiperRef = useRef<SwiperType | null>(null);
+  const [wordsToDisplay, setWordsToDisplay] = useState<Word[]>([]);
   const [curIndex, setCurIndex] = useState(0);
   const [cardEnd, setCardEnd] = useState(false);
   const matchDownMd = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("md")
   );
   const { updateProgress } = useUpdateProgress();
+
+  useEffect(() => {
+    setWordsToDisplay(words);
+  }, []);
 
   const handleFail = async () => {
     await handleBtn(Answer.Fail, Progress.New);
@@ -42,6 +47,7 @@ const useFlashcardModeFacade = (wordsToDisplay: Word[]) => {
   };
 
   return {
+    wordsToDisplay,
     setCurIndex,
     cardEnd,
     matchDownMd,

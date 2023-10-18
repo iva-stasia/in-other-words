@@ -1,6 +1,8 @@
 import { Box, Grid, Link, Typography } from "@mui/material";
-import flashcardIcon from "/flashcard.png";
-import reviewIcon from "/review.png";
+import flashcardIconLight from "/flashcard-light.png";
+import flashcardIconDark from "/flashcard-dark.png";
+import reviewIconLight from "/review-light.png";
+import reviewIconDark from "/review-dark.png";
 import { Link as RouterLink } from "react-router-dom";
 import { BgImage, StyledCard, StyledCardContent } from "./Study.styled";
 import { useSelector } from "react-redux";
@@ -12,7 +14,8 @@ const studyModes = [
   {
     title: "Flashcards",
     path: "flashcards",
-    icon: flashcardIcon,
+    iconLight: flashcardIconLight,
+    iconDark: flashcardIconDark,
     description:
       "Master new words effortlessly with flashcards. Flip to reveal definitions.",
     getWords: (words: Word[]) =>
@@ -21,18 +24,23 @@ const studyModes = [
   {
     title: "Review",
     path: "review",
-    icon: reviewIcon,
+    iconLight: reviewIconLight,
+    iconDark: reviewIconDark,
     description: "Check how well you remember the words you have learned.",
     getWords: (words: Word[]) =>
       words.filter(
-        ({ learning }) =>
-          dayjs().diff(dayjs(learning.dueDate.toDate()), "day") >= 0
+        (word) =>
+          dayjs().diff(dayjs(word.learning.dueDate.toDate()), "minute") >= 0 &&
+          dayjs(word.createdAt.toDate()).diff(
+            dayjs(word.learning.dueDate.toDate()),
+            "minute"
+          ) !== 0
       ),
   },
 ];
 
 const getWordAccToNum = (words: Word[]) => {
-  return words.length === 1 ? "word" : `${words.length} words`;
+  return words.length === 1 ? "1 word" : `${words.length} words`;
 };
 
 const Study = () => {
@@ -47,39 +55,41 @@ const Study = () => {
         alignItems="stretch"
         mt={2}
       >
-        {studyModes.map(({ title, path, icon, description, getWords }) => {
-          const curWords = getWords(words);
-          const active = !!curWords.length;
-          const wordAccToNum = getWordAccToNum(curWords);
+        {studyModes.map(
+          ({ title, path, iconLight, iconDark, description, getWords }) => {
+            const curWords = getWords(words);
+            const active = !!curWords.length;
+            const wordAccToNum = getWordAccToNum(curWords);
 
-          return (
-            <Grid item xs={12} sm={6} lg={3} key={title}>
-              <Link
-                component={RouterLink}
-                to={`/study/${path}`}
-                underline="none"
-                sx={{ pointerEvents: curWords.length ? "auto" : "none" }}
-              >
-                <StyledCard elevation={0} active={active}>
-                  <StyledCardContent>
-                    <Box>
-                      <Typography variant="h6" component="div">
-                        {title}
+            return (
+              <Grid item xs={12} sm={6} lg={3} key={title}>
+                <Link
+                  component={RouterLink}
+                  to={`/study/${path}`}
+                  underline="none"
+                  sx={{ pointerEvents: curWords.length ? "auto" : "none" }}
+                >
+                  <StyledCard elevation={0} active={active}>
+                    <StyledCardContent>
+                      <Box>
+                        <Typography variant="h6" component="div">
+                          {title}
+                        </Typography>
+                        <Typography variant="body2" component="div">
+                          {wordAccToNum}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" color="text.secondary">
+                        {description}
                       </Typography>
-                      <Typography variant="body2" component="div">
-                        {wordAccToNum}
-                      </Typography>
-                    </Box>
-                    <Typography variant="body2" color="text.secondary">
-                      {description}
-                    </Typography>
-                  </StyledCardContent>
-                  <BgImage icon={icon} />
-                </StyledCard>
-              </Link>
-            </Grid>
-          );
-        })}
+                    </StyledCardContent>
+                    <BgImage iconLight={iconLight} iconDark={iconDark} />
+                  </StyledCard>
+                </Link>
+              </Grid>
+            );
+          }
+        )}
       </Grid>
     </Box>
   );

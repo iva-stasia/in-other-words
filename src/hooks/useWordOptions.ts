@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { WordOption } from "../types";
 
-const useWordOptions = (apiWords: string[], ownWords: string[], inputValue: string): WordOption[] => {
+const useWordOptions = (
+  apiWords: string[],
+  ownWords: string[],
+  inputValue: string
+): WordOption[] => {
   const [options, setOptions] = useState<WordOption[]>([]);
 
   useEffect(() => {
@@ -24,7 +28,7 @@ const useWordOptions = (apiWords: string[], ownWords: string[], inputValue: stri
     setOptions([...preparedNotAddedApiWords, ...preparedOwnWords]);
   }, [ownWords, apiWords, inputValue]);
 
-  return options
-}
+  return options;
+};
 
 export default useWordOptions;

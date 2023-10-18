@@ -7,7 +7,12 @@ const Review = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
 
   const wordsToDisplay = words.filter(
-    ({ learning }) => dayjs().diff(dayjs(learning.dueDate.toDate()), "day") >= 0
+    (word) =>
+      dayjs().diff(dayjs(word.learning.dueDate.toDate()), "minute") >= 0 &&
+      dayjs(word.createdAt.toDate()).diff(
+        dayjs(word.learning.dueDate.toDate()),
+        "minute"
+      ) !== 0
   );
 
   return <FlashcardMode words={wordsToDisplay} />;
