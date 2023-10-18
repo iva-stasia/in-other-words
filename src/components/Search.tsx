@@ -2,13 +2,14 @@ import { SearchRounded } from "@mui/icons-material";
 import {
   Autocomplete,
   Box,
+  CircularProgress,
   InputAdornment,
   TextField,
   Typography,
   createFilterOptions,
 } from "@mui/material";
 import { useState } from "react";
-import { SearchProps, WordOption } from "../types";
+import { WordOption } from "../types";
 import { useDispatch } from "react-redux";
 import {
   setAddWordDialog,
@@ -21,6 +22,11 @@ import useApiWords from "../hooks/useApiWords";
 import useOwnFilteredWords from "../hooks/useOwnFilteredWords";
 import useWordOptions from "../hooks/useWordOptions";
 
+interface SearchProps {
+  withIcon: boolean;
+  inDialog: boolean;
+}
+
 const filter = createFilterOptions<WordOption>({ matchFrom: "start" });
 
 const Search = ({ withIcon, inDialog }: SearchProps) => {
@@ -29,13 +35,14 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<WordOption | null>(word);
   const ownFilteredWords = useOwnFilteredWords(inputValue);
-  const apiWords = useApiWords(inputValue);
+  const { apiWords, loading } = useApiWords(inputValue);
   const options = useWordOptions(apiWords, ownFilteredWords, inputValue);
 
   return (
     <Autocomplete
       id="search"
       forcePopupIcon={false}
+      loading={loading}
       clearOnBlur
       autoComplete
       includeInputInList
@@ -52,7 +59,7 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
       filterSelectedOptions
       options={value ? [value, ...options] : options}
       getOptionLabel={(option) => option.word}
-      noOptionsText="No words"
+      noOptionsText="No words found"
       onInputChange={(_event, newInputValue) => {
         setInputValue(newInputValue);
       }}
@@ -109,6 +116,13 @@ const Search = ({ withIcon, inDialog }: SearchProps) => {
           InputProps={{
             ...params.InputProps,
             type: "search",
+            endAdornment: (
+              <>
+                {loading ? (
+                  <CircularProgress color="secondary" size={20} />
+                ) : null}
+              </>
+            ),
             ...(withIcon && {
               startAdornment: (
                 <InputAdornment position="start">

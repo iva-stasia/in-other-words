@@ -1,34 +1,6 @@
 import { PaletteColor, SimplePaletteColorOptions } from "@mui/material";
 
 export type {
-  UserInitialState,
-  ColorModeInitialState,
-  PasswordResetInitialState,
-  NavInitialState,
-  DialogInitialState,
-  WordInitialState,
-} from "./sliceInitialStateProps";
-
-export type {
-  DrawerWidthProp,
-  NavItemProps,
-  UserProfileMenuProps,
-  SearchProps,
-  AudioPlayerProps,
-  AlertMessageProps,
-  JdenticonGeneratorProps,
-  CreateSetDialogProps,
-  DeleteSetDialogProps,
-  DefinitionInputProps,
-  EnhancedTableProps,
-  HeadCell,
-  EnhancedTableToolbarProps,
-  WordTableProps,
-  WordSetSelectProps,
-  UpdateWordDialogProps,
-} from "./componentProps";
-
-export type {
   WordOption,
   WordDefinition,
   WordApiResult,

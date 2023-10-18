@@ -1,6 +1,9 @@
 import jdenticon from "jdenticon/standalone";
 import { useEffect, useRef } from "react";
-import { JdenticonGeneratorProps } from "../types";
+
+interface JdenticonGeneratorProps {
+  value: string;
+}
 
 const JdenticonGenerator = ({ value }: JdenticonGeneratorProps) => {
   const iconRef = useRef<SVGSVGElement>(null);

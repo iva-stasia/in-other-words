@@ -92,6 +92,7 @@ const AddWordDialog = () => {
               <CloseRounded />
             </IconButton>
           </DialogTitle>
+
           <DialogContent>
             <FormControl fullWidth sx={{ my: 1 }} variant="outlined" required>
               <FormLabel htmlFor="word" sx={{ color: "text.primary" }}>
@@ -112,6 +113,7 @@ const AddWordDialog = () => {
               required={true}
             />
           </DialogContent>
+
           <DialogActions sx={{ p: "0 1.5rem 1rem" }}>
             <Tooltip
               title={(!selectedWord || !value) && "Fill in all fields"}
@@ -130,6 +132,7 @@ const AddWordDialog = () => {
           </DialogActions>
         </form>
       </Dialog>
+
       <AlertMessage
         alertOpen={alertOpen}
         setAlertOpen={setAlertOpen}

@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { wordsApi } from '../api';
-import { SearchResult } from '../types';
+import { wordsApi } from "../utils/api";
+import { SearchResult } from "../types";
 
-const useApiWords = (inputValue: string): string[] => {
+const useApiWords = (
+  inputValue: string
+): { apiWords: string[]; loading: boolean } => {
   const [apiWords, setApiWords] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (inputValue.length < 2) return undefined;
+    setLoading(true);
 
     const searchWord = async () => {
       const words = await wordsApi(
@@ -14,12 +18,13 @@ const useApiWords = (inputValue: string): string[] => {
       ).json<SearchResult>();
 
       setApiWords(words.results.data);
+      setLoading(false);
     };
 
     searchWord().catch(console.error);
   }, [inputValue]);
 
-  return apiWords;
+  return { apiWords, loading };
 };
 
 export default useApiWords;

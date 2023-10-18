@@ -5,7 +5,7 @@ import {
   WordDefinition,
   WordOption,
 } from "../types";
-import { getWordAudio, wordsApi } from "../api";
+import { getWordAudio, wordsApi } from "../utils/api";
 
 const useWordApiData = (
   open: boolean,
