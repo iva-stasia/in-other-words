@@ -1,4 +1,4 @@
-import { DeleteRounded, FilterListRounded } from "@mui/icons-material";
+import { DeleteRounded } from "@mui/icons-material";
 import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
@@ -34,7 +34,6 @@ const EnhancedTableToolbar = ({
   const [alertOpen, setAlertOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [openFilters, setOpenFilters] = useState(false);
 
   const handleDeleteClick = () => {
     const newMessage = getDeleteMessage(selected);

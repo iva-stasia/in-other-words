@@ -2,11 +2,14 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../../../store";
 import WordTable from "../../../../components/WordTable";
+import useFilterWords from "../../../../hooks/useFilterWords";
 
 const WordSet = () => {
   const { setTitle } = useParams();
   const wordSets = useSelector((state: RootState) => state.words.wordSets);
-  let words = useSelector((state: RootState) => state.words.ownWords);
+  const words = useSelector((state: RootState) => state.words.ownWords);
+
+  let filteredWords = useFilterWords(words);
 
   if (!setTitle) return;
 
@@ -16,10 +19,10 @@ const WordSet = () => {
 
     if (!isSetExist) throw new Error("Set doesn't exist");
 
-    words = words.filter(({ set }) => set === setTitle);
+    filteredWords = filteredWords.filter(({ set }) => set === setTitle);
   }
 
-  return <WordTable words={words} title={setTitle} />;
+  return <WordTable words={filteredWords} title={setTitle} />;
 };
 
 export default WordSet;

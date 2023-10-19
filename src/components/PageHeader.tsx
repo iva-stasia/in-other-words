@@ -17,7 +17,7 @@ const PageHeader = () => {
           underline="none"
           to={`/${path[0]}`}
           sx={{
-            display: "flex",
+            display: "inline-flex",
             alignItems: "center",
             gap: 1,
           }}
