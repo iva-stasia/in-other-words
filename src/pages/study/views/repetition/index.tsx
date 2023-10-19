@@ -3,7 +3,7 @@ import { RootState } from "../../../../store";
 import dayjs from "dayjs";
 import FlashcardMode from "../../components/FlashcardMode";
 
-const Review = () => {
+const Repetition = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
 
   const wordsToDisplay = words.filter(
@@ -18,4 +18,4 @@ const Review = () => {
   return <FlashcardMode words={wordsToDisplay} />;
 };
 
-export default Review;
+export default Repetition;

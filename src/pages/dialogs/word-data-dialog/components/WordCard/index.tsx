@@ -1,13 +1,22 @@
 import { Word } from "../../../../../types";
-import { Box, Card, CardContent, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import {
   CloseButton,
   EditButton,
+  ProgressIconContainer,
   TypographyWord,
   TypographyWordShadow,
 } from "./WordCard.styled";
 import { CloseRounded, EditRounded } from "@mui/icons-material";
 import AudioPlayer from "../../../../../components/AudioPlayer";
+import ProgressIcon from "../../../../../components/ProgressIcon";
 
 interface WordCardProps {
   wordData: Word;
@@ -26,12 +35,23 @@ const WordCard = ({
         <TypographyWord>{wordData.word}</TypographyWord>
         <TypographyWordShadow>{wordData.word}</TypographyWordShadow>
 
-        <EditButton aria-label="edit" onClick={handleEdit}>
-          <EditRounded />
-        </EditButton>
-        <CloseButton aria-label="close" onClick={handleDialogClose}>
-          <CloseRounded />
-        </CloseButton>
+        <Tooltip title="Your progress">
+          <ProgressIconContainer>
+            <ProgressIcon progress={wordData.learning.progress} />
+          </ProgressIconContainer>
+        </Tooltip>
+
+        <Tooltip title="Edit">
+          <EditButton aria-label="edit" onClick={handleEdit}>
+            <EditRounded />
+          </EditButton>
+        </Tooltip>
+
+        <Tooltip title="Close">
+          <CloseButton aria-label="close" onClick={handleDialogClose}>
+            <CloseRounded />
+          </CloseButton>
+        </Tooltip>
 
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           {wordData.audioURL ? (

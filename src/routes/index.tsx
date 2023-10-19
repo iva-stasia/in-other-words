@@ -9,7 +9,7 @@ import WordSets from "../pages/word-sets";
 import Study from "../pages/study";
 import Flashcards from "../pages/study/views/flashcards";
 import WordSet from "../pages/word-sets/views/word-set";
-import Review from "../pages/study/views/review";
+import Repetition from "../pages/study/views/repetition";
 import ErrorPage from "../pages/error";
 
 export const router = createBrowserRouter([
@@ -39,8 +39,8 @@ export const router = createBrowserRouter([
         element: <Flashcards />,
       },
       {
-        path: "/study/review",
-        element: <Review />,
+        path: "/study/repetition",
+        element: <Repetition />,
       },
     ],
   },

@@ -24,7 +24,7 @@ const useFlashcardModeFacade = (words: Word[]) => {
   };
 
   const handlePass = async () => {
-    await handleBtn(Answer.PassEasy, Progress.Learnt);
+    await handleBtn(Answer.PassEasy, Progress.Learned);
   };
 
   const handleBtn = async (answer: Answer, progress: Progress) => {

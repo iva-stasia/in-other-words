@@ -50,7 +50,7 @@ export enum Progress {
   Step1,
   Step2,
   Step3,
-  Learnt,
+  Learned,
 }
 
 export enum Answer {

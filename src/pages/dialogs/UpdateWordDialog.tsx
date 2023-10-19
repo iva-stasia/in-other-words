@@ -86,7 +86,7 @@ const UpdateWordDialog = ({
 
     if (selectedDefs && selectedWord && uid) {
       try {
-        await updateWord(uid, selectedWord, selectedDefs, wordSet);
+        await updateWord(uid, selectedWord, wordSet, selectedDefs);
         setAlertOpen(true);
       } catch (error) {
         if (error instanceof Error) console.error(error.message);

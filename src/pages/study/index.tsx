@@ -22,8 +22,8 @@ const studyModes = [
       words.filter(({ learning }) => learning.progress === Progress.New),
   },
   {
-    title: "Review",
-    path: "review",
+    title: "Repetition",
+    path: "repetition",
     iconLight: reviewIconLight,
     iconDark: reviewIconDark,
     description: "Check how well you remember the words you have learned.",

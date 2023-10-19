@@ -1,4 +1,4 @@
-import { IconButton, Typography, styled } from "@mui/material";
+import { Box, IconButton, Typography, styled } from "@mui/material";
 
 const TypographyWord = styled(Typography)(({ theme }) => ({
   fontSize: "3rem",
@@ -37,4 +37,17 @@ const CloseButton = styled(EditButton)({
   right: "8px",
 });
 
-export { TypographyWord, TypographyWordShadow, EditButton, CloseButton };
+const ProgressIconContainer = styled(Box)({
+  position: "absolute",
+  left: "16px",
+  top: "16px",
+  height: "24px",
+});
+
+export {
+  TypographyWord,
+  TypographyWordShadow,
+  EditButton,
+  CloseButton,
+  ProgressIconContainer,
+};

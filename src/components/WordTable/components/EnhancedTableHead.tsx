@@ -7,7 +7,7 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { Order, Word } from "../../types";
+import { Order, Word } from "../../../types";
 
 interface EnhancedTableProps {
   numSelected: number;
@@ -60,7 +60,15 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: "Set",
-    sortable: true,
+    sortable: false,
+    mobileDisplay: "none",
+  },
+  {
+    id: "learning",
+    numeric: true,
+    disablePadding: false,
+    label: "Progress",
+    sortable: false,
     mobileDisplay: "none",
   },
 ];

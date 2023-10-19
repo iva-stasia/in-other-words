@@ -7,14 +7,14 @@ import {
   setOwnSortedWords,
   setSelectedWord,
 } from "../../store/slices/wordSlice";
-import EnhancedTableHead from "./EnhancedTableHead";
-import EnhancedTableToolbar from "./EnhancedTableToolbar";
+import EnhancedTableHead from "./components/EnhancedTableHead";
+import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
 import {
   Container,
   StyledPaper,
   StyledTableContainer,
 } from "./WordTable.styled";
-import WordTableRow from "./WordTableRow";
+import WordTableRow from "./components/WordTableRow";
 
 interface WordTableProps {
   words: Word[];
@@ -110,7 +110,7 @@ const WordTable = ({ words, title }: WordTableProps) => {
   const isSelected = (word: Word) => selected.indexOf(word) !== -1;
 
   const sortedRows = useMemo(() => {
-    if (orderBy === "word" || orderBy === "set") {
+    if (orderBy === "word") {
       return stableSort(words, getComparator(order, orderBy));
     }
     return words;
@@ -127,13 +127,13 @@ const WordTable = ({ words, title }: WordTableProps) => {
         justifyContent="space-between"
         alignItems="center"
         mb={2}
+        p={1}
       >
         <Typography variant="h6" noWrap component="div" color="text.secondary">
           {title}
         </Typography>
-        {!!words.length && (
-          <EnhancedTableToolbar selected={selected} setSelected={setSelected} />
-        )}
+
+        <EnhancedTableToolbar selected={selected} setSelected={setSelected} />
       </Stack>
 
       <StyledPaper elevation={0}>

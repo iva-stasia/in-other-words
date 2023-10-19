@@ -1,6 +1,8 @@
 import { Box, Checkbox, TableCell, TableRow } from "@mui/material";
-import { Word } from "../../types";
-import AudioPlayer from "../AudioPlayer";
+import { Word } from "../../../types";
+import AudioPlayer from "../../AudioPlayer";
+
+import ProgressIcon from "../../ProgressIcon";
 
 interface WordTableRowProps {
   row: Word;
@@ -64,6 +66,13 @@ const WordTableRow = ({
       </TableCell>
       <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
         {row.set}
+      </TableCell>
+
+      <TableCell
+        align="center"
+        sx={{ display: { xs: "none", sm: "table-cell" } }}
+      >
+        <ProgressIcon progress={row.learning.progress} />
       </TableCell>
     </TableRow>
   );
