@@ -10,8 +10,26 @@ import progressIcon2 from "/progress-2.png";
 import progressIcon4 from "/progress-4.png";
 import { useSearchParams } from "react-router-dom";
 
+const progressFilterOptions = [
+  {
+    title: "New",
+    ariaLabel: "New words",
+    icon: progressIcon0,
+  },
+  {
+    title: "Learning",
+    ariaLabel: "Words in progress",
+    icon: progressIcon2,
+  },
+  {
+    title: "Learned",
+    ariaLabel: "Learned words",
+    icon: progressIcon4,
+  },
+];
+
 const ToggleFilter = () => {
-  const [searchParams, setSearchParams] = useSearchParams({ progress: "all" });
+  const [searchParams, setSearchParams] = useSearchParams({ progress: "All" });
 
   const progress = searchParams.get("progress");
 
@@ -35,48 +53,33 @@ const ToggleFilter = () => {
       onChange={handleChange}
       aria-label="word progress filter"
       size="small"
+      sx={{ height: "40px" }}
     >
-      <ToggleButton value="all" aria-label="all words">
+      <ToggleButton value="All" aria-label="All words" sx={{ flex: 1 }}>
         <Tooltip title="All words">
           <Typography variant="button">All</Typography>
         </Tooltip>
       </ToggleButton>
-      <ToggleButton value="new" aria-label="new words">
-        <Tooltip title="New words">
-          <Icon>
-            <img
-              src={progressIcon0}
-              height={24}
-              width={24}
-              style={{ display: "block" }}
-            />
-          </Icon>
-        </Tooltip>
-      </ToggleButton>
-      <ToggleButton value="learning" aria-label="words in progress">
-        <Tooltip title="Words you are learning">
-          <Icon>
-            <img
-              src={progressIcon2}
-              height={24}
-              width={24}
-              style={{ display: "block" }}
-            />
-          </Icon>
-        </Tooltip>
-      </ToggleButton>
-      <ToggleButton value="learned" aria-label="learned words">
-        <Tooltip title="Learned words">
-          <Icon>
-            <img
-              src={progressIcon4}
-              height={24}
-              width={24}
-              style={{ display: "block" }}
-            />
-          </Icon>
-        </Tooltip>
-      </ToggleButton>
+
+      {progressFilterOptions.map(({ title, ariaLabel, icon }) => (
+        <ToggleButton
+          key={title}
+          value={title}
+          aria-label={ariaLabel}
+          sx={{ flex: 1 }}
+        >
+          <Tooltip title={title}>
+            <Icon>
+              <img
+                src={icon}
+                height={24}
+                width={24}
+                style={{ display: "block" }}
+              />
+            </Icon>
+          </Tooltip>
+        </ToggleButton>
+      ))}
     </ToggleButtonGroup>
   );
 };

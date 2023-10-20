@@ -53,7 +53,7 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: "Definition",
     sortable: false,
-    mobileDisplay: "table-cell",
+    mobileDisplay: "none",
   },
   {
     id: "set",
@@ -135,6 +135,12 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
               key={headCell.id}
               align={headCell.numeric ? "right" : "left"}
               padding={headCell.disablePadding ? "none" : "normal"}
+              sx={{
+                display: {
+                  xs: headCell.mobileDisplay,
+                  sm: "table-cell",
+                },
+              }}
             >
               {headCell.label}
             </TableCell>

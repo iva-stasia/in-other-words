@@ -4,15 +4,15 @@ import { useEffect, useState } from "react";
 
 const filterByProgress = (words: Word[], progress: string) => {
   switch (progress) {
-    case "all":
+    case "All":
       return words;
-    case "new":
+    case "New":
       return words.filter(({ learning }) => learning.progress === 0);
-    case "learning":
+    case "Learning":
       return words.filter(
         ({ learning }) => learning.progress > 0 && learning.progress < 4
       );
-    case "learned":
+    case "Learned":
       return words.filter(({ learning }) => learning.progress === 4);
     default:
       return words;

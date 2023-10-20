@@ -15,7 +15,7 @@ const Filters = () => {
   const [open, setOpen] = useState(false);
   const wordSets = useSelector((state: RootState) => state.words.wordSets);
   const { pathname } = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams({ progress: "all" });
+  const [searchParams, setSearchParams] = useSearchParams({ progress: "All" });
 
   const inSet = pathname.includes("word-sets");
 
@@ -31,13 +31,36 @@ const Filters = () => {
   };
 
   return (
-    <Stack direction="row" alignItems="center" gap={2}>
+    <Stack
+      direction={{ xs: "column", sm: "row" }}
+      alignItems={{ xs: "flex-end", sm: "center" }}
+      gap={{ xs: 1, sm: 2 }}
+      sx={{
+        ...(open && { width: { xs: "calc(100vw - 48px)", sm: "auto" } }),
+      }}
+    >
       {open ? (
         <>
-          {!inSet && <Filter title="Set" options={wordSetsOptions} />}
-          <ToggleFilter />
+          <Box
+            sx={{
+              width: "100%",
+              order: { xs: 1, sm: 0 },
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 1, sm: 2 },
+            }}
+          >
+            <ToggleFilter />
+            {!inSet && <Filter title="Set" options={wordSetsOptions} />}
+          </Box>
 
-          <Box>
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <Tooltip title="Reset filters">
               <IconButton onClick={handleReset}>
                 <FilterListOffRounded />

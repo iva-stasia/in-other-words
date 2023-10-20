@@ -24,7 +24,7 @@ const MenuProps = {
 };
 
 const Filter = ({ options, title }: FilterProps) => {
-  const [searchParams, setSearchParams] = useSearchParams({ progress: "all" });
+  const [searchParams, setSearchParams] = useSearchParams({ progress: "All" });
 
   const selected = searchParams.get("set")?.split(",") || [];
 
@@ -49,7 +49,7 @@ const Filter = ({ options, title }: FilterProps) => {
   return (
     options.length > 0 && (
       <>
-        <FormControl sx={{ width: 200 }} size="small">
+        <FormControl sx={{ width: { xs: "100%", sm: 200 } }} size="small">
           <InputLabel id="checkbox-label">{title}</InputLabel>
           <Select
             labelId="checkbox-label"

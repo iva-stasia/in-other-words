@@ -20,7 +20,7 @@ const Main = styled("main")(({ theme }) => ({
   flexDirection: "column",
   backgroundColor: theme.palette.backgroundSecond.main,
   borderRadius: "12px 0 0 0",
-  border: "3px solid",
+  borderTop: "3px solid",
   borderColor: theme.palette.backgroundSecond.main,
   [theme.breakpoints.down("md")]: {
     borderRadius: "0",

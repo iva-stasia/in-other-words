@@ -40,12 +40,18 @@ const WordDataDialog = () => {
   };
 
   const handleBackClick = () => {
-    const prevWord = ownSortedWords[wordId - 1];
+    const prevWord =
+      wordId - 1 > 0
+        ? ownSortedWords[wordId - 1]
+        : ownSortedWords[ownSortedWords.length - 1];
     dispatch(setSelectedWord({ word: prevWord.word, source: "ownDictionary" }));
   };
 
   const handleForwardClick = () => {
-    const nextWord = ownSortedWords[wordId + 1];
+    const nextWord =
+      wordId < ownSortedWords.length - 1
+        ? ownSortedWords[wordId + 1]
+        : ownSortedWords[0];
     dispatch(setSelectedWord({ word: nextWord.word, source: "ownDictionary" }));
   };
 
@@ -67,11 +73,7 @@ const WordDataDialog = () => {
             onClick={(e) => handleContainerClick(e)}
             maxWidth="sm"
           >
-            <NavButton
-              onClick={handleBackClick}
-              size="large"
-              disabled={wordId === 0}
-            >
+            <NavButton onClick={handleBackClick} size="large">
               <ArrowBackIosNewRounded fontSize="inherit" />
             </NavButton>
 
@@ -81,11 +83,7 @@ const WordDataDialog = () => {
               handleDialogClose={handleDialogClose}
             />
 
-            <NavButton
-              onClick={handleForwardClick}
-              size="large"
-              disabled={wordId === ownSortedWords.length - 1}
-            >
+            <NavButton onClick={handleForwardClick} size="large">
               <ArrowForwardIosRounded fontSize="inherit" />
             </NavButton>
           </StyledContainer>

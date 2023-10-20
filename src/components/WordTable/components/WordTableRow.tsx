@@ -1,4 +1,4 @@
-import { Box, Checkbox, TableCell, TableRow } from "@mui/material";
+import { Box, Checkbox, TableCell, TableRow, Typography } from "@mui/material";
 import { Word } from "../../../types";
 import AudioPlayer from "../../AudioPlayer";
 
@@ -41,8 +41,8 @@ const WordTableRow = ({
           }}
         />
       </TableCell>
+
       <TableCell
-        component="th"
         id={labelId}
         scope="row"
         padding="none"
@@ -50,20 +50,28 @@ const WordTableRow = ({
       >
         {row.audioURL ? <AudioPlayer audioURL={row.audioURL} /> : ""}
       </TableCell>
+
       <TableCell
-        component="th"
         id={labelId}
         scope="row"
         padding="none"
-        sx={{ fontWeight: 700 }}
+        sx={{ py: { xs: 1, sm: 0 } }}
       >
-        {row.word}
+        <Typography fontWeight={700}>{row.word}</Typography>
+
+        <Box sx={{ display: { xs: "block", sm: "none" }, mt: 1 }}>
+          {row.definitions.map((def, index) => (
+            <Box key={index}>{def.definition}</Box>
+          ))}
+        </Box>
       </TableCell>
-      <TableCell>
+
+      <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
         {row.definitions.map((def, index) => (
           <Box key={index}>{def.definition}</Box>
         ))}
       </TableCell>
+
       <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
         {row.set}
       </TableCell>

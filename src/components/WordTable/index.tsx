@@ -127,7 +127,7 @@ const WordTable = ({ words, title }: WordTableProps) => {
         justifyContent="space-between"
         alignItems="center"
         mb={2}
-        p={1}
+        pt={1}
       >
         <Typography variant="h6" noWrap component="div" color="text.secondary">
           {title}
