@@ -1,5 +1,4 @@
 import { ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
-import { UserProfileMenuProps } from "../../../../../types";
 import { LogoutRounded, SettingsRounded } from "@mui/icons-material";
 import { auth } from "../../../../../firebase";
 import { signOut } from "firebase/auth";

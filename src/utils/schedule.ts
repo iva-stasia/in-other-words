@@ -1,4 +1,4 @@
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import { Answer, Word } from "../types";
 
 const schedule = (answer: Answer, word: Word) => {

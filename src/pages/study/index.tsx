@@ -8,7 +8,7 @@ import { BgImage, StyledCard, StyledCardContent } from "./Study.styled";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Progress, Word } from "../../types";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 
 const studyModes = [
   {

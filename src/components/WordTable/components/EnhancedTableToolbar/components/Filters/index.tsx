@@ -15,7 +15,7 @@ const Filters = () => {
   const [open, setOpen] = useState(false);
   const wordSets = useSelector((state: RootState) => state.words.wordSets);
   const { pathname } = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams({ progress: "All" });
+  const [_searchParams, setSearchParams] = useSearchParams();
 
   const inSet = pathname.includes("word-sets");
 
@@ -23,7 +23,7 @@ const Filters = () => {
 
   const handleReset = () => {
     setSearchParams((prev) => {
-      prev.set("progress", "all");
+      prev.delete("progress");
       prev.delete("set");
 
       return prev;
