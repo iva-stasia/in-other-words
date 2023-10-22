@@ -1,7 +1,8 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import FlippedCard from "./components/FlippedCard";
 import { CheckRounded, CloseRounded } from "@mui/icons-material";
 import {
+  BorderLinearProgress,
   BtnContainer,
   CardContainer,
   CommonCardContainer,
@@ -36,23 +37,33 @@ const NewFlashcardMode = ({ words }: FlashcardModeProps) => {
   } = useFlashcardModeFacade(words);
 
   return (
-    <Container>
-      <CardContainer>
-        {wordsToDisplay.map((word, index) => (
-          <CommonCardContainer
-            onPointerDown={handlePointerDown}
-            onPointerUp={handlePointerUp}
-            onPointerMove={handleDragMove}
-            key={word.word}
-            index={index}
-          >
-            {index === 0 ? (
-              <CurrentCardContainer
-                isDragging={isDragging}
-                movingToLeft={movingToLeft}
-                movingToRight={movingToRight}
-                translateX={translateX}
-              >
+    <Box>
+      <Container>
+        <CardContainer>
+          {wordsToDisplay.map((word, index) => (
+            <CommonCardContainer
+              onPointerDown={handlePointerDown}
+              onPointerUp={handlePointerUp}
+              onPointerMove={handleDragMove}
+              key={word.word}
+              index={index}
+            >
+              {index === 0 ? (
+                <CurrentCardContainer
+                  isDragging={isDragging}
+                  movingToLeft={movingToLeft}
+                  movingToRight={movingToRight}
+                  translateX={translateX}
+                >
+                  <FlippedCard
+                    word={word}
+                    dragged={dragged}
+                    movingToLeft={movingToLeft}
+                    movingToRight={movingToRight}
+                    index={index}
+                  />
+                </CurrentCardContainer>
+              ) : (
                 <FlippedCard
                   word={word}
                   dragged={dragged}
@@ -60,39 +71,36 @@ const NewFlashcardMode = ({ words }: FlashcardModeProps) => {
                   movingToRight={movingToRight}
                   index={index}
                 />
-              </CurrentCardContainer>
-            ) : (
-              <FlippedCard
-                word={word}
-                dragged={dragged}
-                movingToLeft={movingToLeft}
-                movingToRight={movingToRight}
-                index={index}
-              />
-            )}
+              )}
+            </CommonCardContainer>
+          ))}
+          <CommonCardContainer index={wordsToDisplay.length}>
+            <CardEnd />
           </CommonCardContainer>
-        ))}
-        <CommonCardContainer index={wordsToDisplay.length}>
-          <CardEnd />
-        </CommonCardContainer>
-      </CardContainer>
+        </CardContainer>
 
-      {wordsToDisplay.length > 0 && (
-        <BtnContainer>
-          <FailBtn size="large" onClick={handleFail}>
-            <CloseRounded fontSize="inherit" />
-          </FailBtn>
+        {wordsToDisplay.length > 0 && (
+          <BtnContainer>
+            <FailBtn size="large" onClick={handleFail}>
+              <CloseRounded fontSize="inherit" />
+            </FailBtn>
 
-          <Typography variant="h6">
-            {curIndex + 1}/{wordNum}
-          </Typography>
+            <Typography variant="h6">
+              {curIndex + 1}/{wordNum}
+            </Typography>
 
-          <PassBtn size="large" onClick={handlePass}>
-            <CheckRounded fontSize="inherit" />
-          </PassBtn>
-        </BtnContainer>
-      )}
-    </Container>
+            <PassBtn size="large" onClick={handlePass}>
+              <CheckRounded fontSize="inherit" />
+            </PassBtn>
+          </BtnContainer>
+        )}
+
+        <BorderLinearProgress
+          variant="determinate"
+          value={((curIndex + 1) * 100) / wordNum}
+        />
+      </Container>
+    </Box>
   );
 };
 

@@ -15,6 +15,8 @@ const Repetition = () => {
       ) !== 0
   );
 
+  if (wordsToDisplay.length === 0) return;
+
   return <FlashcardMode words={wordsToDisplay} />;
 };
 

@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-import FlashcardMode from "../../components/FlashcardMode";
 import { Progress } from "../../../../types";
 import NewFlashcardMode from "../../components/NewFlashcardMode";
 
@@ -11,7 +10,8 @@ const Flashcards = () => {
     ({ learning }) => learning.progress === Progress.New
   );
 
-  // return <FlashcardMode words={wordsToDisplay} />;
+  if (wordsToDisplay.length === 0) return;
+
   return <NewFlashcardMode words={wordsToDisplay} />;
 };
 

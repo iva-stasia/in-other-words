@@ -6,7 +6,7 @@ const CardEnd = () => {
   return (
     <CardEndContainer>
       <Typography p={3} variant="h4">
-        All cards are learned 🎉
+        All cards are sorted 🎉
       </Typography>
 
       <Link

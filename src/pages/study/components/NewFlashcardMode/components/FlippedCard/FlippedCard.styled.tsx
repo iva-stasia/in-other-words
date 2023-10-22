@@ -1,13 +1,18 @@
-import { Box, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 
-const CardContainer = styled(Box)({
+const CardContainer = styled(Box)(({ theme }) => ({
   width: "600px",
   height: "400px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   perspective: "1000px",
-});
+
+  [theme.breakpoints.down("sm")]: {
+    width: "calc(100vw - 48px)",
+    height: "calc(100vh - 208px)",
+  },
+}));
 
 const CardInnerContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== "flipped",
@@ -21,15 +26,21 @@ const CardInnerContainer = styled(Box, {
   ...(flipped && {
     transform: "rotateX(-180deg)",
   }),
+
+  [theme.breakpoints.down("sm")]: {
+    ...(flipped && {
+      transform: "rotateY(-180deg)",
+    }),
+  },
 }));
 
 const CardFaceFront = styled(Box, {
   shouldForwardProp: (prop) =>
     prop !== "movingToLeft" && prop !== "movingToRight" && prop !== "index",
 })<{
-  movingToLeft?: boolean;
-  movingToRight?: boolean;
-  index?: number;
+  movingToLeft: boolean;
+  movingToRight: boolean;
+  index: number;
 }>(({ theme, movingToLeft, movingToRight, index }) => ({
   position: "absolute",
   top: "0",
@@ -58,9 +69,50 @@ const CardFaceFront = styled(Box, {
     }),
 }));
 
-const CardFaceBack = styled(CardFaceFront)({
+const CardFaceBack = styled(CardFaceFront)(({ theme }) => ({
   transform: "rotateX(180deg)",
   wordBreak: "normal",
-});
 
-export { CardContainer, CardInnerContainer, CardFaceFront, CardFaceBack };
+  [theme.breakpoints.down("sm")]: {
+    transform: "rotateY(180deg)",
+  },
+}));
+
+const TypographyMain = styled(Typography, {
+  shouldForwardProp: (prop) =>
+    prop !== "movingToLeft" && prop !== "movingToRight",
+})<{
+  movingToLeft: boolean;
+  movingToRight: boolean;
+}>(({ movingToLeft, movingToRight, theme }) => ({
+  padding: theme.spacing(3),
+  opacity: `${movingToLeft || movingToRight ? 0 : 1}`,
+  transition: "opacity 200ms ease-in",
+}));
+
+const TypographyProgress = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== "direction" && prop !== "color",
+})<{
+  direction: boolean;
+  color: string;
+}>(({ direction, color, theme }) => ({
+  padding: theme.spacing(3),
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  opacity: `${direction ? 1 : 0}`,
+  transition: "opacity 200ms ease-in",
+  color: `${
+    color === "error" ? theme.palette.error.light : theme.palette.success.light
+  }`,
+}));
+
+export {
+  CardContainer,
+  CardInnerContainer,
+  CardFaceFront,
+  CardFaceBack,
+  TypographyMain,
+  TypographyProgress,
+};

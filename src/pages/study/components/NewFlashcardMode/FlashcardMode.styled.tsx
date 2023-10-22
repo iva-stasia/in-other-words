@@ -1,4 +1,10 @@
-import { Box, IconButton, styled } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  LinearProgress,
+  linearProgressClasses,
+  styled,
+} from "@mui/material";
 
 const FailBtn = styled(IconButton)(({ theme }) => ({
   color: theme.palette.error.light,
@@ -26,22 +32,31 @@ const BtnContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: theme.spacing(3),
+
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
 }));
 
 const Container = styled(Box)(({ theme }) => ({
-  width: "100%",
+  marginInline: "auto",
+  width: "600px",
   height: "100%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  gap: theme.spacing(6),
+  gap: theme.spacing(3),
   position: "relative",
   transition: "opacity 0.1s ease-in-out",
   userSelect: "none",
+
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
 }));
 
 const CardContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(8),
+  marginTop: theme.spacing(6),
   position: "relative",
   height: "400px",
   width: "100%",
@@ -50,6 +65,11 @@ const CardContainer = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "flex-end",
   zIndex: 1,
+
+  [theme.breakpoints.down("sm")]: {
+    height: "calc(100vh - 208px)",
+    marginTop: theme.spacing(4),
+  },
 }));
 
 const CommonCardContainer = styled(Box, {
@@ -98,6 +118,18 @@ const CurrentCardContainer = styled(Box, {
   }),
 }));
 
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  width: "100%",
+  height: 10,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: theme.palette.background.default,
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
+
 export {
   FailBtn,
   PassBtn,
@@ -106,4 +138,5 @@ export {
   CommonCardContainer,
   CurrentCardContainer,
   BtnContainer,
+  BorderLinearProgress,
 };

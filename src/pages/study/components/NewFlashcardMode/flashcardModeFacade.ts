@@ -91,16 +91,19 @@ const useFlashcardModeFacade = (words: Word[]) => {
   const handleBtn = async (answer: Answer, progress: Progress) => {
     const word = wordsToDisplay[0];
 
-    // const { dueDate, factor, interval } = schedule(answer, word);
+    const { dueDate, factor, interval } = schedule(answer, word);
 
-    // try {
-    //   await updateProgress(word.word, progress, dueDate, interval, factor);
-    // } catch (error) {
-    //   if (error instanceof Error) console.error(error.message);
-    // }
+    try {
+      await updateProgress(word.word, progress, dueDate, interval, factor);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
+
+    setWordsToDisplay((prev) => prev.slice(1));
+
+    if (wordsToDisplay.length - 1 === 0) return;
 
     setCurIndex((prev) => prev + 1);
-    setWordsToDisplay((prev) => prev.slice(1));
   };
 
   return {

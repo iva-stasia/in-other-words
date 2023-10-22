@@ -5,8 +5,11 @@ import {
   CardFaceBack,
   CardFaceFront,
   CardInnerContainer,
+  TypographyProgress,
+  TypographyMain,
 } from "./FlippedCard.styled";
-import { Typography } from "@mui/material";
+import AudioPlayer from "../../../../../../components/AudioPlayer";
+import { Box } from "@mui/material";
 
 interface FlippedCardProps {
   word: Word;
@@ -28,7 +31,7 @@ const FlippedCard = ({
   return (
     <CardContainer>
       <CardInnerContainer
-        onClick={() => setFlipped((prev) => !prev && !dragged)}
+        onClick={() => setFlipped((prev) => !prev && !dragged && index === 0)}
         flipped={flipped}
       >
         <CardFaceFront
@@ -38,56 +41,63 @@ const FlippedCard = ({
         >
           {index === 0 && (
             <>
-              <Typography
-                p={3}
+              <Box>
+                <TypographyMain
+                  variant="h4"
+                  movingToLeft={movingToLeft}
+                  movingToRight={movingToRight}
+                >
+                  {word.word}
+                </TypographyMain>
+                {word.audioURL && <AudioPlayer audioURL={word.audioURL} />}
+              </Box>
+              <TypographyProgress
                 variant="h4"
-                sx={{
-                  opacity: `${movingToLeft || movingToRight ? 0 : 1}`,
-                  transition: "opacity 200ms ease-in",
-                }}
-              >
-                {word.word}
-              </Typography>
-              <Typography
-                p={3}
-                variant="h4"
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  opacity: `${movingToLeft ? 1 : 0}`,
-                  transition: "opacity 200ms ease-in",
-                  color: "error.light",
-                }}
+                direction={movingToLeft}
+                color="error"
               >
                 Learning
-              </Typography>
-              <Typography
-                p={3}
+              </TypographyProgress>
+              <TypographyProgress
                 variant="h4"
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  opacity: `${movingToRight ? 1 : 0}`,
-                  transition: "opacity 200ms ease-in",
-                  color: "success.light",
-                }}
+                direction={movingToRight}
+                color="success"
               >
                 Know
-              </Typography>
+              </TypographyProgress>
             </>
           )}
         </CardFaceFront>
 
-        <CardFaceBack>
+        <CardFaceBack
+          movingToLeft={movingToLeft}
+          movingToRight={movingToRight}
+          index={index}
+        >
           {word.definitions.map((def, index) => (
-            <Typography p={3} variant="body1" key={index}>
+            <TypographyMain
+              variant="body1"
+              key={index}
+              movingToLeft={movingToLeft}
+              movingToRight={movingToRight}
+            >
               {def.definition}
-            </Typography>
+            </TypographyMain>
           ))}
+          <TypographyProgress
+            variant="h4"
+            direction={movingToLeft}
+            color="error"
+          >
+            Learning
+          </TypographyProgress>
+          <TypographyProgress
+            variant="h4"
+            direction={movingToRight}
+            color="success"
+          >
+            Know
+          </TypographyProgress>
         </CardFaceBack>
       </CardInnerContainer>
     </CardContainer>
