@@ -3,6 +3,8 @@ import flashcardIconLight from "/flashcard-light.png";
 import flashcardIconDark from "/flashcard-dark.png";
 import reviewIconLight from "/review-light.png";
 import reviewIconDark from "/review-dark.png";
+import wordDefIconLight from "/word-def-light.png";
+import wordDefIconDark from "/word-def-dark.png";
 import { Link as RouterLink } from "react-router-dom";
 import { BgImage, StyledCard, StyledCardContent } from "./Study.styled";
 import { useSelector } from "react-redux";
@@ -36,6 +38,16 @@ const studyModes = [
             "minute"
           ) !== 0
       ),
+  },
+  {
+    title: "Word - Definition",
+    path: "word-definition",
+    iconLight: wordDefIconLight,
+    iconDark: wordDefIconDark,
+    description:
+      "Learn the meaning and context of individual words to build your linguistic skills effectively.",
+    getWords: (words: Word[]) =>
+      words.filter(({ learning }) => learning.progress !== Progress.Learned),
   },
 ];
 

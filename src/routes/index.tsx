@@ -11,6 +11,7 @@ import Flashcards from "../pages/study/views/flashcards";
 import WordSet from "../pages/word-sets/views/word-set";
 import Repetition from "../pages/study/views/repetition";
 import ErrorPage from "../pages/error";
+import WordToDefinition from "../pages/study/views/word-to-definition";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "/study/repetition",
         element: <Repetition />,
+      },
+      {
+        path: "/study/word-definition",
+        element: <WordToDefinition />,
       },
     ],
   },
