@@ -3,12 +3,12 @@ import QuizMode from "../../components/QuizMode";
 import { RootState } from "../../../../store";
 import { Progress, Word } from "../../../../types";
 
-function getRandomDef(arr: Word[]) {
+function getRandomWord(arr: Word[]) {
   const randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex].definitions;
+  return arr[randomIndex].word;
 }
 
-const WordToDefinition = () => {
+const DefinitionToWord = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
 
   const wordsToDisplay = words.filter(
@@ -16,23 +16,22 @@ const WordToDefinition = () => {
   );
 
   const questions = wordsToDisplay.map((word) => {
-    const answer = word.definitions.map((def) => def.definition).join(";\r\n");
-    const options = [answer];
+    const options = [word.word];
+    const term = word.definitions.map((def) => def.definition).join(";\r\n");
+
+    console.log(term);
 
     while (options.length < 4) {
-      const randomDef = getRandomDef(words)
-        .map((def) => def.definition)
-        .join(";\r\n");
+      const randomWord = getRandomWord(words);
 
-      if (!options.includes(randomDef)) {
-        options.push(randomDef);
+      if (!options.includes(randomWord)) {
+        options.push(randomWord);
       }
     }
 
     return {
-      term: word.word,
-      audio: word.audioURL,
-      answer,
+      term,
+      answer: word.word,
       options,
       origin: word,
     };
@@ -43,4 +42,4 @@ const WordToDefinition = () => {
   return <QuizMode questions={questions} />;
 };
 
-export default WordToDefinition;
+export default DefinitionToWord;

@@ -12,7 +12,7 @@ const Progress = styled(LinearProgress)(({ theme }) => ({
   border: "2px solid",
   borderColor: theme.palette.primary.main,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: "transparent",
   },
   [`& .${linearProgressClasses.bar}`]: {
     backgroundColor: theme.palette.primary.main,

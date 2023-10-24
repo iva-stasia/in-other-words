@@ -12,6 +12,7 @@ import WordSet from "../pages/word-sets/views/word-set";
 import Repetition from "../pages/study/views/repetition";
 import ErrorPage from "../pages/error";
 import WordToDefinition from "../pages/study/views/word-to-definition";
+import DefinitionToWord from "../pages/study/views/definition-to-word";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: "/study/word-definition",
         element: <WordToDefinition />,
+      },
+      {
+        path: "/study/definition-word",
+        element: <DefinitionToWord />,
       },
     ],
   },

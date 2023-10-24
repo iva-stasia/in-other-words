@@ -80,22 +80,23 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
         </CardContainer>
 
         {wordsToDisplay.length > 0 && (
-          <BtnContainer>
-            <FailBtn size="large" onClick={handleFail}>
-              <CloseRounded fontSize="inherit" />
-            </FailBtn>
+          <>
+            <BtnContainer>
+              <FailBtn size="large" onClick={handleFail}>
+                <CloseRounded fontSize="inherit" />
+              </FailBtn>
 
-            <Typography variant="h6">
-              {curIndex + 1}/{wordNum}
-            </Typography>
+              <Typography variant="h6">
+                {curIndex + 1}/{wordNum}
+              </Typography>
 
-            <PassBtn size="large" onClick={handlePass}>
-              <CheckRounded fontSize="inherit" />
-            </PassBtn>
-          </BtnContainer>
+              <PassBtn size="large" onClick={handlePass}>
+                <CheckRounded fontSize="inherit" />
+              </PassBtn>
+            </BtnContainer>
+            <BorderLinearProgress current={curIndex} total={wordNum} />
+          </>
         )}
-
-        <BorderLinearProgress current={curIndex} total={wordNum} />
       </Container>
     </Box>
   );
