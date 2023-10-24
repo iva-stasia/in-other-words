@@ -89,7 +89,7 @@ const useFlashcardModeFacade = (words: Word[]) => {
   const handleBtn = async (answer: Answer, progress: Progress) => {
     const word = wordsToDisplay[0];
 
-    const { dueDate, factor, interval } = schedule(answer, word);
+    const { dueDate, factor, interval } = schedule(answer, word, progress);
 
     try {
       await updateProgress(word.word, progress, dueDate, interval, factor);

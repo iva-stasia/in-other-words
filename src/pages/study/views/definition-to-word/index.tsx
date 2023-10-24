@@ -19,8 +19,6 @@ const DefinitionToWord = () => {
     const options = [word.word];
     const term = word.definitions.map((def) => def.definition).join(";\r\n");
 
-    console.log(term);
-
     while (options.length < 4) {
       const randomWord = getRandomWord(words);
 

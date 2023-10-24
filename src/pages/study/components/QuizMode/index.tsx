@@ -75,6 +75,7 @@ const QuizMode = ({ questions }: QuizModeProps) => {
                     !!chosen &&
                     !isCorrectRef.current
                   }
+                  chosen={!!chosen}
                 >
                   <Typography key={index} width={1}>
                     {option}

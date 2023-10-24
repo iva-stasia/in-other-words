@@ -50,6 +50,7 @@ const BgImage = styled(Box, {
     backgroundPosition: "right",
     transformOrigin: "center right",
     transition: theme.transitions.create(["opacity", "scale"]),
+
     ...(theme.palette.mode === "dark" && {
       backgroundImage: `url(${iconDark})`,
     }),
@@ -58,7 +59,7 @@ const BgImage = styled(Box, {
       width: "100%",
       right: 20,
       bottom: 0,
-      backgroundSize: "auto 120%",
+      backgroundSize: "auto 80%",
     }),
   })
 );

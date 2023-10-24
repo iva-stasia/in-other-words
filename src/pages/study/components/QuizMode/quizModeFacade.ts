@@ -28,7 +28,7 @@ const useQuizModeFacade = (questions: QuizQuestion[]) => {
     const newShuffledOptions = shuffleArray(questions[currentQuestion].options);
 
     setShuffledOptions(newShuffledOptions);
-  }, [currentQuestion, questions]);
+  }, [currentQuestion]);
 
   const handleClick = async (option: string, index: number) => {
     if (chosen) return;
@@ -69,7 +69,7 @@ const useQuizModeFacade = (questions: QuizQuestion[]) => {
   const handleAnswer = async (answer: Answer, progress: Progress) => {
     const word = questions[currentQuestion].origin;
 
-    const { dueDate, factor, interval } = schedule(answer, word);
+    const { dueDate, factor, interval } = schedule(answer, word, progress);
 
     try {
       await updateProgress(word.word, progress, dueDate, interval, factor);

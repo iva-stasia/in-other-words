@@ -87,7 +87,7 @@ const TypographyMain = styled(Typography, {
 }>(({ movingToLeft, movingToRight, theme }) => ({
   padding: theme.spacing(3),
   opacity: `${movingToLeft || movingToRight ? 0 : 1}`,
-  transition: "opacity 200ms ease-in-out",
+  transition: "opacity 300ms ease-in-out",
 }));
 
 const TypographyProgress = styled(Typography, {
@@ -102,7 +102,7 @@ const TypographyProgress = styled(Typography, {
   left: "50%",
   transform: "translate(-50%, -50%)",
   opacity: `${direction ? 1 : 0}`,
-  transition: "opacity 200ms ease-in-out",
+  transition: "opacity 300ms ease-in-out",
   color: `${
     color === "error" ? theme.palette.error.light : theme.palette.success.light
   }`,
