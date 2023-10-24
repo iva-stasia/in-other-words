@@ -7,6 +7,7 @@ import {
   CardInnerContainer,
   TypographyProgress,
   TypographyMain,
+  AudioContainer,
 } from "./FlippedCard.styled";
 import AudioPlayer from "../../../../../../components/AudioPlayer";
 import { Box } from "@mui/material";
@@ -49,7 +50,14 @@ const FlippedCard = ({
                 >
                   {word.word}
                 </TypographyMain>
-                {word.audioURL && <AudioPlayer audioURL={word.audioURL} />}
+                {word.audioURL && (
+                  <AudioContainer
+                    movingToLeft={movingToLeft}
+                    movingToRight={movingToRight}
+                  >
+                    <AudioPlayer audioURL={word.audioURL} />
+                  </AudioContainer>
+                )}
               </Box>
               <TypographyProgress
                 variant="h4"

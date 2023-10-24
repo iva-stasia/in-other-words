@@ -1,15 +1,5 @@
 import dayjs from "dayjs";
-import { Answer, Word } from "../types";
-
-const schedule = (answer: Answer, word: Word) => {
-  const interval = getInterval(answer, word);
-  const factor = getFactor(answer, word.learning.factor);
-  const dueDate = dayjs(word.learning.dueDate.toDate())
-    .add(interval, "day")
-    .toDate();
-
-  return { interval, factor, dueDate };
-};
+import { Answer, Progress, Word } from "../types";
 
 const getInterval = (answer: Answer, { learning }: Word) => {
   const delay = dayjs().diff(dayjs(learning.dueDate.toDate()), "day");
@@ -54,6 +44,17 @@ const getFactor = (answer: Answer, factor: number) => {
     default:
       return 2500;
   }
+};
+
+const schedule = (answer: Answer, word: Word, progress: number) => {
+  const interval =
+    progress !== Progress.Learned ? 0 : getInterval(answer, word);
+  const factor = getFactor(answer, word.learning.factor);
+  const dueDate = dayjs(word.learning.dueDate.toDate())
+    .add(interval, "day")
+    .toDate();
+
+  return { interval, factor, dueDate };
 };
 
 export { schedule };

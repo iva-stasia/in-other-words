@@ -57,7 +57,7 @@ const CardFaceFront = styled(Box, {
   borderColor: `${theme.palette.primary.main}20`,
   wordBreak: "break-all",
   hyphens: "auto",
-  transition: "border 200ms ease-in",
+  transition: "border 200ms ease-in-out",
 
   ...(movingToLeft &&
     index === 0 && {
@@ -87,7 +87,7 @@ const TypographyMain = styled(Typography, {
 }>(({ movingToLeft, movingToRight, theme }) => ({
   padding: theme.spacing(3),
   opacity: `${movingToLeft || movingToRight ? 0 : 1}`,
-  transition: "opacity 200ms ease-in",
+  transition: "opacity 300ms ease-in-out",
 }));
 
 const TypographyProgress = styled(Typography, {
@@ -102,10 +102,14 @@ const TypographyProgress = styled(Typography, {
   left: "50%",
   transform: "translate(-50%, -50%)",
   opacity: `${direction ? 1 : 0}`,
-  transition: "opacity 200ms ease-in",
+  transition: "opacity 300ms ease-in-out",
   color: `${
     color === "error" ? theme.palette.error.light : theme.palette.success.light
   }`,
+}));
+
+const AudioContainer = styled(TypographyMain)(({ theme }) => ({
+  padding: theme.spacing(0),
 }));
 
 export {
@@ -115,4 +119,5 @@ export {
   CardFaceBack,
   TypographyMain,
   TypographyProgress,
+  AudioContainer,
 };

@@ -9,21 +9,13 @@ const CardEnd = () => {
         All cards are sorted 🎉
       </Typography>
 
-      <Link
-        component={RouterLink}
-        underline="none"
-        to="/study"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
+      <Link component={RouterLink} underline="none" to="/study">
         <Typography
-          variant="h5"
+          variant="h6"
           noWrap
           component="div"
           sx={{ fontWeight: 600 }}
+          pt={4}
         >
           Choose another training
         </Typography>

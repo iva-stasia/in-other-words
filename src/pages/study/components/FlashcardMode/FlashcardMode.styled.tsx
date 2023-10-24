@@ -1,87 +1,4 @@
 import { Box, IconButton, styled } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-
-const FlashcardsContainer = styled(Box)(({ theme }) => ({
-  position: "relative",
-  marginTop: theme.spacing(2),
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-
-  [theme.breakpoints.down("md")]: {
-    overflow: "hidden",
-    marginTop: 0,
-    height: "100%",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-}));
-
-const StyledSwiper = styled(Swiper)(({ theme }) => ({
-  height: "400px",
-  maxWidth: "640px",
-  width: "100%",
-  overflow: "visible",
-  position: "relative",
-  marginInline: 0,
-  paddingInline: theme.spacing(10),
-
-  [theme.breakpoints.down("lg")]: {
-    maxWidth: "460px",
-  },
-
-  [theme.breakpoints.down("md")]: {
-    maxWidth: "100%",
-    height: "calc(100% - 90px)",
-    paddingInline: theme.spacing(0),
-    paddingTop: theme.spacing(4),
-    order: -1,
-  },
-
-  ".swiper-wrapper": {
-    position: "relative",
-    [theme.breakpoints.down("md")]: {
-      transformStyle: "flat",
-    },
-  },
-
-  ".swiper-slide": {
-    overflow: "visible",
-  },
-
-  " .swiper-pagination-progressbar.swiper-pagination-horizontal": {
-    overflow: "hidden",
-    top: "120%",
-    height: "8px",
-    left: theme.spacing(10),
-    right: theme.spacing(10),
-    width: "auto",
-    borderRadius: "1rem",
-    backgroundColor: theme.palette.background.default,
-
-    [theme.breakpoints.down("md")]: {
-      top: "0",
-      left: theme.spacing(0),
-      right: theme.spacing(0),
-      zIndex: "0",
-    },
-  },
-
-  " .swiper-pagination-progressbar .swiper-pagination-progressbar-fill": {
-    backgroundColor: theme.palette.primary.main,
-  },
-}));
-
-const StyledSwiperSlide = styled(SwiperSlide)(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  fontSize: "1.8rem",
-
-  ".swiper-slide-shadow": {
-    borderRadius: theme.shape.borderRadius,
-  },
-}));
 
 const FailBtn = styled(IconButton)(({ theme }) => ({
   color: theme.palette.error.light,
@@ -91,44 +8,116 @@ const FailBtn = styled(IconButton)(({ theme }) => ({
   "&:disabled": {
     borderColor: theme.palette.action.disabled,
   },
+  "&:hover": {
+    backgroundColor: `${theme.palette.error.light}40`,
+  },
 }));
 
 const PassBtn = styled(FailBtn)(({ theme }) => ({
   color: theme.palette.success.light,
   backgroundColor: `${theme.palette.success.light}20`,
   borderColor: theme.palette.success.light,
+  "&:hover": {
+    backgroundColor: `${theme.palette.success.light}40`,
+  },
 }));
 
-const CardEnd = styled(Box, {
-  shouldForwardProp: (prop) => prop != "cardEnd",
-})<{ cardEnd: boolean }>(({ cardEnd, theme }) => ({
-  position: "absolute",
-  top: -2,
-  left: 0,
+const BtnContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: theme.spacing(3),
+
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}));
+
+const Container = styled(Box)(({ theme }) => ({
+  marginInline: "auto",
+  width: "600px",
   height: "100%",
-  width: "calc(100% - 4px)",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "center",
+  gap: theme.spacing(3),
+  position: "relative",
+  transition: "opacity 0.1s ease-in-out",
+  userSelect: "none",
+
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
+}));
+
+const CardContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(6),
+  position: "relative",
+  height: "400px",
+  width: "100%",
   textAlign: "center",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.background.default,
-  border: "2px solid",
-  borderColor: `${theme.palette.primary.main}20`,
-  opacity: 0,
-  transition: theme.transitions.create("opacity"),
-  ...(cardEnd && {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-end",
+  zIndex: 1,
+
+  [theme.breakpoints.down("sm")]: {
+    height: "calc(100vh - 208px)",
+    marginTop: theme.spacing(4),
+  },
+}));
+
+const CommonCardContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "index",
+})<{ index: number }>(({ index }) => ({
+  display: "inline-block",
+  position: "absolute",
+  top: 0,
+  transition: "all 0.3s ease-in-out",
+  zIndex: `${10 - index}`,
+  opacity: `${(5 - index) / 5}`,
+  transform: `scale(${(30 - index) / 30}) translateY(-${8 * index}px)`,
+  transformOrigin: "top",
+  ...(index === 1 && {
     opacity: 1,
-    zIndex: "999",
+  }),
+}));
+
+const CurrentCardContainer = styled(Box, {
+  shouldForwardProp: (prop) =>
+    prop !== "translateX" &&
+    prop !== "movingToLeft" &&
+    prop !== "movingToRight" &&
+    prop !== "isDragging",
+})<{
+  translateX: number;
+  movingToLeft: boolean;
+  movingToRight: boolean;
+  isDragging: boolean;
+}>(({ translateX, isDragging }) => ({
+  borderRadius: "8px",
+  cursor: "pointer",
+
+  transform: `translateX(${translateX}px)`,
+  rotate: `${translateX / 30}deg`,
+  transition: "all 200ms ease-in-out",
+  transformOrigin: "bottom center",
+
+  ...(!isDragging && {
+    transform: "translateX(0px)",
+    rotate: "0deg",
+  }),
+  ...(isDragging && {
+    cursor: "grabbing",
+    transition: "none",
   }),
 }));
 
 export {
-  FlashcardsContainer,
-  StyledSwiper,
-  StyledSwiperSlide,
   FailBtn,
   PassBtn,
-  CardEnd,
+  Container,
+  CardContainer,
+  CommonCardContainer,
+  CurrentCardContainer,
+  BtnContainer,
 };

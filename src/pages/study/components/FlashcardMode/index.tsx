@@ -1,22 +1,19 @@
-import { Link, Typography } from "@mui/material";
-import { EffectCards, Pagination, EffectCreative } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-cards";
-import "swiper/css/pagination";
+import { Box, Typography } from "@mui/material";
+import FlippedCard from "./components/FlippedCard";
 import { CheckRounded, CloseRounded } from "@mui/icons-material";
-import { NavLink as RouterLink } from "react-router-dom";
-
-import useFlashcardModeFacade from "./flashcardModeFacade";
-import FlashcardComponent from "./components/flashcard/FlashcardComponent";
-import { Word } from "../../../../types";
 import {
-  CardEnd,
+  BtnContainer,
+  CardContainer,
+  CommonCardContainer,
+  Container,
+  CurrentCardContainer,
   FailBtn,
-  FlashcardsContainer,
   PassBtn,
-  StyledSwiper,
-  StyledSwiperSlide,
 } from "./FlashcardMode.styled";
+import { Word } from "../../../../types";
+import CardEnd from "./components/CardEnd";
+import useFlashcardModeFacade from "./flashcardModeFacade";
+import BorderLinearProgress from "../../../../components/BorderLinearProgress";
 
 interface FlashcardModeProps {
   words: Word[];
@@ -25,78 +22,83 @@ interface FlashcardModeProps {
 const FlashcardMode = ({ words }: FlashcardModeProps) => {
   const {
     wordsToDisplay,
-    setCurIndex,
-    cardEnd,
-    matchDownMd,
+    handlePointerDown,
+    handlePointerUp,
+    handleDragMove,
+    isDragging,
+    movingToLeft,
+    movingToRight,
+    translateX,
+    dragged,
     handleFail,
     handlePass,
-    swiperRef,
+    curIndex,
+    wordNum,
   } = useFlashcardModeFacade(words);
 
   return (
-    <FlashcardsContainer>
-      <FailBtn size="large" onClick={handleFail} disabled={cardEnd}>
-        <CloseRounded fontSize="inherit" />
-      </FailBtn>
-
-      <StyledSwiper
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
-        effect={matchDownMd ? "creative" : "cards"}
-        grabCursor={false}
-        allowTouchMove={false}
-        onSlideChange={(swiper) => setCurIndex(swiper.realIndex)}
-        creativeEffect={{
-          prev: {
-            shadow: true,
-            translate: ["0%", 0, -1],
-          },
-          next: {
-            shadow: true,
-            translate: ["100%", 0, 0],
-          },
-        }}
-        modules={[EffectCards, Pagination, EffectCreative]}
-        pagination={{
-          type: "progressbar",
-        }}
-      >
-        {wordsToDisplay.map((word) => (
-          <StyledSwiperSlide key={word.word}>
-            <FlashcardComponent word={word} />
-          </StyledSwiperSlide>
-        ))}
-
-        <CardEnd cardEnd={cardEnd} slot="wrapper-end">
-          <Typography p={3} variant="h4">
-            All cards are sorted 🎉
-          </Typography>
-
-          <Link
-            component={RouterLink}
-            underline="none"
-            to="/study"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            <Typography
-              variant="h5"
-              noWrap
-              component="div"
-              sx={{ fontWeight: 600 }}
+    <Box>
+      <Container>
+        <CardContainer>
+          {wordsToDisplay.map((word, index) => (
+            <CommonCardContainer
+              onPointerDown={handlePointerDown}
+              onPointerUp={handlePointerUp}
+              onPointerMove={handleDragMove}
+              key={word.word}
+              index={index}
             >
-              Choose another training
-            </Typography>
-          </Link>
-        </CardEnd>
-      </StyledSwiper>
+              {index === 0 ? (
+                <CurrentCardContainer
+                  isDragging={isDragging}
+                  movingToLeft={movingToLeft}
+                  movingToRight={movingToRight}
+                  translateX={translateX}
+                >
+                  <FlippedCard
+                    word={word}
+                    dragged={dragged}
+                    movingToLeft={movingToLeft}
+                    movingToRight={movingToRight}
+                    index={index}
+                  />
+                </CurrentCardContainer>
+              ) : (
+                <FlippedCard
+                  word={word}
+                  dragged={dragged}
+                  movingToLeft={movingToLeft}
+                  movingToRight={movingToRight}
+                  index={index}
+                />
+              )}
+            </CommonCardContainer>
+          ))}
+          <CommonCardContainer index={wordsToDisplay.length}>
+            <CardEnd />
+          </CommonCardContainer>
+        </CardContainer>
 
-      <PassBtn size="large" onClick={handlePass} disabled={cardEnd}>
-        <CheckRounded fontSize="inherit" />
-      </PassBtn>
-    </FlashcardsContainer>
+        {wordsToDisplay.length > 0 && (
+          <>
+            <BtnContainer>
+              <FailBtn size="large" onClick={handleFail}>
+                <CloseRounded fontSize="inherit" />
+              </FailBtn>
+
+              <Typography variant="h6">
+                {curIndex + 1}/{wordNum}
+              </Typography>
+
+              <PassBtn size="large" onClick={handlePass}>
+                <CheckRounded fontSize="inherit" />
+              </PassBtn>
+            </BtnContainer>
+            <BorderLinearProgress current={curIndex} total={wordNum} />
+          </>
+        )}
+      </Container>
+    </Box>
   );
 };
 

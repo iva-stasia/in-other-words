@@ -1,4 +1,5 @@
 import { PaletteColor, SimplePaletteColorOptions } from "@mui/material";
+import { Word } from ".";
 
 export type {
   WordOption,
@@ -58,4 +59,12 @@ export enum Answer {
   PassHard,
   Pass,
   PassEasy,
+}
+
+export interface QuizQuestion {
+  term: string;
+  answer: string;
+  options: string[];
+  origin: Word;
+  audio?: string;
 }

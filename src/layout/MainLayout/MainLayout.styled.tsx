@@ -25,6 +25,11 @@ const Main = styled("main")(({ theme }) => ({
   borderColor: theme.palette.backgroundSecond.main,
   [theme.breakpoints.down("md")]: {
     borderRadius: "0",
+    padding: theme.spacing(2),
+  },
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(2),
+    paddingTop: theme.spacing(1),
   },
 }));
 
