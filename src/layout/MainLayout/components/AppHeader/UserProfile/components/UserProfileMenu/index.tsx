@@ -12,8 +12,6 @@ import { signOut } from "firebase/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../../../store";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setActivePage } from "../../../../../../../store/slices/menuSlice";
 
 interface UserProfileMenuProps {
   anchorElUser: null | HTMLElement;
@@ -49,15 +47,13 @@ const UserProfileMenu = ({
 }: UserProfileMenuProps) => {
   const { displayName } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleClick = async (item: Setting) => {
     setAnchorElUser(null);
     if (item.title === "Logout") {
       await logout();
-    } else {
-      dispatch(setActivePage(item.title));
-      if (item.path) navigate(item.path);
+    } else if (item.path) {
+      navigate(item.path);
     }
   };
 
