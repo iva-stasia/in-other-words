@@ -68,3 +68,9 @@ export interface QuizQuestion {
   origin: Word;
   audio?: string;
 }
+
+export interface UserProfile {
+  photoURL: unknown;
+  displayName: string | undefined;
+  email: string;
+}

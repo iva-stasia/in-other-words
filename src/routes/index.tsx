@@ -13,6 +13,7 @@ import Repetition from "../pages/study/views/repetition";
 import ErrorPage from "../pages/error";
 import WordToDefinition from "../pages/study/views/word-to-definition";
 import DefinitionToWord from "../pages/study/views/definition-to-word";
+import Settings from "../pages/settings";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: "/study/definition-word",
         element: <DefinitionToWord />,
+      },
+      {
+        path: "/settings",
+        element: <Settings />,
       },
     ],
   },

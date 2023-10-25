@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserLoginInput } from "../../../types";
-import { loginSchema } from "../../../utils/authFormValidationSchema";
+import { loginSchema } from "../../../utils/formValidationSchemes";
 import {
   setPersistence,
   signInWithEmailAndPassword,

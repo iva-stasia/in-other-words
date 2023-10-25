@@ -14,6 +14,7 @@ const MainContainer = styled(Box)({
 
 const Main = styled("main")(({ theme }) => ({
   padding: theme.spacing(3),
+  paddingBottom: theme.spacing(0),
   overflow: "hidden",
   flexGrow: 1,
   display: "flex",
@@ -30,6 +31,7 @@ const Main = styled("main")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     padding: theme.spacing(2),
     paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(0),
   },
 }));
 

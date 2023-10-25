@@ -1,11 +1,12 @@
 import { Box, Paper, TableContainer, styled } from "@mui/material";
 
-const Container = styled(Box)({
+const Container = styled(Box)(({ theme }) => ({
+  paddingBottom: theme.spacing(3),
   flex: 1,
   display: "flex",
   flexDirection: "column",
   overflow: "hidden",
-});
+}));
 
 const StyledTableContainer = styled(TableContainer)({
   height: "100%",

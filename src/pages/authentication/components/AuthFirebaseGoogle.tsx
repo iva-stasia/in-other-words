@@ -7,9 +7,25 @@ import { doc, setDoc } from "firebase/firestore";
 const AuthFirebaseGoogle = () => {
   const signInWithGoogle = async () => {
     try {
-      const res = await signInWithPopup(auth, provider);
-      await setDoc(doc(db, "userWords", res.user.uid), {}, { merge: true });
-      await setDoc(doc(db, "userSets", res.user.uid), {}, { merge: true });
+      const { user } = await signInWithPopup(auth, provider);
+
+      try {
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+          },
+          { merge: true }
+        );
+      } catch (error) {
+        if (error instanceof Error) console.error(error.message);
+      }
+
+      await setDoc(doc(db, "userWords", user.uid), {}, { merge: true });
+      await setDoc(doc(db, "userSets", user.uid), {}, { merge: true });
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

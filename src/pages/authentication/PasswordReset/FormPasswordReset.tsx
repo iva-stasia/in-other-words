@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { UserEmail } from "../../../types";
-import { emailSchema } from "../../../utils/authFormValidationSchema";
+import { emailSchema } from "../../../utils/formValidationSchemes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { auth } from "../../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";

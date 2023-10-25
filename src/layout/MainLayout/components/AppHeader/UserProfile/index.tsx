@@ -1,5 +1,5 @@
 import { useState } from "react";
-import UserProfileMenu from "./UserProfileMenu";
+import UserProfileMenu from "./components/UserProfileMenu";
 import { Avatar, Box, IconButton, Tooltip } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store";

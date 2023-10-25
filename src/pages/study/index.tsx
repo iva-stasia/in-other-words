@@ -81,7 +81,7 @@ const Study = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
 
   return (
-    <Box mt={2} sx={{ overflow: "auto", borderRadius: "12px" }}>
+    <Box mt={2} pb={3} sx={{ overflow: "auto", borderRadius: "12px" }}>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}

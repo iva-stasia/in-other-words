@@ -36,7 +36,7 @@ const Filters = () => {
       alignItems={{ xs: "flex-end", sm: "center" }}
       gap={{ xs: 1, sm: 2 }}
       sx={{
-        ...(open && { width: { xs: "calc(100vw - 48px)", sm: "auto" } }),
+        ...(open && { width: { xs: "calc(100vw - 38px)", sm: "auto" } }),
       }}
     >
       {open ? (

@@ -12,8 +12,8 @@ import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserRegisterInput } from "../../../types";
-import { registerSchema } from "../../../utils/authFormValidationSchema";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { registerSchema } from "../../../utils/formValidationSchemes";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import AlertMessage from "../../../components/AlertMessage";
@@ -49,9 +49,35 @@ const FormRegister = () => {
     password,
   }) => {
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      await setDoc(doc(db, "userWords", res.user.uid), {});
-      await setDoc(doc(db, "userSets", res.user.uid), {});
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const avatar = user.photoURL
+        ? user.photoURL
+        : `https://api.dicebear.com/7.x/big-ears-neutral/svg?scale=100&seed=${new Date().getMilliseconds()}`;
+
+      try {
+        await updateProfile(user, {
+          photoURL: avatar,
+        });
+
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: avatar,
+        });
+      } catch (error) {
+        setError(true);
+        const message = "Ops! Something went wrong. Please try again later.";
+        setErrorMessage(message);
+      }
+
+      await setDoc(doc(db, "userWords", user.uid), {});
+      await setDoc(doc(db, "userSets", user.uid), {});
     } catch (error) {
       if (error instanceof Error) {
         setError(true);
