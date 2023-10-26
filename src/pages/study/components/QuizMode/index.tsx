@@ -12,6 +12,8 @@ import {
 import BorderLinearProgress from "../../../../components/BorderLinearProgress";
 import EndCard from "./components/EndCard";
 import useQuizModeFacade from "./quizModeFacade";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../../../utils/motion";
 
 interface QuizModeProps {
   questions: QuizQuestion[];
@@ -31,7 +33,13 @@ const QuizMode = ({ questions }: QuizModeProps) => {
   } = useQuizModeFacade(questions);
 
   return (
-    <Container>
+    <Container
+      component={motion.div}
+      variants={fadeIn("down", "tween", 0, 0.5)}
+      initial="hidden"
+      animate="show"
+      key={location.pathname}
+    >
       <QuizContainer>
         {!end && (
           <>

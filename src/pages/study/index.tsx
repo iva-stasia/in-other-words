@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Progress, Word } from "../../types";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../utils/motion";
 
 const studyModes = [
   {
@@ -81,7 +83,16 @@ const Study = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
 
   return (
-    <Box mt={2} pb={3} sx={{ overflow: "auto", borderRadius: "12px" }}>
+    <Box
+      mt={2}
+      pb={3}
+      sx={{ overflow: "auto", borderRadius: "12px" }}
+      component={motion.div}
+      variants={fadeIn("up", "tween", 0, 0.5)}
+      initial="hidden"
+      animate="show"
+      key={location.pathname}
+    >
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}

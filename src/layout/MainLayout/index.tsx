@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import { Toolbar } from "@mui/material";
 import AppHeader from "./components/AppHeader";
@@ -17,6 +17,7 @@ import useOwnWords from "../../hooks/useOwnWords";
 import useWordSets from "../../hooks/useWordSets";
 import { Main, MainContainer, MainLayoutContainer } from "./MainLayout.styled";
 import PageHeader from "../../components/PageHeader";
+import { motion, AnimatePresence } from "framer-motion";
 
 const MainLayout = () => {
   const dispatch = useDispatch();

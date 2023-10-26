@@ -14,6 +14,8 @@ import { Word } from "../../../../types";
 import CardEnd from "./components/CardEnd";
 import useFlashcardModeFacade from "./flashcardModeFacade";
 import BorderLinearProgress from "../../../../components/BorderLinearProgress";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../../../utils/motion";
 
 interface FlashcardModeProps {
   words: Word[];
@@ -37,7 +39,13 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
   } = useFlashcardModeFacade(words);
 
   return (
-    <Box>
+    <Box
+      component={motion.div}
+      variants={fadeIn("down", "tween", 0, 0.5)}
+      initial="hidden"
+      animate="show"
+      key={location.pathname}
+    >
       <Container>
         <CardContainer>
           {wordsToDisplay.map((word, index) => (

@@ -11,6 +11,8 @@ import CreateSetBtn from "./components/CreateSetBtn";
 import SetCard from "./components/SetCard";
 import CreateSetDialog from "./components/CreateSetDialog";
 import DeleteSetDialog from "./components/DeleteSetDialog";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../utils/motion";
 
 const WordSets = () => {
   const dispatch = useDispatch();
@@ -33,7 +35,13 @@ const WordSets = () => {
   };
 
   return (
-    <WordSetsContainer>
+    <WordSetsContainer
+      component={motion.div}
+      variants={fadeIn("up", "tween", 0, 0.5)}
+      initial="hidden"
+      animate="show"
+      key={location.pathname}
+    >
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}

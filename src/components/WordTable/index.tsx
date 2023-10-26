@@ -15,6 +15,8 @@ import {
   StyledTableContainer,
 } from "./WordTable.styled";
 import WordTableRow from "./components/WordTableRow";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../utils/motion";
 
 interface WordTableProps {
   words: Word[];
@@ -121,7 +123,13 @@ const WordTable = ({ words, title }: WordTableProps) => {
   }, [sortedRows, dispatch]);
 
   return (
-    <Container>
+    <Container
+      component={motion.div}
+      variants={fadeIn("up", "tween", 0, 0.5)}
+      initial="hidden"
+      animate="show"
+      key={location.pathname}
+    >
       <Stack
         direction="row"
         justifyContent="space-between"

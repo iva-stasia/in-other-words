@@ -1,4 +1,4 @@
-import { Modal } from "@mui/material";
+import { Backdrop, Box, Fade, Modal } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { useDispatch } from "react-redux";
@@ -12,10 +12,18 @@ import UpdateWordDialog from "../UpdateWordDialog";
 import { useRef, useState } from "react";
 import { StyledContainer, NavButton } from "./WordDataDialog.styled";
 import WordCard from "./components/WordCard";
+import { AnimatePresence, motion } from "framer-motion";
+import { wordCardNav } from "../../../utils/motion";
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
 
 const WordDataDialog = () => {
   const dispatch = useDispatch();
   const [updateOpen, setUpdateOpen] = useState(false);
+  const [[page, direction], setPage] = useState([0, 0]);
   const containerRef = useRef(null);
   const isWordDataDialogOpen = useSelector(
     (state: RootState) => state.dialog.isWordDataDialogOpen
@@ -39,20 +47,26 @@ const WordDataDialog = () => {
     handleDialogClose();
   };
 
-  const handleBackClick = () => {
+  const paginate = (newDirection: number) => {
+    setPage([page + newDirection, newDirection]);
+  };
+
+  const handleBackClick = (newDirection: number) => {
     const prevWord =
-      wordId - 1 > 0
+      wordId - 1 >= 0
         ? ownSortedWords[wordId - 1]
         : ownSortedWords[ownSortedWords.length - 1];
     dispatch(setSelectedWord({ word: prevWord.word, source: "ownDictionary" }));
+    paginate(newDirection);
   };
 
-  const handleForwardClick = () => {
+  const handleForwardClick = (newDirection: number) => {
     const nextWord =
       wordId < ownSortedWords.length - 1
         ? ownSortedWords[wordId + 1]
         : ownSortedWords[0];
     dispatch(setSelectedWord({ word: nextWord.word, source: "ownDictionary" }));
+    paginate(newDirection);
   };
 
   const handleEdit = () => {
@@ -67,26 +81,64 @@ const WordDataDialog = () => {
           open={isWordDataDialogOpen}
           onClose={handleDialogClose}
           aria-labelledby="modal-word-info"
+          closeAfterTransition
+          slots={{ backdrop: Backdrop }}
+          slotProps={{
+            backdrop: {
+              timeout: 500,
+            },
+          }}
         >
-          <StyledContainer
-            ref={containerRef}
-            onClick={(e) => handleContainerClick(e)}
-            maxWidth="sm"
-          >
-            <NavButton onClick={handleBackClick} size="large">
-              <ArrowBackIosNewRounded fontSize="inherit" />
-            </NavButton>
+          <Fade in={isWordDataDialogOpen} timeout={2000}>
+            <StyledContainer
+              ref={containerRef}
+              onClick={(e) => handleContainerClick(e)}
+              maxWidth="sm"
+            >
+              <NavButton onClick={() => handleBackClick(-1)} size="large">
+                <ArrowBackIosNewRounded fontSize="inherit" />
+              </NavButton>
 
-            <WordCard
-              wordData={wordData}
-              handleEdit={handleEdit}
-              handleDialogClose={handleDialogClose}
-            />
+              <AnimatePresence mode="wait" initial={false} custom={direction}>
+                <Box
+                  component={motion.div}
+                  width={1}
+                  key={wordData.word}
+                  custom={direction}
+                  variants={wordCardNav}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: "spring", stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.1 },
+                  }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={1}
+                  onDragEnd={(_e, { offset, velocity }) => {
+                    const swipe = swipePower(offset.x, velocity.x);
 
-            <NavButton onClick={handleForwardClick} size="large">
-              <ArrowForwardIosRounded fontSize="inherit" />
-            </NavButton>
-          </StyledContainer>
+                    if (swipe < -swipeConfidenceThreshold) {
+                      handleForwardClick(1);
+                    } else if (swipe > swipeConfidenceThreshold) {
+                      handleBackClick(-1);
+                    }
+                  }}
+                >
+                  <WordCard
+                    wordData={wordData}
+                    handleEdit={handleEdit}
+                    handleDialogClose={handleDialogClose}
+                  />
+                </Box>
+              </AnimatePresence>
+
+              <NavButton onClick={() => handleForwardClick(1)} size="large">
+                <ArrowForwardIosRounded fontSize="inherit" />
+              </NavButton>
+            </StyledContainer>
+          </Fade>
         </Modal>
 
         {updateOpen && (

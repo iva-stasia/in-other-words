@@ -1,6 +1,9 @@
-import { Box, styled } from "@mui/material";
+import { Box, BoxProps, styled } from "@mui/material";
+import { MotionProps } from "framer-motion";
 
-const Container = styled(Box)(({ theme }) => ({
+const Container = styled(Box)<
+  BoxProps & MotionProps & { component: React.ElementType }
+>(({ theme }) => ({
   paddingBottom: theme.spacing(3),
   overflow: "auto",
   marginTop: theme.spacing(2),

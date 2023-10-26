@@ -26,6 +26,7 @@
     "dayjs": "^1.11.9",
     "electron-squirrel-startup": "^1.0.0",
     "firebase": "^10.0.0",
+    "framer-motion": "^10.16.4",
     "jdenticon": "^3.2.0",
     "ky": "^0.33.3",
     "mui-image": "^1.0.7",

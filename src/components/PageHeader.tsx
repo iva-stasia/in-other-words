@@ -3,6 +3,8 @@ import { NavLink as RouterLink, useLocation } from "react-router-dom";
 import { RootState } from "../store";
 import { Box, Link, Typography } from "@mui/material";
 import { ArrowBackRounded } from "@mui/icons-material";
+import { motion } from "framer-motion";
+import { fadeIn } from "../utils/motion";
 
 const PageHeader = () => {
   const { pathname } = useLocation();
@@ -10,7 +12,13 @@ const PageHeader = () => {
   const path = pathname.slice(1).split("/");
 
   return (
-    <Box>
+    <Box
+      component={motion.div}
+      variants={fadeIn("down", "tween", 0, 0.5)}
+      initial="hidden"
+      animate="show"
+      key={location.pathname}
+    >
       {path.length >= 2 ? (
         <Link
           component={RouterLink}

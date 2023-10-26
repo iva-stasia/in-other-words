@@ -1,14 +1,18 @@
-import { Box, Grid, GridProps, styled } from "@mui/material";
+import { Box, BoxProps, Grid, GridProps, styled } from "@mui/material";
 import LightThemeBgImage from "/auth-bg-light-theme.png";
 import DarkThemeBgImage from "/auth-bg-dark-theme.png";
+import { MotionProps } from "framer-motion";
 
 const AuthLayoutContainer = styled(Grid)<
-  GridProps & { component: React.ElementType }
+  GridProps & MotionProps & { component: React.ElementType }
 >({
   height: "100vh",
+  overflowX: "hidden",
 });
 
-const FormGridContainer = styled(Grid)({
+const FormGridContainer = styled(Grid)<
+  GridProps & MotionProps & { component: React.ElementType }
+>({
   display: "flex",
   alignItems: "center",
   flexDirection: "column",
@@ -26,7 +30,9 @@ const FormContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
 }));
 
-const BgImage = styled(Grid)(({ theme }) => ({
+const BgImage = styled(Grid)<
+  BoxProps & MotionProps & { component: React.ElementType }
+>(({ theme }) => ({
   backgroundImage: `url('${
     theme.palette.mode === "light" ? LightThemeBgImage : DarkThemeBgImage
   }')`,

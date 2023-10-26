@@ -1,4 +1,5 @@
-import { Box, styled } from "@mui/material";
+import { Box, BoxProps, styled } from "@mui/material";
+import { MotionProps } from "framer-motion";
 
 const MainLayoutContainer = styled(Box)({
   height: "100vh",
@@ -12,7 +13,7 @@ const MainContainer = styled(Box)({
   flexDirection: "column",
 });
 
-const Main = styled("main")(({ theme }) => ({
+const Main = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
   padding: theme.spacing(3),
   paddingBottom: theme.spacing(0),
   overflow: "hidden",
