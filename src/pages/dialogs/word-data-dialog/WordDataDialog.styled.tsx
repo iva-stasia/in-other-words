@@ -1,7 +1,8 @@
 import { Container, IconButton, styled } from "@mui/material";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
-  width: "100%",
+  width: "40%",
+  maxWidth: "700px",
   height: "100%",
   position: "absolute",
   top: "50%",
@@ -12,6 +13,7 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   [theme.breakpoints.down("sm")]: {
+    width: "100%",
     flexWrap: "wrap",
     alignItems: "flex-end",
     justifyContent: "space-between",

@@ -30,13 +30,12 @@ const ProgressContainer = styled(Box)(({ theme }) => ({
 }));
 
 const QuizContainer = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
-  minHeight: "400px",
+  overflow: "auto",
   width: "800px",
   maxWidth: "80%",
   marginTop: theme.spacing(2),
   marginInline: "auto",
   padding: theme.spacing(4),
-  flex: 1,
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
@@ -44,11 +43,23 @@ const QuizContainer = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
   borderRadius: "12px",
 
   [theme.breakpoints.down("sm")]: {
-    // minHeight: "100%",
     maxWidth: "90%",
     gap: theme.spacing(2),
     backgroundColor: theme.palette.backgroundSecond.main,
     padding: theme.spacing(0),
+    flex: 1,
+    borderRadius: theme.shape.borderRadius,
+  },
+}));
+
+const EndCardContainer = styled(QuizContainer)(({ theme }) => ({
+  paddingTop: theme.spacing(16),
+  paddingBottom: theme.spacing(16),
+
+  [theme.breakpoints.down("sm")]: {
+    padding: 0,
+    backgroundColor: theme.palette.background.default,
+    borderRadius: theme.shape.borderRadius,
   },
 }));
 
@@ -160,4 +171,5 @@ export {
   DescTypography,
   OptionBtn,
   ProgressContainer,
+  EndCardContainer,
 };

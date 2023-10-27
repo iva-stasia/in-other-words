@@ -85,7 +85,6 @@ const WordDataDialog = () => {
             <StyledContainer
               ref={containerRef}
               onClick={(e) => handleContainerClick(e)}
-              maxWidth="sm"
             >
               <NavButton onClick={() => handleBackClick(-1)} size="large">
                 <ArrowBackIosNewRounded fontSize="inherit" />
@@ -102,7 +101,12 @@ const WordDataDialog = () => {
                   animate="center"
                   exit="exit"
                   transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
+                    x: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                      duration: 0.1,
+                    },
                     opacity: { duration: 0.1 },
                   }}
                   drag="x"
@@ -116,6 +120,10 @@ const WordDataDialog = () => {
                     } else if (swipe > swipeConfidenceThreshold) {
                       handleBackClick(-1);
                     }
+                  }}
+                  sx={{
+                    order: { xs: "-1", sm: "0" },
+                    height: { xs: "70%", sm: "50%" },
                   }}
                 >
                   <WordCard

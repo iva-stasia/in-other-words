@@ -40,7 +40,7 @@ const WordToDefinition = () => {
 
   if (questions.length === 0) return;
 
-  return <QuizMode questions={questions} />;
+  return <QuizMode questions={questions.slice(0, 10)} />;
 };
 
 export default WordToDefinition;

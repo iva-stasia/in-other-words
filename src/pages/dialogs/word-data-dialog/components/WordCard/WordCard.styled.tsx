@@ -1,4 +1,10 @@
-import { Box, IconButton, Typography, styled } from "@mui/material";
+import {
+  Box,
+  CardContent,
+  IconButton,
+  Typography,
+  styled,
+} from "@mui/material";
 
 const TypographyWord = styled(Typography)(({ theme }) => ({
   fontSize: "3rem",
@@ -44,10 +50,29 @@ const ProgressIconContainer = styled(Box)({
   height: "24px",
 });
 
+const StyledCardContent = styled(CardContent)(({ theme }) => ({
+  overflow: "hidden",
+  position: "relative",
+  padding: theme.spacing(4),
+  minHeight: "100%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+}));
+
+const WordInfoContainer = styled(Box)({
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+});
+
 export {
   TypographyWord,
   TypographyWordShadow,
   EditButton,
   CloseButton,
   ProgressIconContainer,
+  StyledCardContent,
+  WordInfoContainer,
 };

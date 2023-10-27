@@ -88,7 +88,12 @@ export const slideIn = (
   duration: number
 ) => ({
   hidden: {
-    x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
+    x:
+      direction === "left"
+        ? -window.innerWidth
+        : direction === "right"
+        ? window.innerWidth
+        : 0,
     y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
   },
   show: {
@@ -102,13 +107,18 @@ export const slideIn = (
     },
   },
   exit: {
-    x: direction === "left" ? "100%" : direction === "right" ? "-100%" : 0,
+    x:
+      direction === "left"
+        ? window.innerWidth
+        : direction === "right"
+        ? -window.innerWidth
+        : 0,
     y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
     transition: {
       type,
       delay,
       duration,
-      ease: "easeOut",
+      ease: "easeIn",
     },
   },
 });

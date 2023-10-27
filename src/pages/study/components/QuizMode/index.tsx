@@ -1,9 +1,10 @@
 import { QuizQuestion } from "../../../../types";
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import AudioPlayer from "../../../../components/AudioPlayer";
 import {
   Container,
   DescTypography,
+  EndCardContainer,
   OptionBtn,
   OptionContainer,
   ProgressContainer,
@@ -49,16 +50,18 @@ const QuizMode = ({ questions }: QuizModeProps) => {
       </ProgressContainer>
 
       <AnimatePresence mode="wait" initial={false}>
-        <QuizContainer
-          component={motion.div}
-          variants={slideIn("right", "tween", 0, 0.3)}
-          initial="hidden"
-          animate="show"
-          exit="exit"
-          key={currentQuestion}
-        >
-          {!end && (
-            <>
+        {!end && (
+          <Box
+            height={1}
+            display={{ xs: "flex", sm: "block" }}
+            component={motion.div}
+            variants={slideIn("right", "tween", 0, 0.3)}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            key={currentQuestion}
+          >
+            <QuizContainer>
               <TermContainer>
                 <Stack direction="row" alignItems="center">
                   <Typography variant="h6">
@@ -102,13 +105,21 @@ const QuizMode = ({ questions }: QuizModeProps) => {
                   </OptionBtn>
                 ))}
               </OptionContainer>
-            </>
-          )}
+            </QuizContainer>
+          </Box>
+        )}
 
-          {end && (
+        {end && (
+          <EndCardContainer
+            component={motion.div}
+            variants={slideIn("right", "tween", 0, 0.3)}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+          >
             <EndCard current={scoreRef.current} total={questions.length} />
-          )}
-        </QuizContainer>
+          </EndCardContainer>
+        )}
       </AnimatePresence>
     </Container>
   );

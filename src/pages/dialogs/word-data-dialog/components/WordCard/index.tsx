@@ -1,18 +1,13 @@
 import { Word } from "../../../../../types";
-import {
-  Box,
-  Card,
-  CardContent,
-  Divider,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Card, Divider, Tooltip, Typography } from "@mui/material";
 import {
   CloseButton,
   EditButton,
   ProgressIconContainer,
+  StyledCardContent,
   TypographyWord,
   TypographyWordShadow,
+  WordInfoContainer,
 } from "./WordCard.styled";
 import { CloseRounded, EditRounded } from "@mui/icons-material";
 import AudioPlayer from "../../../../../components/AudioPlayer";
@@ -30,12 +25,27 @@ const WordCard = ({
   handleDialogClose,
 }: WordCardProps) => {
   return (
-    <Card sx={{ width: "100%", order: { xs: "-1", sm: "0" } }}>
-      <CardContent sx={{ overflow: "hidden", position: "relative", p: 4 }}>
-        <TypographyWord>{wordData.word}</TypographyWord>
-        <TypographyWordShadow>{wordData.word}</TypographyWordShadow>
+    <Card sx={{ width: "100%", height: 1, overflow: "auto" }}>
+      <StyledCardContent>
+        <Box>
+          <TypographyWordShadow>{wordData.word}</TypographyWordShadow>
+          <TypographyWord>{wordData.word}</TypographyWord>
 
-        <Tooltip title="Your progress">
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            {wordData.audioURL ? (
+              <AudioPlayer
+                audioURL={wordData.audioURL}
+                pronunciation={wordData.pronunciation}
+              />
+            ) : (
+              !!wordData.pronunciation && (
+                <Typography>[{wordData.pronunciation}]</Typography>
+              )
+            )}
+          </Box>
+        </Box>
+
+        <Tooltip title="Your progress" sx={{ zIndex: 1 }}>
           <ProgressIconContainer>
             <ProgressIcon progress={wordData.learning.progress} />
           </ProgressIconContainer>
@@ -53,20 +63,8 @@ const WordCard = ({
           </CloseButton>
         </Tooltip>
 
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          {wordData.audioURL ? (
-            <AudioPlayer
-              audioURL={wordData.audioURL}
-              pronunciation={wordData.pronunciation}
-            />
-          ) : (
-            !!wordData.pronunciation && (
-              <Typography>[{wordData.pronunciation}]</Typography>
-            )
-          )}
-        </Box>
         {wordData.definitions.map((def, index) => (
-          <Box key={index}>
+          <WordInfoContainer key={index}>
             <Box mt={2} textAlign="center">
               {def.partOfSpeech && (
                 <Divider>
@@ -79,6 +77,7 @@ const WordCard = ({
                 {def.definition}
               </Typography>
             </Box>
+
             <Box mt={2} textAlign="center">
               {def.synonyms && (
                 <Box>
@@ -119,9 +118,9 @@ const WordCard = ({
                 </Box>
               )}
             </Box>
-          </Box>
+          </WordInfoContainer>
         ))}
-      </CardContent>
+      </StyledCardContent>
     </Card>
   );
 };
