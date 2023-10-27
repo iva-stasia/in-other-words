@@ -41,7 +41,7 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
   return (
     <Box
       component={motion.div}
-      variants={fadeIn("down", "tween", 0, 0.5)}
+      variants={fadeIn("down", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}

@@ -15,7 +15,7 @@ import WordToDefinition from "../pages/study/views/word-to-definition";
 import DefinitionToWord from "../pages/study/views/definition-to-word";
 import Settings from "../pages/settings";
 
-export const router = createBrowserRouter([
+export const routes = [
   {
     path: "/",
     element: <MainLayout />,
@@ -76,4 +76,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(routes);

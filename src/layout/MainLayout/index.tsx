@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import { Toolbar } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 import AppHeader from "./components/AppHeader";
 import WordDataDialog from "../../pages/dialogs/word-data-dialog";
 import { useDispatch } from "react-redux";
@@ -17,7 +17,6 @@ import useOwnWords from "../../hooks/useOwnWords";
 import useWordSets from "../../hooks/useWordSets";
 import { Main, MainContainer, MainLayoutContainer } from "./MainLayout.styled";
 import PageHeader from "../../components/PageHeader";
-import { motion, AnimatePresence } from "framer-motion";
 
 const MainLayout = () => {
   const dispatch = useDispatch();

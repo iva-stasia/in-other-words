@@ -88,7 +88,7 @@ const Study = () => {
       pb={3}
       sx={{ overflow: "auto", borderRadius: "12px" }}
       component={motion.div}
-      variants={fadeIn("up", "tween", 0, 0.5)}
+      variants={fadeIn("up", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}

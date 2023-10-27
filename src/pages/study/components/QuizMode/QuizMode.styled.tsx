@@ -5,20 +5,38 @@ const Container = styled(Box)<
   BoxProps & MotionProps & { component: React.ElementType }
 >(({ theme }) => ({
   marginTop: theme.spacing(2),
+  marginInline: theme.spacing(-3),
   height: "100%",
-  width: "100%",
+  width: "100% + 16px",
+  overflow: "hidden",
+  display: "flex",
+  flexDirection: "column",
+  paddingBottom: theme.spacing(4),
 
   [theme.breakpoints.down("sm")]: {
     marginTop: theme.spacing(1),
+    marginInline: theme.spacing(-2),
   },
 }));
 
-const QuizContainer = styled(Box)(({ theme }) => ({
-  minHeight: "400px",
+const ProgressContainer = styled(Box)(({ theme }) => ({
   width: "800px",
   maxWidth: "80%",
   marginInline: "auto",
+
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "90%",
+  },
+}));
+
+const QuizContainer = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
+  minHeight: "400px",
+  width: "800px",
+  maxWidth: "80%",
+  marginTop: theme.spacing(2),
+  marginInline: "auto",
   padding: theme.spacing(4),
+  flex: 1,
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
@@ -26,8 +44,8 @@ const QuizContainer = styled(Box)(({ theme }) => ({
   borderRadius: "12px",
 
   [theme.breakpoints.down("sm")]: {
-    minHeight: "100%",
-    maxWidth: "100%",
+    // minHeight: "100%",
+    maxWidth: "90%",
     gap: theme.spacing(2),
     backgroundColor: theme.palette.backgroundSecond.main,
     padding: theme.spacing(0),
@@ -81,41 +99,49 @@ const OptionBtn = styled(Button, {
   color: "inherit",
   border: "2px solid",
   borderColor: theme.palette.backgroundSecond.main,
+
   "&:hover": {
     color: theme.palette.primary.main,
     border: "2px solid",
   },
 
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(1),
+    paddingInline: theme.spacing(2),
+    backgroundColor: theme.palette.background.default,
+    borderColor: theme.palette.background.default,
+
+    ...(correctAnswer && {
+      borderColor: theme.palette.success.light,
+    }),
+
+    "&:hover": {
+      border: "2px solid",
+
+      ...(correct && {
+        backgroundColor: `${theme.palette.success.light}20`,
+        borderColor: theme.palette.success.light,
+      }),
+
+      ...(wrong && {
+        backgroundColor: `${theme.palette.error.light}20`,
+        borderColor: theme.palette.error.light,
+      }),
+    },
+  },
+
   ...(correct && {
     backgroundColor: `${theme.palette.success.light}20`,
     borderColor: theme.palette.success.light,
-    "&:hover": {
-      color: "inherit",
-      backgroundColor: `${theme.palette.success.light}20`,
-      border: "2px solid",
-      borderColor: theme.palette.success.light,
-    },
   }),
 
   ...(wrong && {
     backgroundColor: `${theme.palette.error.light}20`,
     borderColor: theme.palette.error.light,
-    "&:hover": {
-      color: "inherit",
-      backgroundColor: `${theme.palette.error.light}20`,
-      border: "2px solid",
-      borderColor: theme.palette.error.light,
-    },
   }),
 
   ...(correctAnswer && {
     borderColor: theme.palette.success.light,
-    "&:hover": {
-      color: "inherit",
-      backgroundColor: theme.palette.background.default,
-      border: "2px solid",
-      borderColor: theme.palette.success.light,
-    },
   }),
 
   ...(chosen && {
@@ -124,13 +150,6 @@ const OptionBtn = styled(Button, {
       pointerEvents: "none",
     },
   }),
-
-  [theme.breakpoints.down("sm")]: {
-    padding: theme.spacing(1),
-    paddingInline: theme.spacing(2),
-    backgroundColor: theme.palette.background.default,
-    borderColor: theme.palette.background.default,
-  },
 }));
 
 export {
@@ -140,4 +159,5 @@ export {
   OptionContainer,
   DescTypography,
   OptionBtn,
+  ProgressContainer,
 };

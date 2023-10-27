@@ -1,4 +1,4 @@
-import { Backdrop, Box, Fade, Modal } from "@mui/material";
+import { Box, Fade, Modal } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { useDispatch } from "react-redux";
@@ -39,7 +39,6 @@ const WordDataDialog = () => {
 
   const handleDialogClose = () => {
     dispatch(setWordDataDialog(false));
-    dispatch(setSelectedWord(null));
   };
 
   const handleContainerClick = (e: React.MouseEvent) => {
@@ -71,7 +70,6 @@ const WordDataDialog = () => {
 
   const handleEdit = () => {
     setUpdateOpen(true);
-    dispatch(setWordDataDialog(false));
   };
 
   return (
@@ -82,14 +80,8 @@ const WordDataDialog = () => {
           onClose={handleDialogClose}
           aria-labelledby="modal-word-info"
           closeAfterTransition
-          slots={{ backdrop: Backdrop }}
-          slotProps={{
-            backdrop: {
-              timeout: 500,
-            },
-          }}
         >
-          <Fade in={isWordDataDialogOpen} timeout={2000}>
+          <Fade in={isWordDataDialogOpen}>
             <StyledContainer
               ref={containerRef}
               onClick={(e) => handleContainerClick(e)}

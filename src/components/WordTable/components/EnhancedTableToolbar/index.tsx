@@ -54,7 +54,12 @@ const EnhancedTableToolbar = ({
 
   return (
     <>
-      <Stack direction="row" alignItems="center">
+      <Stack
+        direction="row"
+        alignItems="center"
+        minHeight={48}
+        position="relative"
+      >
         {selected.length > 0 && (
           <Typography
             mr={2}
