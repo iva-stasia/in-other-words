@@ -63,6 +63,7 @@ const FormLogin = () => {
       if (!remember) {
         await setPersistence(auth, browserSessionPersistence);
       }
+
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       if (error instanceof Error) {

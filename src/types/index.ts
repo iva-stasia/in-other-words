@@ -1,5 +1,6 @@
 import { PaletteColor, SimplePaletteColorOptions } from "@mui/material";
 import { Word } from ".";
+import { Timestamp } from "firebase/firestore";
 
 export type {
   WordOption,
@@ -73,4 +74,13 @@ export interface UserProfile {
   photoURL: unknown;
   displayName: string | undefined;
   email: string;
+}
+
+export interface UserData {
+  uid: string | null;
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
+  lastLoginDate?: Timestamp | null;
+  activityLog?: Timestamp[] | null;
 }

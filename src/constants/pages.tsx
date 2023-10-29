@@ -22,9 +22,9 @@ const pages = [
     path: "/study",
   },
   {
-    title: "My progress",
+    title: "Progress",
     icon: <TrendingUpRounded />,
-    path: "/my-progress",
+    path: "/progress",
   },
 ];
 

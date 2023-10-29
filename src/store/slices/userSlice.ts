@@ -1,14 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { User } from "firebase/auth";
+import { UserData } from "../../types";
 
-interface UserInitialState {
-  uid: string | null;
-  displayName: string | null;
-  email: string | null;
-  photoURL: string | null;
-}
-
-const initialState: UserInitialState = {
+const initialState: UserData = {
   uid: null,
   displayName: null,
   email: null,
@@ -19,7 +12,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    saveUser: (state, action: PayloadAction<User | null>) => {
+    saveUser: (state, action: PayloadAction<UserData | null>) => {
       state.uid = action.payload?.uid || null;
       state.displayName = action.payload?.displayName || null;
       state.email = action.payload?.email || null;

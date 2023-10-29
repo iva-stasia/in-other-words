@@ -26,7 +26,7 @@ const useSettingsFacade = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting },
     getFieldState,
     setValue,
   } = useForm<UserProfile>({

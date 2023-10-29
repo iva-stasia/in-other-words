@@ -37,7 +37,7 @@ const Filters = () => {
       direction={{ xs: "column", sm: "row" }}
       gap={2}
       sx={{
-        ...(open && { width: { xs: "calc(100vw - 38px)", sm: "auto" } }),
+        ...(open && { width: { xs: "calc(100vw - 32px)", sm: "auto" } }),
       }}
     >
       <AnimatePresence>

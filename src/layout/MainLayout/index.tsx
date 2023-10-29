@@ -1,6 +1,6 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import { Box, Toolbar } from "@mui/material";
+import { Toolbar } from "@mui/material";
 import AppHeader from "./components/AppHeader";
 import WordDataDialog from "../../pages/dialogs/word-data-dialog";
 import { useDispatch } from "react-redux";
@@ -17,6 +17,7 @@ import useOwnWords from "../../hooks/useOwnWords";
 import useWordSets from "../../hooks/useWordSets";
 import { Main, MainContainer, MainLayoutContainer } from "./MainLayout.styled";
 import PageHeader from "../../components/PageHeader";
+import updateUserActivity from "../../utils/updateUserActivity";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const MainLayout = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(saveUser(user));
+        updateUserActivity(user.uid).catch(console.error);
       } else {
         dispatch(saveUser(null));
         navigate("/login");

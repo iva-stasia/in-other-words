@@ -15,7 +15,7 @@ import { UserRegisterInput } from "../../../types";
 import { registerSchema } from "../../../utils/formValidationSchemes";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, setDoc } from "firebase/firestore";
 import AlertMessage from "../../../components/AlertMessage";
 import ButtonLarge from "../../../components/ButtonLarge";
 
@@ -69,6 +69,8 @@ const FormRegister = () => {
           displayName: user.displayName,
           email: user.email,
           photoURL: avatar,
+          activityLog: [Timestamp.now()],
+          lastLoginDate: Timestamp.now(),
         });
       } catch (error) {
         setError(true);

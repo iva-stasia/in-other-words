@@ -31,6 +31,7 @@
     "ky": "^0.33.3",
     "mui-image": "^1.0.7",
     "react": "^18.2.0",
+    "react-calendar": "^4.6.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.1",
     "react-redux": "^8.1.1",

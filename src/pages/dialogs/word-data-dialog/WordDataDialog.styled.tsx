@@ -1,8 +1,7 @@
 import { Container, IconButton, styled } from "@mui/material";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
-  width: "40%",
-  maxWidth: "700px",
+  width: "700px",
   height: "100%",
   position: "absolute",
   top: "50%",

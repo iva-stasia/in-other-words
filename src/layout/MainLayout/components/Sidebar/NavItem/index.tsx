@@ -33,14 +33,10 @@ const NavItem = ({ title, icon, path }: NavItemProps) => {
 
   return (
     <ListItem disablePadding sx={{ pb: 1 }}>
-      <StyledLink
-        component={RouterLink}
-        to={title == "My progress" ? pathname : path}
-      >
+      <StyledLink component={RouterLink} to={path}>
         <Tooltip title={isOpen ? "" : title} placement="right">
           <ListItemButton
             disableRipple
-            disabled={title == "My progress"}
             sx={{ color: "text.secondary" }}
             selected={path === `/${currentLinkPath}`}
           >
