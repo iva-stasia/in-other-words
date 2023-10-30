@@ -22,12 +22,12 @@ export const streakAchievements = [
   {
     title: "Dedicated Learner",
     days: 7,
-    icon: achievement,
+    icon: dreams,
   },
   {
     title: "Streak Champion",
     days: 14,
-    icon: dreams,
+    icon: achievement,
   },
   {
     title: "Learning Enthusiast",
@@ -54,37 +54,37 @@ export const streakAchievements = [
 export const wordAchievements = [
   {
     title: "Word Explorer",
-    days: 25,
+    words: 25,
     icon: stars,
   },
   {
-    title: "Word Apprentice:",
-    days: 50,
+    title: "Word Apprentice",
+    words: 50,
     icon: valuation,
   },
   {
     title: "Word Aficionado",
-    days: 100,
+    words: 100,
     icon: planet,
   },
   {
     title: "Word Maestro",
-    days: 250,
+    words: 250,
     icon: threeStars,
   },
   {
     title: "Word Guru",
-    days: 500,
+    words: 500,
     icon: quality,
   },
   {
     title: "Word Virtuoso",
-    days: 1000,
+    words: 1000,
     icon: successStar,
   },
   {
     title: "Word Connoisseur",
-    days: 2000,
+    words: 2000,
     icon: trophy,
   },
 ];

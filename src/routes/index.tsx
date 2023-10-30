@@ -14,7 +14,7 @@ import ErrorPage from "../pages/error";
 import WordToDefinition from "../pages/study/views/word-to-definition";
 import DefinitionToWord from "../pages/study/views/definition-to-word";
 import Settings from "../pages/settings";
-import Progress from "../pages/progress";
+import ProgressPage from "../pages/progress";
 
 export const routes = [
   {
@@ -56,7 +56,7 @@ export const routes = [
       },
       {
         path: "/progress",
-        element: <Progress />,
+        element: <ProgressPage />,
       },
       {
         path: "/settings",

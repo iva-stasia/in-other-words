@@ -7,26 +7,18 @@ import {
   GradeRounded,
   WhatshotRounded,
 } from "@mui/icons-material";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
-import { useMemo } from "react";
-import { Progress } from "../../../../types";
 
 interface TotalProps {
   activityLog: Timestamp[];
+  allWordsCount: number;
+  learnedWordsCount: number;
 }
 
-const Total = ({ activityLog }: TotalProps) => {
-  const words = useSelector((state: RootState) => state.words.ownWords);
-
-  const allWordsCount = words.length;
-  const learnedWordsCount = useMemo(
-    () =>
-      words.filter((word) => word.learning.progress === Progress.Learned)
-        .length,
-    [words]
-  );
-
+const Total = ({
+  activityLog,
+  allWordsCount,
+  learnedWordsCount,
+}: TotalProps) => {
   return (
     <TotalContainer>
       <TotalCell>

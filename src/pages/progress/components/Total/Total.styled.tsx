@@ -10,6 +10,11 @@ const TotalContainer = styled(Box)(({ theme }) => ({
     flex: "1 1 100%",
     flexDirection: "row",
   },
+
+  [theme.breakpoints.down("sm")]: {
+    flex: "1 1 100%",
+    flexDirection: "column",
+  },
 }));
 
 const TotalCell = styled(Box)(({ theme }) => ({
