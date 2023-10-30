@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { Progress } from "../types";
+import dayjs from "dayjs";
 
 const useUpdateProgress = () => {
   const uid = useSelector((state: RootState) => state.user.uid);
@@ -24,6 +25,14 @@ const useUpdateProgress = () => {
           factor: factor,
           progress: progress,
         },
+      });
+
+      if (progress !== Progress.Learned) return;
+
+      const today = dayjs().format("DDMMYYYY");
+
+      await updateDoc(doc(db, "userLearningLog", uid), {
+        [today]: arrayUnion(word),
       });
     } catch (error) {
       if (error instanceof Error) console.error(error.message);

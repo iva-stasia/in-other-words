@@ -84,3 +84,8 @@ export interface UserData {
   lastLoginDate?: Timestamp | null;
   activityLog?: Timestamp[] | null;
 }
+
+export interface LearningLogRecord {
+  date: string;
+  words: string[];
+}

@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import GoogleIcon from "/google.svg";
 import { auth, db, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, setDoc } from "firebase/firestore";
 
 const AuthFirebaseGoogle = () => {
   const signInWithGoogle = async () => {
@@ -17,6 +17,9 @@ const AuthFirebaseGoogle = () => {
             displayName: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
+            activityLog: [Timestamp.now()],
+            lastLoginDate: Timestamp.now(),
+            learningLog: [],
           },
           { merge: true }
         );
@@ -26,6 +29,7 @@ const AuthFirebaseGoogle = () => {
 
       await setDoc(doc(db, "userWords", user.uid), {}, { merge: true });
       await setDoc(doc(db, "userSets", user.uid), {}, { merge: true });
+      await setDoc(doc(db, "userLearningLog", user.uid), {}, { merge: true });
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

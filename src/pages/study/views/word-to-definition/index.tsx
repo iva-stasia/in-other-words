@@ -19,6 +19,8 @@ const WordToDefinition = () => {
     const answer = word.definitions.map((def) => def.definition).join(";\r\n");
     const options = [answer];
 
+    let attempts = 0;
+
     while (options.length < 4) {
       const randomDef = getRandomDef(words)
         .map((def) => def.definition)
@@ -27,6 +29,12 @@ const WordToDefinition = () => {
       if (!options.includes(randomDef)) {
         options.push(randomDef);
       }
+
+      if (attempts > 1000) {
+        throw new Error("Something went wrong, please try later.");
+      }
+
+      attempts++;
     }
 
     return {

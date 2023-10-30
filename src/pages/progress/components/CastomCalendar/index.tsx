@@ -1,11 +1,14 @@
 import { useCallback, useState } from "react";
 import { CalendarContainer } from "./CustomCalendar.styled";
 import Calendar from "react-calendar";
-import useGetUserActivity from "../../../../hooks/useGetUserActivity";
 import { Timestamp } from "firebase/firestore";
 import dayjs from "dayjs";
 
 import "react-calendar/dist/Calendar.css";
+
+interface CustomCalendarProps {
+  activityLog: Timestamp[];
+}
 
 type ValuePiece = Date | null;
 
@@ -33,9 +36,8 @@ const isHasNext = (dDate: Timestamp, nextDate: Timestamp) => {
   return nextDateToCurr === next;
 };
 
-const CustomCalendar = () => {
+const CustomCalendar = ({ activityLog }: CustomCalendarProps) => {
   const [value, onChange] = useState<Value>(new Date());
-  const activityLog = useGetUserActivity();
 
   const activityTileClassName = useCallback(
     ({ date }: { date: Date }) => {

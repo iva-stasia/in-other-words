@@ -24,6 +24,7 @@ const studyModes = [
     path: "/flashcards",
     iconLight: flashcardIconLight,
     iconDark: flashcardIconDark,
+    minWordsRequired: 1,
     description:
       "Master new words effortlessly with flashcards. Flip to reveal definitions.",
     getWords: (words: Word[]) =>
@@ -34,6 +35,7 @@ const studyModes = [
     path: "/repetition",
     iconLight: reviewIconLight,
     iconDark: reviewIconDark,
+    minWordsRequired: 1,
     description: "Check how well you remember the words you have learned.",
     getWords: (words: Word[]) =>
       words.filter(
@@ -50,6 +52,7 @@ const studyModes = [
     path: "/word-definition",
     iconLight: wordDefIconLight,
     iconDark: wordDefIconDark,
+    minWordsRequired: 10,
     description:
       "Learn the meaning and context of individual words to build your linguistic skills effectively.",
     getWords: (words: Word[]) =>
@@ -60,6 +63,7 @@ const studyModes = [
     path: "/definition-word",
     iconLight: defWordIconLight,
     iconDark: defWordIconDark,
+    minWordsRequired: 10,
     description:
       "Learn the meaning and context of individual words to build your linguistic skills effectively.",
     getWords: (words: Word[]) =>
@@ -70,13 +74,14 @@ const studyModes = [
     path: "",
     iconLight: crosswordIconLight,
     iconDark: crosswordIconDark,
+    minWordsRequired: 10,
     description: "Coming soon!",
     getWords: (_words: Word[]) => [],
   },
 ];
 
-const getWordAccToNum = (words: Word[]) => {
-  return words.length === 1 ? "1 word" : `${words.length} words`;
+const getWordAccToNum = (wordsNum: number) => {
+  return wordsNum === 1 ? "word" : "words";
 };
 
 const Study = () => {
@@ -102,35 +107,49 @@ const Study = () => {
       >
         {studyModes.map(
           (
-            { title, path, iconLight, iconDark, description, getWords },
+            {
+              title,
+              path,
+              iconLight,
+              iconDark,
+              description,
+              minWordsRequired,
+              getWords,
+            },
             index
           ) => {
             const curWords = getWords(words);
-            const active = !!curWords.length;
-            const wordAccToNum = getWordAccToNum(curWords);
+            const active = curWords.length >= minWordsRequired;
+            const wordAccToNum = getWordAccToNum(curWords.length);
             const mainMode = index === 0 || index === 1;
 
             return (
               <Grid item xs={12} sm={6} lg={mainMode ? 6 : 3} key={title}>
                 <Link
                   component={RouterLink}
-                  to={`/study${path}`}
+                  to={active ? `/study${path}` : ""}
                   underline="none"
-                  sx={{ pointerEvents: curWords.length ? "auto" : "none" }}
+                  sx={{ pointerEvents: active ? "auto" : "none" }}
                 >
-                  <StyledCard
-                    elevation={0}
-                    active={active && title !== "Crossword"}
-                    main={mainMode}
-                  >
+                  <StyledCard elevation={0} active={active} main={mainMode}>
                     <StyledCardContent>
                       <Box>
                         <Typography variant="h6" component="div">
                           {title}
                         </Typography>
                         <Typography variant="body2" component="div">
-                          {wordAccToNum}
+                          {curWords.length} {wordAccToNum}
                         </Typography>
+
+                        {!active && (
+                          <Typography variant="body2" component="div">
+                            At least {minWordsRequired - curWords.length} more{" "}
+                            {getWordAccToNum(
+                              minWordsRequired - curWords.length
+                            )}{" "}
+                            are needed to start training
+                          </Typography>
+                        )}
                       </Box>
                       <Typography variant="body2" color="text.secondary">
                         {description}

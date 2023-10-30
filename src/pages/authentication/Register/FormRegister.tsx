@@ -80,6 +80,7 @@ const FormRegister = () => {
 
       await setDoc(doc(db, "userWords", user.uid), {});
       await setDoc(doc(db, "userSets", user.uid), {});
+      await setDoc(doc(db, "userLearningLog", user.uid), {});
     } catch (error) {
       if (error instanceof Error) {
         setError(true);

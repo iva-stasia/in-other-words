@@ -15,6 +15,8 @@ const DefinitionToWord = () => {
     ({ learning }) => learning.progress !== Progress.Learned
   );
 
+  let attempts = 0;
+
   const questions = wordsToDisplay.map((word) => {
     const options = [word.word];
     const term = word.definitions.map((def) => def.definition).join(";\r\n");
@@ -25,6 +27,12 @@ const DefinitionToWord = () => {
       if (!options.includes(randomWord)) {
         options.push(randomWord);
       }
+
+      if (attempts > 1000) {
+        throw new Error("Something went wrong, please try later.");
+      }
+
+      attempts++;
     }
 
     return {
