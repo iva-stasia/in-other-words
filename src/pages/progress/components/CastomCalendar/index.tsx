@@ -2,9 +2,13 @@ import { useCallback, useState } from "react";
 import { CalendarContainer } from "./CustomCalendar.styled";
 import Calendar from "react-calendar";
 import { Timestamp } from "firebase/firestore";
-import dayjs from "dayjs";
 
 import "react-calendar/dist/Calendar.css";
+import {
+  isHasNext,
+  isHasPrevious,
+  isSameDay,
+} from "../../../../utils/dateComparison";
 
 interface CustomCalendarProps {
   activityLog: Timestamp[];
@@ -13,28 +17,6 @@ interface CustomCalendarProps {
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
-
-const isSameDay = (dDate: Timestamp, date: Date) => {
-  return dayjs(dDate.toDate()).isSame(dayjs(date), "day");
-};
-
-const isHasPrevious = (dDate: Timestamp, prevDate: Timestamp) => {
-  const current = dayjs(dDate.toDate());
-  const previous = dayjs(prevDate.toDate()).format("DD/MM/YYYY");
-
-  const prevDateToCurr = current.subtract(1, "day").format("DD/MM/YYYY");
-
-  return prevDateToCurr === previous;
-};
-
-const isHasNext = (dDate: Timestamp, nextDate: Timestamp) => {
-  const current = dayjs(dDate.toDate());
-  const next = dayjs(nextDate.toDate()).format("DD/MM/YYYY");
-
-  const nextDateToCurr = current.add(1, "day").format("DD/MM/YYYY");
-
-  return nextDateToCurr === next;
-};
 
 const CustomCalendar = ({ activityLog }: CustomCalendarProps) => {
   const [value, onChange] = useState<Value>(new Date());

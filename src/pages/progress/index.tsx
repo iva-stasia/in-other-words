@@ -10,6 +10,42 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useMemo } from "react";
 import { Progress } from "../../types";
+import { Timestamp } from "firebase/firestore";
+import { isHasPrevious } from "../../utils/dateComparison";
+
+const getCurrentStreak = (activityLog: Timestamp[]) => {
+  let streak = 1;
+
+  const reversedDates = [...activityLog].reverse();
+
+  for (let i = 0; i < reversedDates.length - 1; i++) {
+    if (isHasPrevious(reversedDates[i], reversedDates[i + 1])) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+};
+
+const getStreakRecord = (activityLog: Timestamp[]) => {
+  let streakRecord = 0;
+  let current = 1;
+
+  const reversedDates = [...activityLog].reverse();
+
+  for (let i = 0; i < reversedDates.length - 1; i++) {
+    if (isHasPrevious(reversedDates[i], reversedDates[i + 1])) {
+      current++;
+    } else {
+      streakRecord = Math.max(current, streakRecord);
+      current = 0;
+    }
+  }
+
+  return streakRecord;
+};
 
 const ProgressPage = () => {
   const activityLog = useGetUserActivity();
@@ -22,6 +58,16 @@ const ProgressPage = () => {
       words.filter((word) => word.learning.progress === Progress.Learned)
         .length,
     [words]
+  );
+
+  const currentStreak = useMemo(
+    () => getCurrentStreak(activityLog),
+    [activityLog]
+  );
+
+  const streakRecord = useMemo(
+    () => getStreakRecord(activityLog),
+    [activityLog]
   );
 
   return (
@@ -38,11 +84,15 @@ const ProgressPage = () => {
       </Row>
 
       <Row flex={1}>
-        <Achievements learnedWordsCount={learnedWordsCount} />
+        <Achievements
+          learnedWordsCount={learnedWordsCount}
+          streakRecord={streakRecord}
+        />
         <Total
-          activityLog={activityLog}
           allWordsCount={allWordsCount}
           learnedWordsCount={learnedWordsCount}
+          currentStreak={currentStreak}
+          streakRecord={streakRecord}
         />
       </Row>
     </ProgressContainer>

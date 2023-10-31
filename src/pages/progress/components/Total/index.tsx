@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase/firestore";
 import { TotalCell, TotalContainer } from "./Total.styled";
 import { Stack, Typography } from "@mui/material";
 import {
@@ -9,15 +8,17 @@ import {
 } from "@mui/icons-material";
 
 interface TotalProps {
-  activityLog: Timestamp[];
   allWordsCount: number;
   learnedWordsCount: number;
+  currentStreak: number;
+  streakRecord: number;
 }
 
 const Total = ({
-  activityLog,
   allWordsCount,
   learnedWordsCount,
+  currentStreak,
+  streakRecord,
 }: TotalProps) => {
   return (
     <TotalContainer>
@@ -27,16 +28,16 @@ const Total = ({
           <Stack spacing={1}>
             <Stack direction="row" alignItems="center" spacing={2}>
               <WhatshotRounded sx={{ color: "tertiary.main" }} />
-              <Typography variant="h6">1</Typography>
+              <Typography variant="h6">{currentStreak}</Typography>
             </Stack>
             <Typography variant="subtitle2">Current streak</Typography>
           </Stack>
           <Stack spacing={1}>
             <Stack direction="row" alignItems="center" spacing={2}>
               <EmojiEventsRounded sx={{ color: "tertiary.main" }} />
-              <Typography variant="h6">1</Typography>
+              <Typography variant="h6">{streakRecord}</Typography>
             </Stack>
-            <Typography variant="subtitle2">Previous record</Typography>
+            <Typography variant="subtitle2">Streak record</Typography>
           </Stack>
         </Stack>
       </TotalCell>

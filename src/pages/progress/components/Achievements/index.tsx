@@ -12,9 +12,13 @@ import question from "/achievements/question-mark.png";
 
 interface AchievementsProps {
   learnedWordsCount: number;
+  streakRecord: number;
 }
 
-const Achievements = ({ learnedWordsCount }: AchievementsProps) => {
+const Achievements = ({
+  learnedWordsCount,
+  streakRecord,
+}: AchievementsProps) => {
   return (
     <AchievementsContainer>
       <Typography variant="h6">Achievements</Typography>
@@ -27,7 +31,11 @@ const Achievements = ({ learnedWordsCount }: AchievementsProps) => {
           {streakAchievements.map(({ title, days, icon }) => (
             <Grid item xs={6} sm={4} md key={title}>
               <BadgeContainer>
-                <Box component="img" src={icon} width={48} />
+                <Box
+                  component="img"
+                  src={streakRecord < days ? question : icon}
+                  width={48}
+                />
                 <BadgeTitle variant="subtitle2" requiredNum={days} type="days">
                   {title}
                 </BadgeTitle>
