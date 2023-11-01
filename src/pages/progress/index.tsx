@@ -44,7 +44,7 @@ const getStreakRecord = (activityLog: Timestamp[]) => {
     }
   }
 
-  return streakRecord;
+  return streakRecord || current;
 };
 
 const ProgressPage = () => {

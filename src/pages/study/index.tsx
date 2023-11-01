@@ -10,7 +10,12 @@ import defWordIconDark from "/def-word-dark.png";
 import crosswordIconLight from "/crossword-light.png";
 import crosswordIconDark from "/crossword-dark.png";
 import { Link as RouterLink } from "react-router-dom";
-import { BgImage, StyledCard, StyledCardContent } from "./Study.styled";
+import {
+  BgImage,
+  StudyContainer,
+  StyledCard,
+  StyledCardContent,
+} from "./Study.styled";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Progress, Word } from "../../types";
@@ -20,7 +25,7 @@ import { fadeIn } from "../../utils/motion";
 
 const studyModes = [
   {
-    title: "Flashcards",
+    title: "Flash Cards",
     path: "/flashcards",
     iconLight: flashcardIconLight,
     iconDark: flashcardIconDark,
@@ -88,10 +93,7 @@ const Study = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
 
   return (
-    <Box
-      mt={2}
-      pb={3}
-      sx={{ overflow: "auto", borderRadius: "12px" }}
+    <StudyContainer
       component={motion.div}
       variants={fadeIn("up", "tween", 0, 0.3)}
       initial="hidden"
@@ -168,7 +170,7 @@ const Study = () => {
           }
         )}
       </Grid>
-    </Box>
+    </StudyContainer>
   );
 };
 

@@ -55,11 +55,11 @@ const WordTableRow = ({
         id={labelId}
         scope="row"
         padding="none"
-        sx={{ py: { xs: 1, sm: 0 } }}
+        sx={{ py: { xs: 1, sm: 0 }, pr: { xs: 0.5, sm: 0 } }}
       >
         <Typography fontWeight={700}>{row.word}</Typography>
 
-        <Box sx={{ display: { xs: "block", sm: "none" }, mt: 1 }}>
+        <Box sx={{ display: { xs: "block", sm: "none" }, pt: 1 }}>
           {row.definitions.map((def, index) => (
             <Box key={index}>{def.definition}</Box>
           ))}

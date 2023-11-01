@@ -4,14 +4,15 @@ import { MotionProps } from "framer-motion";
 const Container = styled(Box)<
   BoxProps & MotionProps & { component: React.ElementType }
 >(({ theme }) => ({
-  paddingBottom: theme.spacing(3),
   overflow: "auto",
   marginTop: theme.spacing(2),
   height: "100%",
   width: "100%",
 
   [theme.breakpoints.down("sm")]: {
+    overflow: "initial",
     marginTop: theme.spacing(1),
+    height: "auto",
   },
 }));
 
@@ -29,7 +30,7 @@ const InnerContainer = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.down("sm")]: {
     minHeight: "100%",
-    maxWidth: "100%",
+    width: "100%",
     gap: theme.spacing(2),
     backgroundColor: theme.palette.backgroundSecond.main,
     padding: theme.spacing(0),

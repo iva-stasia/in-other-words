@@ -1,14 +1,15 @@
 import { Box, Grid, Typography } from "@mui/material";
-import {
-  AchievementsContainer,
-  BadgeContainer,
-  BadgeTitle,
-} from "./achievements.styled";
+
 import {
   streakAchievements,
   wordAchievements,
 } from "../../../../constants/achievements";
 import question from "/achievements/question-mark.png";
+import {
+  AchievementsContainer,
+  BadgeContainer,
+  BadgeTitle,
+} from "./Achievements.styled";
 
 interface AchievementsProps {
   learnedWordsCount: number;

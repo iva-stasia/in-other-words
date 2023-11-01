@@ -81,6 +81,7 @@ export const getDesignTokens = (theme: Theme) => ({
         "*::selection": {
           backgroundColor: `${theme.palette.tertiary.main}40`,
         },
+
         body: {
           WebkitTapHighlightColor: "transparent",
           scrollbarColor: `${theme.palette.secondary.dark}`,
@@ -92,9 +93,6 @@ export const getDesignTokens = (theme: Theme) => ({
             backgroundColor: theme.palette.secondary.dark,
             minHeight: 24,
             border: "none",
-          },
-          "&::-webkit-scrollbar-button, & *::-webkit-scrollbar-button": {
-            backgroundColor: theme.palette.backgroundSecond.main,
           },
         },
       },

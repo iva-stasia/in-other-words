@@ -12,6 +12,11 @@ const CardEndContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   border: "2px solid",
   borderColor: `${theme.palette.primary.main}20`,
+
+  [theme.breakpoints.down("sm")]: {
+    width: "calc(100vw - 48px)",
+    height: "calc(100vh - 208px)",
+  },
 }));
 
 export { CardEndContainer };

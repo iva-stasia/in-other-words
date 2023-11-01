@@ -18,7 +18,7 @@ const DeleteAccountContainer = styled(Box)(({ theme }) => ({
   borderColor: theme.palette.error.light,
   borderRadius: "8px",
 
-  [theme.breakpoints.down("xs")]: {
+  [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
     alignItems: "flex-end",
   },

@@ -15,7 +15,6 @@ const MainContainer = styled(Box)({
 
 const Main = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
   padding: theme.spacing(3),
-  paddingBottom: theme.spacing(0),
   overflow: "hidden",
   flexGrow: 1,
   display: "flex",
@@ -26,11 +25,13 @@ const Main = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     borderRadius: "0",
     padding: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
   [theme.breakpoints.down("sm")]: {
-    padding: theme.spacing(2),
+    overflowY: "auto",
     paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(0),
+    border: "3px solid",
+    borderColor: theme.palette.backgroundSecond.main,
   },
 }));
 

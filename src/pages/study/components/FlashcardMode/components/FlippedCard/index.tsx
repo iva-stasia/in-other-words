@@ -6,28 +6,35 @@ import {
   CardFaceFront,
   CardInnerContainer,
   TypographyProgress,
-  TypographyMain,
-  AudioContainer,
 } from "./FlippedCard.styled";
 import AudioPlayer from "../../../../../../components/AudioPlayer";
-import { Box } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
+import { MotionValue, motion, useTransform } from "framer-motion";
 
 interface FlippedCardProps {
   word: Word;
   dragged: boolean;
-  movingToLeft: boolean;
-  movingToRight: boolean;
   index: number;
+  x: MotionValue<number>;
+  xInput: number[];
 }
 
-const FlippedCard = ({
-  word,
-  dragged,
-  movingToLeft,
-  movingToRight,
-  index,
-}: FlippedCardProps) => {
+const FlippedCard = ({ word, dragged, index, x, xInput }: FlippedCardProps) => {
   const [flipped, setFlipped] = useState(false);
+  const theme = useTheme();
+
+  const opacityMain = useTransform(x, xInput, [0, 1, 0]);
+  const opacityProgressLeft = useTransform(x, xInput, [1, 0, 0]);
+  const opacityProgressRight = useTransform(x, xInput, [0, 0, 1]);
+
+  const borderColorOnDrag = useTransform(x, xInput, [
+    theme.palette.error.light,
+    `${theme.palette.primary.main}20`,
+    theme.palette.success.light,
+  ]);
+
+  const borderColor =
+    index === 0 ? borderColorOnDrag : `${theme.palette.primary.main}20`;
 
   return (
     <CardContainer>
@@ -35,77 +42,55 @@ const FlippedCard = ({
         onClick={() => setFlipped((prev) => !prev && !dragged && index === 0)}
         flipped={flipped}
       >
-        <CardFaceFront
-          movingToLeft={movingToLeft}
-          movingToRight={movingToRight}
-          index={index}
-        >
+        <CardFaceFront style={{ borderColor }}>
           {index === 0 && (
             <>
-              <Box>
-                <TypographyMain
-                  variant="h4"
-                  movingToLeft={movingToLeft}
-                  movingToRight={movingToRight}
-                >
+              <Box component={motion.div} style={{ opacity: opacityMain }}>
+                <Typography p={3} variant="h4">
                   {word.word}
-                </TypographyMain>
-                {word.audioURL && (
-                  <AudioContainer
-                    movingToLeft={movingToLeft}
-                    movingToRight={movingToRight}
-                  >
-                    <AudioPlayer audioURL={word.audioURL} />
-                  </AudioContainer>
-                )}
+                </Typography>
+                {word.audioURL && <AudioPlayer audioURL={word.audioURL} />}
               </Box>
-              <TypographyProgress
-                variant="h4"
-                direction={movingToLeft}
-                color="error"
+
+              <Box
+                component={motion.div}
+                style={{ opacity: opacityProgressLeft }}
               >
-                Learning
-              </TypographyProgress>
-              <TypographyProgress
-                variant="h4"
-                direction={movingToRight}
-                color="success"
+                <TypographyProgress variant="h4" color="error">
+                  Learning
+                </TypographyProgress>
+              </Box>
+              <Box
+                component={motion.div}
+                style={{ opacity: opacityProgressRight }}
               >
-                Know
-              </TypographyProgress>
+                <TypographyProgress variant="h4" color="success">
+                  Know
+                </TypographyProgress>
+              </Box>
             </>
           )}
         </CardFaceFront>
 
-        <CardFaceBack
-          movingToLeft={movingToLeft}
-          movingToRight={movingToRight}
-          index={index}
-        >
-          {word.definitions.map((def, index) => (
-            <TypographyMain
-              variant="body1"
-              key={index}
-              movingToLeft={movingToLeft}
-              movingToRight={movingToRight}
-            >
-              {def.definition}
-            </TypographyMain>
-          ))}
-          <TypographyProgress
-            variant="h4"
-            direction={movingToLeft}
-            color="error"
-          >
-            Learning
-          </TypographyProgress>
-          <TypographyProgress
-            variant="h4"
-            direction={movingToRight}
-            color="success"
-          >
-            Know
-          </TypographyProgress>
+        <CardFaceBack style={{ borderColor }}>
+          <Box component={motion.div} style={{ opacity: opacityMain }}>
+            {word.definitions.map((def, index) => (
+              <Typography variant="body1" key={index}>
+                {def.definition}
+              </Typography>
+            ))}
+          </Box>
+
+          <Box component={motion.div} style={{ opacity: opacityProgressLeft }}>
+            <TypographyProgress variant="h4" color="error">
+              Learning
+            </TypographyProgress>
+          </Box>
+          <Box component={motion.div} style={{ opacity: opacityProgressRight }}>
+            <TypographyProgress variant="h4" color="success">
+              Know
+            </TypographyProgress>
+          </Box>
         </CardFaceBack>
       </CardInnerContainer>
     </CardContainer>

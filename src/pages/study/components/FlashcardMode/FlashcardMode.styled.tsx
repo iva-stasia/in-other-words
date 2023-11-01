@@ -1,4 +1,5 @@
 import { Box, IconButton, styled } from "@mui/material";
+import { motion } from "framer-motion";
 
 const FailBtn = styled(IconButton)(({ theme }) => ({
   color: theme.palette.error.light,
@@ -72,44 +73,20 @@ const CommonCardContainer = styled(Box, {
   display: "inline-block",
   position: "absolute",
   top: 0,
-  transition: "all 0.3s ease-in-out",
   zIndex: `${10 - index}`,
   opacity: `${(5 - index) / 5}`,
   transform: `scale(${(30 - index) / 30}) translateY(-${8 * index}px)`,
+  // transition: "all 0.3s ease-in-out",
   transformOrigin: "top",
-  ...(index === 1 && {
-    opacity: 1,
-  }),
+  // ...(index === 1 && {
+  //   opacity: 1,
+  // }),
 }));
 
-const CurrentCardContainer = styled(Box, {
-  shouldForwardProp: (prop) =>
-    prop !== "translateX" &&
-    prop !== "movingToLeft" &&
-    prop !== "movingToRight" &&
-    prop !== "isDragging",
-})<{
-  translateX: number;
-  movingToLeft: boolean;
-  movingToRight: boolean;
-  isDragging: boolean;
-}>(({ translateX, isDragging }) => ({
-  borderRadius: "8px",
+const CurrentCardContainer = styled(motion.div)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
   cursor: "pointer",
-
-  transform: `translateX(${translateX}px)`,
-  rotate: `${translateX / 30}deg`,
-  transition: "all 200ms ease-in-out",
   transformOrigin: "bottom center",
-
-  ...(!isDragging && {
-    transform: "translateX(0px)",
-    rotate: "0deg",
-  }),
-  ...(isDragging && {
-    cursor: "grabbing",
-    transition: "none",
-  }),
 }));
 
 export {

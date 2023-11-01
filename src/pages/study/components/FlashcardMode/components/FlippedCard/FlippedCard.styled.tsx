@@ -1,4 +1,5 @@
 import { Box, Typography, styled } from "@mui/material";
+import { motion } from "framer-motion";
 
 const CardContainer = styled(Box)(({ theme }) => ({
   width: "600px",
@@ -34,14 +35,7 @@ const CardInnerContainer = styled(Box, {
   },
 }));
 
-const CardFaceFront = styled(Box, {
-  shouldForwardProp: (prop) =>
-    prop !== "movingToLeft" && prop !== "movingToRight" && prop !== "index",
-})<{
-  movingToLeft: boolean;
-  movingToRight: boolean;
-  index: number;
-}>(({ theme, movingToLeft, movingToRight, index }) => ({
+const CardFaceFront = styled(motion.div)(({ theme }) => ({
   position: "absolute",
   top: "0",
   width: "100%",
@@ -57,16 +51,6 @@ const CardFaceFront = styled(Box, {
   borderColor: `${theme.palette.primary.main}20`,
   wordBreak: "break-all",
   hyphens: "auto",
-  transition: "border 200ms ease-in-out",
-
-  ...(movingToLeft &&
-    index === 0 && {
-      borderColor: theme.palette.error.light,
-    }),
-  ...(movingToRight &&
-    index === 0 && {
-      borderColor: theme.palette.success.light,
-    }),
 }));
 
 const CardFaceBack = styled(CardFaceFront)(({ theme }) => ({
@@ -78,38 +62,18 @@ const CardFaceBack = styled(CardFaceFront)(({ theme }) => ({
   },
 }));
 
-const TypographyMain = styled(Typography, {
-  shouldForwardProp: (prop) =>
-    prop !== "movingToLeft" && prop !== "movingToRight",
-})<{
-  movingToLeft: boolean;
-  movingToRight: boolean;
-}>(({ movingToLeft, movingToRight, theme }) => ({
-  padding: theme.spacing(3),
-  opacity: `${movingToLeft || movingToRight ? 0 : 1}`,
-  transition: "opacity 300ms ease-in-out",
-}));
-
 const TypographyProgress = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== "direction" && prop !== "color",
-})<{
-  direction: boolean;
-  color: string;
-}>(({ direction, color, theme }) => ({
+  shouldForwardProp: (prop) => prop !== "color",
+})<{ color: string }>(({ color, theme }) => ({
   padding: theme.spacing(3),
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  opacity: `${direction ? 1 : 0}`,
-  transition: "opacity 300ms ease-in-out",
   color: `${
     color === "error" ? theme.palette.error.light : theme.palette.success.light
   }`,
-}));
-
-const AudioContainer = styled(TypographyMain)(({ theme }) => ({
-  padding: theme.spacing(0),
+  whiteSpace: "nowrap",
 }));
 
 export {
@@ -117,7 +81,5 @@ export {
   CardInnerContainer,
   CardFaceFront,
   CardFaceBack,
-  TypographyMain,
   TypographyProgress,
-  AudioContainer,
 };

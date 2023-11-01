@@ -1,4 +1,16 @@
-import { Box, Card, CardContent, styled } from "@mui/material";
+import { Box, BoxProps, Card, CardContent, styled } from "@mui/material";
+import { MotionProps } from "framer-motion";
+
+const StudyContainer = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
+  overflow: "auto",
+  marginTop: theme.spacing(2),
+  borderRadius: "12px",
+
+  [theme.breakpoints.down("sm")]: {
+    overflow: "initial",
+    height: "calc(100 - 56px)%",
+  },
+}));
 
 const StyledCard = styled(Card, {
   shouldForwardProp: (prop) => prop != "active" && prop !== "main",
@@ -64,4 +76,4 @@ const BgImage = styled(Box, {
   })
 );
 
-export { StyledCard, StyledCardContent, BgImage };
+export { StyledCard, StyledCardContent, BgImage, StudyContainer };

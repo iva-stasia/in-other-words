@@ -4,11 +4,14 @@ import { MotionProps } from "framer-motion";
 const Container = styled(Box)<
   BoxProps & MotionProps & { component: React.ElementType }
 >(({ theme }) => ({
-  paddingBottom: theme.spacing(3),
-  flex: 1,
+  height: "100%",
   display: "flex",
   flexDirection: "column",
   overflow: "hidden",
+
+  [theme.breakpoints.down("sm")]: {
+    height: "calc(100 - 56px)%",
+  },
 }));
 
 const StyledTableContainer = styled(TableContainer)({

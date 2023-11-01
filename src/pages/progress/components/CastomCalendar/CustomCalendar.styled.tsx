@@ -1,6 +1,14 @@
 import { Box, styled } from "@mui/material";
 
 const CalendarContainer = styled(Box)(({ theme }) => ({
+  height: "100%",
+  background: theme.palette.background.default,
+  borderRadius: theme.shape.borderRadius,
+
+  [theme.breakpoints.down("sm")]: {
+    height: "auto",
+  },
+
   "& .react-calendar": {
     overflow: "hidden",
     color: theme.palette.text.primary,
