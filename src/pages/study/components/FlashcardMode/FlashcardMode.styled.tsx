@@ -42,7 +42,6 @@ const Container = styled(Box)(({ theme }) => ({
   alignItems: "center",
   gap: theme.spacing(3),
   position: "relative",
-  transition: "opacity 0.1s ease-in-out",
   userSelect: "none",
 
   [theme.breakpoints.down("sm")]: {
@@ -76,17 +75,27 @@ const CommonCardContainer = styled(Box, {
   zIndex: `${10 - index}`,
   opacity: `${(5 - index) / 5}`,
   transform: `scale(${(30 - index) / 30}) translateY(-${8 * index}px)`,
-  // transition: "all 0.3s ease-in-out",
+  transition: "all 0.2s linear",
+  transitionDelay: "0.2s",
   transformOrigin: "top",
-  // ...(index === 1 && {
-  //   opacity: 1,
-  // }),
+  ...(index === 1 && {
+    opacity: 1,
+  }),
 }));
 
 const CurrentCardContainer = styled(motion.div)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   cursor: "pointer",
-  transformOrigin: "bottom center",
+  transformOrigin: "top",
+  touchAction: "none",
+}));
+
+const BtnProgressContainer = styled(motion.div)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: theme.spacing(3),
+  width: "100%",
+  alignItems: "center",
 }));
 
 export {
@@ -97,4 +106,5 @@ export {
   CommonCardContainer,
   CurrentCardContainer,
   BtnContainer,
+  BtnProgressContainer,
 };

@@ -122,3 +122,50 @@ export const slideIn = (
     },
   },
 });
+
+export const flashcard = {
+  enter: {
+    x: 0,
+    rotate: 0,
+    opacity: 0,
+    scale: 29 / 30,
+    translateY: -8,
+  },
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    translateY: 0,
+    transition: { duration: 0.2, type: "tween" },
+  },
+  exit: (direction: number) => {
+    return {
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0,
+      transition: { duration: 0.2 },
+    };
+  },
+};
+
+export const flashcardCover = {
+  enter: {
+    x: 0,
+    rotate: 0,
+    scale: 1,
+    translateY: 0,
+  },
+  center: {
+    x: 0,
+    scale: 31 / 30,
+    translateY: 8,
+    transition: { duration: 0.2, type: "tween", ease: "linear", delay: 0.2 },
+    transitionEnd: { scale: 1, translateY: 0 },
+  },
+  exit: {
+    x: 0,
+    scale: 31 / 30,
+    translateY: 8,
+    opacity: 0,
+    transition: { duration: 0.2, type: "tween", ease: "linear", delay: 0.2 },
+  },
+};
