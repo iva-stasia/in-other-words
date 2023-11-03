@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { LearningLogRecord } from "../types";
 
@@ -12,26 +12,24 @@ const useGetUserLearning = () => {
   useEffect(() => {
     if (!uid) return;
 
-    const getUserLearning = async () => {
-      try {
-        const data = (await getDoc(doc(db, "userLearningLog", uid))).data() as {
-          [key: string]: [];
-        };
+    const unsub = onSnapshot(doc(db, "userLearningLog", uid), (doc) => {
+      const data = doc.data() as {
+        [key: string]: [];
+      };
 
-        if (!data) return;
+      if (!data) return;
 
-        const preparedData = Object.entries(data).map((record) => ({
-          date: record[0],
-          words: record[1],
-        }));
+      const preparedData = Object.entries(data).map((record) => ({
+        date: record[0],
+        words: record[1],
+      }));
 
-        setLearningLog(preparedData);
-      } catch (error) {
-        console.log("Something went wrong.", error);
-      }
+      setLearningLog(preparedData);
+    });
+
+    return () => {
+      unsub();
     };
-
-    getUserLearning().catch(console.error);
   }, [uid]);
 
   return learningLog;

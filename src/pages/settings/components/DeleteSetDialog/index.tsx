@@ -47,11 +47,12 @@ const DeleteAccountDialog = ({
   };
 
   const deleteUserAndData = async () => {
-    await deleteUser(currentUser);
-
     await deleteDoc(doc(db, "users", currentUser.uid));
     await deleteDoc(doc(db, "userWords", currentUser.uid));
     await deleteDoc(doc(db, "userSets", currentUser.uid));
+    await deleteDoc(doc(db, "userLearningLog", currentUser.uid));
+
+    await deleteUser(currentUser);
   };
 
   return (

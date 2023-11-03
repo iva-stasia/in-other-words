@@ -82,7 +82,8 @@ export interface UserData {
   email: string | null;
   photoURL: string | null;
   lastLoginDate?: Timestamp | null;
-  activityLog?: Timestamp[] | null;
+  activityLog?: Timestamp[];
+  learningLog?: LearningLogRecord[];
 }
 
 export interface LearningLogRecord {

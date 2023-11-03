@@ -25,12 +25,13 @@ const AuthLayout = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(saveUser(user));
+
         navigate("/");
       } else {
         dispatch(saveUser(null));
       }
     });
-  }, [dispatch, navigate]);
+  }, []);
 
   return (
     <AuthLayoutContainer

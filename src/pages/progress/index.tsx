@@ -2,7 +2,6 @@ import { ProgressContainer, Row } from "./Progress.styled";
 import { motion } from "framer-motion";
 import { fadeIn } from "../../utils/motion";
 import CustomCalendar from "./components/CastomCalendar";
-import useGetUserActivity from "../../hooks/useGetUserActivity";
 import Chart from "./components/Chart";
 import Total from "./components/Total";
 import Achievements from "./components/Achievements";
@@ -13,8 +12,10 @@ import { Progress } from "../../types";
 import { Timestamp } from "firebase/firestore";
 import { isHasPrevious } from "../../utils/dateComparison";
 
-const getCurrentStreak = (activityLog: Timestamp[]) => {
+const getCurrentStreak = (activityLog: Timestamp[] | undefined): number => {
   let streak = 1;
+
+  if (!activityLog) return 0;
 
   const reversedDates = [...activityLog].reverse();
 
@@ -29,9 +30,11 @@ const getCurrentStreak = (activityLog: Timestamp[]) => {
   return streak;
 };
 
-const getStreakRecord = (activityLog: Timestamp[]) => {
+const getStreakRecord = (activityLog: Timestamp[] | undefined): number => {
   let streakRecord = 0;
   let current = 1;
+
+  if (!activityLog) return 0;
 
   const reversedDates = [...activityLog].reverse();
 
@@ -48,7 +51,9 @@ const getStreakRecord = (activityLog: Timestamp[]) => {
 };
 
 const ProgressPage = () => {
-  const activityLog = useGetUserActivity();
+  const activityLog = useSelector(
+    (state: RootState) => state.activityLog.activityLog
+  );
   const words = useSelector((state: RootState) => state.words.ownWords);
   const [rowHeight, setRowHeight] = useState(0);
 
@@ -80,7 +85,10 @@ const ProgressPage = () => {
       key={location.pathname}
     >
       <Row height={rowHeight || "auto"}>
-        <CustomCalendar activityLog={activityLog} setRowHeight={setRowHeight} />
+        <CustomCalendar
+          activityLog={activityLog || []}
+          setRowHeight={setRowHeight}
+        />
         <Chart rowHeight={rowHeight} />
       </Row>
 

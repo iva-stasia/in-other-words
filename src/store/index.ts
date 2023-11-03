@@ -8,6 +8,7 @@ import passwordResetSlice from "./slices/passwordResetSlice";
 import menuSlice from "./slices/menuSlice";
 import dialogSlice from "./slices/dialogSlice";
 import wordSlice from "./slices/wordSlice";
+import activityLogSlice from "./slices/activityLogSlice";
 
 const reducers = combineReducers({
   colorMode: colorModeReducer,
@@ -16,12 +17,13 @@ const reducers = combineReducers({
   menu: menuSlice,
   dialog: dialogSlice,
   words: wordSlice,
+  activityLog: activityLogSlice,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["colorMode"],
+  whitelist: ["colorMode", "user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

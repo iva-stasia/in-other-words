@@ -11,6 +11,7 @@ import { setActivePage } from "../../store/slices/menuSlice";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { User, updateEmail, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const useSettingsFacade = () => {
   const [message, setMessage] = useState("");
@@ -22,6 +23,7 @@ const useSettingsFacade = () => {
   );
   const currentUser = auth.currentUser;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     control,
@@ -61,7 +63,6 @@ const useSettingsFacade = () => {
     if (!currentUser) return;
 
     if (getFieldState("photoURL").isDirty && form.photoURL instanceof File) {
-      console.log("hey");
       const storageRef = ref(storage, crypto.randomUUID());
 
       await uploadBytesResumable(storageRef, form.photoURL).then(() => {
@@ -88,6 +89,7 @@ const useSettingsFacade = () => {
               const message = "Profile has been successfully updated!";
               setMessage(message);
               setAlertOpen(true);
+              navigate("/");
             } catch (error) {
               const message =
                 "Ops! Something went wrong. Please try again later.";
@@ -118,6 +120,7 @@ const useSettingsFacade = () => {
         const message = "Profile has been successfully updated!";
         setMessage(message);
         setAlertOpen(true);
+        navigate("/");
       } catch (error) {
         const message = "Ops! Something went wrong. Please try again later.";
         setMessage(message);

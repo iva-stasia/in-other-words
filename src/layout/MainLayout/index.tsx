@@ -12,36 +12,42 @@ import {
 } from "../../store/slices/wordSlice";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
-import { saveUser } from "../../store/slices/userSlice";
+import { saveUser, setLearningLog } from "../../store/slices/userSlice";
 import useOwnWords from "../../hooks/useOwnWords";
 import useWordSets from "../../hooks/useWordSets";
 import { Main, MainContainer, MainLayoutContainer } from "./MainLayout.styled";
 import PageHeader from "../../components/PageHeader";
+import useGetUserLearning from "../../hooks/useGetUserLearning";
+import useGetUserActivity from "../../hooks/useGetUserActivity";
 import updateUserActivity from "../../utils/updateUserActivity";
+import { setActivityLog } from "../../store/slices/activityLogSlice";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { words, loading } = useOwnWords();
   const wordSets = useWordSets();
+  const learningLog = useGetUserLearning();
+  const activityLog = useGetUserActivity();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(saveUser(user));
         updateUserActivity(user.uid).catch(console.error);
       } else {
         dispatch(saveUser(null));
         navigate("/login");
       }
     });
-  }, [navigate, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(setOwnWords(words));
     dispatch(setWordSets(wordSets));
     dispatch(setLoading(loading));
-  }, [words, wordSets, dispatch, loading]);
+    dispatch(setLearningLog(learningLog));
+    dispatch(setActivityLog(activityLog));
+  }, [words, wordSets, loading, learningLog, activityLog]);
 
   return (
     <MainLayoutContainer>

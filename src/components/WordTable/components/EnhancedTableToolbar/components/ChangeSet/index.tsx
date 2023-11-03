@@ -42,13 +42,13 @@ const ChangeSet = ({
         open={Boolean(anchorElUser)}
         onClose={() => setAnchorElUser(null)}
       >
-        <MenuItem divider dense disabled>
+        <MenuItem divider disabled>
           <Typography textAlign="center" variant="body2">
             Move to:
           </Typography>
         </MenuItem>
         {wordSets.map((set) => (
-          <MenuItem dense key={set.title} onClick={() => handleMoveClick(set)}>
+          <MenuItem key={set.title} onClick={() => handleMoveClick(set)}>
             <Typography textAlign="center">{set.title}</Typography>
           </MenuItem>
         ))}

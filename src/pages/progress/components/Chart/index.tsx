@@ -8,11 +8,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ChartContainer } from "./Chart.styled";
-import useGetUserLearning from "../../../../hooks/useGetUserLearning";
 import dayjs from "dayjs";
 import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
 import { LearningLogRecord } from "../../../../types";
 import { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store";
 
 interface ChartProps {
   rowHeight: number;
@@ -44,7 +45,7 @@ const paddingGapHeaderHeight = 84.5;
 
 const Chart = ({ rowHeight }: ChartProps) => {
   const [period, setPeriod] = useState(7);
-  const learningLog = useGetUserLearning();
+  const learningLog = useSelector((state: RootState) => state.user.learningLog);
   const theme = useTheme();
   const [height, setHeight] = useState(0);
 
@@ -53,7 +54,7 @@ const Chart = ({ rowHeight }: ChartProps) => {
   }, [rowHeight]);
 
   const preparedLearningData = useMemo(
-    () => prepareLearningData(learningLog, period),
+    () => prepareLearningData(learningLog ? learningLog : [], period),
     [learningLog, period]
   );
 

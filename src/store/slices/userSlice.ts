@@ -1,11 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UserData } from "../../types";
+import { LearningLogRecord, UserData } from "../../types";
 
 const initialState: UserData = {
   uid: null,
   displayName: null,
   email: null,
   photoURL: null,
+  learningLog: [],
 };
 
 export const userSlice = createSlice({
@@ -18,8 +19,11 @@ export const userSlice = createSlice({
       state.email = action.payload?.email || null;
       state.photoURL = action.payload?.photoURL || null;
     },
+    setLearningLog: (state, action: PayloadAction<LearningLogRecord[]>) => {
+      state.learningLog = action.payload;
+    },
   },
 });
 
-export const { saveUser } = userSlice.actions;
+export const { saveUser, setLearningLog } = userSlice.actions;
 export default userSlice.reducer;

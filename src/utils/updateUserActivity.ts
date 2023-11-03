@@ -23,7 +23,7 @@ const updateUserActivity = async (uid: string) => {
       lastLoginDate: Timestamp.now(),
     });
   } catch (e) {
-    console.log("Something went wrong.", e);
+    console.error("Something went wrong.", e);
   }
 };
 
