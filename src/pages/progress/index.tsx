@@ -8,7 +8,7 @@ import Total from "./components/Total";
 import Achievements from "./components/Achievements";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Progress } from "../../types";
 import { Timestamp } from "firebase/firestore";
 import { isHasPrevious } from "../../utils/dateComparison";
@@ -50,6 +50,7 @@ const getStreakRecord = (activityLog: Timestamp[]) => {
 const ProgressPage = () => {
   const activityLog = useGetUserActivity();
   const words = useSelector((state: RootState) => state.words.ownWords);
+  const [rowHeight, setRowHeight] = useState(0);
 
   const allWordsCount = words.length;
 
@@ -78,12 +79,12 @@ const ProgressPage = () => {
       animate="show"
       key={location.pathname}
     >
-      <Row>
-        <CustomCalendar activityLog={activityLog} />
-        <Chart />
+      <Row height={rowHeight || "auto"}>
+        <CustomCalendar activityLog={activityLog} setRowHeight={setRowHeight} />
+        <Chart rowHeight={rowHeight} />
       </Row>
 
-      <Row flex={1}>
+      <Row flex={1} component={motion.div}>
         <Achievements
           learnedWordsCount={learnedWordsCount}
           streakRecord={streakRecord}

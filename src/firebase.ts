@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.VITE_API_KEY as string;
 
 const firebaseConfig = {
   apiKey: API_KEY,
-  authDomain: "in-other-words-3608b.firebaseapp.com",
+  authDomain: "inotherwords.online",
   projectId: "in-other-words-3608b",
   storageBucket: "in-other-words-3608b.appspot.com",
   messagingSenderId: "779040342246",

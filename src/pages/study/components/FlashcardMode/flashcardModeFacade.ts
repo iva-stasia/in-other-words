@@ -21,12 +21,10 @@ const useFlashcardModeFacade = (words: Word[]) => {
 
   const handleFail = async () => {
     await handleBtn(Answer.Fail, Progress.New);
-    console.log("left");
   };
 
   const handlePass = async () => {
     await handleBtn(Answer.PassEasy, Progress.Learned);
-    console.log("right");
   };
 
   const handleBtn = async (answer: Answer, progress: Progress) => {

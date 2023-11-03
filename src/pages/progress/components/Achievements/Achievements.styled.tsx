@@ -8,7 +8,8 @@ const AchievementsContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   display: "flex",
   flexDirection: "column",
-  gap: theme.spacing(1),
+  gap: theme.spacing(2),
+  justifyContent: "space-between",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.background.default,
 

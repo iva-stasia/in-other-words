@@ -89,6 +89,10 @@ const getWordAccToNum = (wordsNum: number) => {
   return wordsNum === 1 ? "word" : "words";
 };
 
+const getToBeAccToNum = (wordsNum: number) => {
+  return wordsNum === 1 ? "is" : "are";
+};
+
 const Study = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
 
@@ -149,7 +153,10 @@ const Study = () => {
                             {getWordAccToNum(
                               minWordsRequired - curWords.length
                             )}{" "}
-                            are needed to start training
+                            {getToBeAccToNum(
+                              minWordsRequired - curWords.length
+                            )}{" "}
+                            needed to start training
                           </Typography>
                         )}
                       </Box>

@@ -12,13 +12,14 @@ import {
 
 interface CustomCalendarProps {
   activityLog: Timestamp[];
+  setRowHeight: (rowHeight: number) => void;
 }
 
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const CustomCalendar = ({ activityLog }: CustomCalendarProps) => {
+const CustomCalendar = ({ activityLog, setRowHeight }: CustomCalendarProps) => {
   const [value, onChange] = useState<Value>(new Date());
 
   const activityTileClassName = useCallback(
@@ -77,6 +78,13 @@ const CustomCalendar = ({ activityLog }: CustomCalendarProps) => {
         view="month"
         locale="en-EN"
         tileClassName={activityTileClassName}
+        onActiveStartDateChange={() => {
+          setTimeout(() => {
+            const calendar = document.querySelector(".react-calendar");
+            const calendarHeight = calendar ? calendar.clientHeight : 0;
+            setRowHeight(calendarHeight);
+          }, 0);
+        }}
       />
     </CalendarContainer>
   );

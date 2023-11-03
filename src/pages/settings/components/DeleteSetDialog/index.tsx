@@ -6,11 +6,12 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import AlertMessage from "../../../../components/AlertMessage";
+import { useState } from "react";
+
 import { User, deleteUser } from "firebase/auth";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../../firebase";
+import ConfirmDialog from "./components/ConfirmDialog";
 
 interface DeleteAccountDialogProps {
   deleteAccountOpen: boolean;
@@ -23,12 +24,7 @@ const DeleteAccountDialog = ({
   currentUser,
   setDeleteAccountOpen,
 }: DeleteAccountDialogProps) => {
-  const [open, setOpen] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(deleteAccountOpen);
-  }, [setOpen, deleteAccountOpen]);
+  const [reauth, setReauth] = useState(false);
 
   const handleClose = () => {
     setDeleteAccountOpen(false);
@@ -38,20 +34,30 @@ const DeleteAccountDialog = ({
     handleClose();
 
     try {
-      await deleteDoc(doc(db, "users", currentUser.uid));
-      await deleteDoc(doc(db, "userWords", currentUser.uid));
-      await deleteDoc(doc(db, "userSets", currentUser.uid));
-
-      await deleteUser(currentUser);
+      await deleteUserAndData();
     } catch (error) {
       console.error(error);
+      if (
+        error instanceof Error &&
+        error.message === "Firebase: Error (auth/requires-recent-login)."
+      ) {
+        setReauth(true);
+      }
     }
+  };
+
+  const deleteUserAndData = async () => {
+    await deleteUser(currentUser);
+
+    await deleteDoc(doc(db, "users", currentUser.uid));
+    await deleteDoc(doc(db, "userWords", currentUser.uid));
+    await deleteDoc(doc(db, "userSets", currentUser.uid));
   };
 
   return (
     <>
       <Dialog
-        open={open}
+        open={deleteAccountOpen}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -68,11 +74,11 @@ const DeleteAccountDialog = ({
         </DialogActions>
       </Dialog>
 
-      <AlertMessage
-        alertOpen={alertOpen}
-        setAlertOpen={setAlertOpen}
-        message="Account has been successfully deleted!"
-        severity="success"
+      <ConfirmDialog
+        reauth={reauth}
+        setReauth={setReauth}
+        currentUser={currentUser}
+        deleteUserAndData={deleteUserAndData}
       />
     </>
   );

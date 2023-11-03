@@ -12,7 +12,11 @@ import useGetUserLearning from "../../../../hooks/useGetUserLearning";
 import dayjs from "dayjs";
 import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
 import { LearningLogRecord } from "../../../../types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+interface ChartProps {
+  rowHeight: number;
+}
 
 const prepareLearningData = (
   learningLog: LearningLogRecord[],
@@ -36,10 +40,17 @@ const prepareLearningData = (
   return learningData.reverse();
 };
 
-const Chart = () => {
+const paddingGapHeaderHeight = 84.5;
+
+const Chart = ({ rowHeight }: ChartProps) => {
   const [period, setPeriod] = useState(7);
   const learningLog = useGetUserLearning();
   const theme = useTheme();
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    setHeight(rowHeight);
+  }, [rowHeight]);
 
   const preparedLearningData = useMemo(
     () => prepareLearningData(learningLog, period),
@@ -49,7 +60,7 @@ const Chart = () => {
   if (!preparedLearningData) return;
 
   return (
-    <ChartContainer>
+    <ChartContainer height={height || "100%"}>
       <Stack
         direction="row"
         spacing={1}
@@ -72,14 +83,15 @@ const Chart = () => {
           </Button>
         </Stack>
       </Stack>
-      <Box flex={1}>
+
+      <Box height={height ? height - paddingGapHeaderHeight : "100%"}>
         <ResponsiveContainer>
           <LineChart
             data={preparedLearningData}
             margin={{
-              top: 5,
               right: 30,
               bottom: 5,
+              top: 10,
             }}
           >
             <CartesianGrid stroke="#949494" strokeDasharray="5 5" />

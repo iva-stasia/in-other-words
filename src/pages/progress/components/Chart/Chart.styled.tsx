@@ -2,7 +2,6 @@ import { Box, styled } from "@mui/material";
 
 const ChartContainer = styled(Box)(({ theme }) => ({
   overflow: "hidden",
-  height: "100%",
   maxHeight: "400px",
   flex: 1,
   padding: theme.spacing(2),
@@ -14,6 +13,14 @@ const ChartContainer = styled(Box)(({ theme }) => ({
 
   "& .recharts-layer.recharts-line-dots circle": {
     fill: theme.palette.tertiary.main,
+  },
+
+  "& .recharts-default-tooltip": {
+    borderRadius: "4px",
+
+    ...(theme.palette.mode === "dark" && {
+      backgroundColor: `${theme.palette.backgroundSecond.main}!important`,
+    }),
   },
 
   [theme.breakpoints.down("md")]: {

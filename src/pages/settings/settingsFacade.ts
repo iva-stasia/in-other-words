@@ -58,8 +58,6 @@ const useSettingsFacade = () => {
   }, [photoURL]);
 
   const onSubmit: SubmitHandler<UserProfile> = async (form) => {
-    console.log(getFieldState("photoURL").isDirty || currentPhotoURL === "");
-
     if (!currentUser) return;
 
     if (getFieldState("photoURL").isDirty && form.photoURL instanceof File) {

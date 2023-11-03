@@ -23,7 +23,7 @@ const Achievements = ({
   return (
     <AchievementsContainer>
       <Typography variant="h6">Achievements</Typography>
-      <Box flex={1}>
+      <Box>
         <Typography variant="subtitle2" color="tertiary.main" pb={1}>
           Daily streaks
         </Typography>

@@ -1,16 +1,11 @@
 import { Box, styled } from "@mui/material";
 
 const CalendarContainer = styled(Box)(({ theme }) => ({
-  height: "100%",
-  background: theme.palette.background.default,
   borderRadius: theme.shape.borderRadius,
-
-  [theme.breakpoints.down("sm")]: {
-    height: "auto",
-  },
 
   "& .react-calendar": {
     overflow: "hidden",
+    width: "320px",
     color: theme.palette.text.primary,
     background: theme.palette.background.default,
     border: "none",
@@ -20,6 +15,10 @@ const CalendarContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
+  },
+
+  "& .react-calendar__navigation": {
+    marginBottom: theme.spacing(0),
   },
 
   "& .react-calendar__navigation button": {
@@ -53,16 +52,20 @@ const CalendarContainer = styled(Box)(({ theme }) => ({
   "& .react-calendar__tile": {
     pointerEvents: "none",
     borderRadius: "50%",
-    height: 50 - 8,
+    aspectRatio: 1,
     marginBottom: theme.spacing(0.5),
+  },
+
+  "& .react-calendar__tile abbr": {
+    fontSize: "0.9rem",
   },
 
   "& .react-calendar__tile--active": {
     position: "relative",
     background: theme.palette.tertiary.main,
     color: theme.palette.tertiary.contrastText,
-    borderInline: "4px solid",
-    borderInlineColor: theme.palette.background.default,
+    border: "4px solid",
+    borderColor: theme.palette.background.default,
 
     "&::before": {
       content: '""',
@@ -71,7 +74,7 @@ const CalendarContainer = styled(Box)(({ theme }) => ({
       width: "4px",
       background: theme.palette.tertiary.contrastText,
       position: "absolute",
-      bottom: "8px",
+      bottom: "4px",
       left: "50%",
       transform: "translate(-50%, 0)",
       borderRadius: "50%",
@@ -85,23 +88,20 @@ const CalendarContainer = styled(Box)(({ theme }) => ({
   "& .user-activity": {
     background: theme.palette.tertiary.main,
     borderRadius: 0,
-    borderInline: "4px solid",
-    borderInlineColor: theme.palette.tertiary.main,
+    border: "4px solid",
+    borderColor: theme.palette.tertiary.main,
   },
 
   "& .user-activity-single": {
     borderRadius: "50%",
-    borderColor: theme.palette.background.default,
   },
 
   "& .user-activity-start": {
     borderRadius: "50% 0 0 50%",
-    borderLeftColor: theme.palette.background.default,
   },
 
   "& .user-activity-end": {
     borderRadius: "0 50% 50% 0",
-    borderRightColor: theme.palette.background.default,
   },
 
   "& .user-activity abbr": {
