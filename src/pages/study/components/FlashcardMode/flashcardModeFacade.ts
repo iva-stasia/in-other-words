@@ -11,6 +11,7 @@ const useFlashcardModeFacade = (words: Word[]) => {
   const [wordNum, setWordNum] = useState(0);
   const theme = useTheme();
   const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const [direction, setDirection] = useState(0);
 
   const { updateProgress } = useUpdateProgress();
 
@@ -20,10 +21,12 @@ const useFlashcardModeFacade = (words: Word[]) => {
   }, []);
 
   const handleFail = async () => {
+    setDirection(1);
     await handleBtn(Answer.Fail, Progress.New);
   };
 
   const handlePass = async () => {
+    setDirection(-1);
     await handleBtn(Answer.PassEasy, Progress.Learned);
   };
 
@@ -58,6 +61,7 @@ const useFlashcardModeFacade = (words: Word[]) => {
     setWordsToDisplay,
     firstWord,
     matchDownSm,
+    direction,
   };
 };
 

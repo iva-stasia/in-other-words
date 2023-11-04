@@ -8,8 +8,22 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../../utils/motion";
 
 const Settings = () => {
-  const { currentUser, alertOpen, setAlertOpen, message, error } =
-    useSettingsFacade();
+  const {
+    currentUser,
+    alertOpen,
+    setAlertOpen,
+    message,
+    error,
+    handleSubmit,
+    control,
+    onSubmit,
+    displayName,
+    currentPhotoURL,
+    setCurrentPhotoURL,
+    isSubmitting,
+    errors,
+    handleDeletePhoto,
+  } = useSettingsFacade();
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false);
 
   return (
@@ -21,7 +35,18 @@ const Settings = () => {
       key={location.pathname}
     >
       <InnerContainer>
-        <ProfileForm setDeleteAccountOpen={setDeleteAccountOpen} />
+        <ProfileForm
+          setDeleteAccountOpen={setDeleteAccountOpen}
+          displayName={displayName || ""}
+          isSubmitting={isSubmitting}
+          setCurrentPhotoURL={setCurrentPhotoURL}
+          handleDeletePhoto={handleDeletePhoto}
+          handleSubmit={handleSubmit}
+          control={control}
+          onSubmit={onSubmit}
+          currentPhotoURL={currentPhotoURL || ""}
+          errors={errors}
+        />
       </InnerContainer>
 
       {currentUser && (

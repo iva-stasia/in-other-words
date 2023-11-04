@@ -11,19 +11,18 @@ import { setActivePage } from "../../store/slices/menuSlice";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { User, updateEmail, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { saveUser } from "../../store/slices/userSlice";
 
 const useSettingsFacade = () => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("hello");
   const [alertOpen, setAlertOpen] = useState(false);
   const [error, setError] = useState(false);
   const [currentPhotoURL, setCurrentPhotoURL] = useState<string | null>(null);
   const { displayName, photoURL, email } = useSelector(
     (state: RootState) => state.user
   );
-  const currentUser = auth.currentUser;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const currentUser = auth.currentUser;
 
   const {
     control,
@@ -72,63 +71,63 @@ const useSettingsFacade = () => {
               typeof downloadURL === "string" ? downloadURL : "";
 
             try {
-              await updateProfile(currentUser, {
-                displayName: form.displayName,
-                photoURL: newPhotoURL,
-              });
-
-              getFieldState("email").isDirty &&
-                (await updateUserEmail(currentUser, form.email));
-
-              await updateDoc(doc(db, "users", currentUser.uid), {
-                displayName: form.displayName,
-                photoURL: newPhotoURL,
-                email: form.email,
-              });
-
-              const message = "Profile has been successfully updated!";
-              setMessage(message);
-              setAlertOpen(true);
-              navigate("/");
+              await handleProfileUpdating(
+                form.displayName,
+                newPhotoURL,
+                form.email
+              );
             } catch (error) {
-              const message =
-                "Ops! Something went wrong. Please try again later.";
-              setMessage(message);
-              setError(true);
-              setAlertOpen(true);
-              console.error(error);
+              if (error instanceof Error) handleError(error);
             }
           })
           .catch(console.error);
       });
     } else {
       try {
-        await updateProfile(currentUser, {
-          displayName: form.displayName,
-          photoURL: currentPhotoURL,
-        });
-
-        getFieldState("email").isDirty &&
-          (await updateUserEmail(currentUser, form.email));
-
-        await updateDoc(doc(db, "users", currentUser.uid), {
-          displayName: form.displayName,
-          photoURL: currentPhotoURL,
-          email: form.email,
-        });
-
-        const message = "Profile has been successfully updated!";
-        setMessage(message);
-        setAlertOpen(true);
-        navigate("/");
+        await handleProfileUpdating(
+          form.displayName,
+          currentPhotoURL,
+          form.email
+        );
       } catch (error) {
-        const message = "Ops! Something went wrong. Please try again later.";
-        setMessage(message);
-        setError(true);
-        setAlertOpen(true);
-        console.error(error);
+        if (error instanceof Error) handleError(error);
       }
     }
+  };
+
+  const handleProfileUpdating = async (
+    name: string | undefined,
+    photoUrl: string | null,
+    email: string
+  ) => {
+    if (!currentUser) return;
+
+    await updateProfile(currentUser, {
+      displayName: name || "",
+      photoURL: photoUrl || "",
+    });
+
+    getFieldState("email").isDirty &&
+      (await updateUserEmail(currentUser, email));
+
+    await updateDoc(doc(db, "users", currentUser.uid), {
+      displayName: name,
+      photoURL: photoUrl,
+      email: email,
+    });
+
+    const message = "Profile has been successfully updated!";
+    setMessage(message);
+    setAlertOpen(true);
+    dispatch(saveUser(currentUser));
+  };
+
+  const handleError = (error: Error) => {
+    const message = "Ops! Something went wrong. Please try again later.";
+    setMessage(message);
+    setError(true);
+    setAlertOpen(true);
+    console.error(error);
   };
 
   const updateUserEmail = async (user: User, email: string) => {

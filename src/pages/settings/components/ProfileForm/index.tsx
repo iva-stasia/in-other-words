@@ -9,28 +9,43 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Controller } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  SubmitHandler,
+  UseFormHandleSubmit,
+} from "react-hook-form";
 import { DeleteAccountContainer, GridBtnContainer } from "./ProfileForm.styled";
 import { useNavigate } from "react-router-dom";
-import useSettingsFacade from "../../settingsFacade";
+import { UserProfile } from "../../../../types";
 
 interface ProfileFormProps {
+  displayName: string;
+  isSubmitting: boolean;
+  control: Control<UserProfile, any>;
+  currentPhotoURL: string;
+  errors: FieldErrors<UserProfile>;
+  handleSubmit: UseFormHandleSubmit<UserProfile, undefined>;
+  onSubmit: SubmitHandler<UserProfile>;
+  setCurrentPhotoURL: (currentPhotoURL: string) => void;
+  handleDeletePhoto: () => void;
   setDeleteAccountOpen: (deleteAccountOpen: boolean) => void;
 }
 
-const ProfileForm = ({ setDeleteAccountOpen }: ProfileFormProps) => {
+const ProfileForm = ({
+  setDeleteAccountOpen,
+  displayName,
+  isSubmitting,
+  handleSubmit,
+  control,
+  onSubmit,
+  currentPhotoURL,
+  setCurrentPhotoURL,
+  errors,
+  handleDeletePhoto,
+}: ProfileFormProps) => {
   const navigate = useNavigate();
-  const {
-    handleSubmit,
-    control,
-    onSubmit,
-    displayName,
-    currentPhotoURL,
-    setCurrentPhotoURL,
-    isSubmitting,
-    errors,
-    handleDeletePhoto,
-  } = useSettingsFacade();
 
   return (
     <Grid

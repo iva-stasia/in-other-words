@@ -22,7 +22,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { fadeIn, flashcard, flashcardCover } from "../../../../utils/motion";
-import { useState } from "react";
 
 interface FlashcardModeProps {
   words: Word[];
@@ -45,8 +44,8 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
     setDragged,
     firstWord,
     matchDownSm,
+    direction,
   } = useFlashcardModeFacade(words);
-  const [direction, setDirection] = useState(0);
 
   const x = useMotionValue(0);
   const xInput = [-100, 0, 100];
@@ -86,10 +85,8 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
                     const swipe = swipePower(offset.x, velocity.x);
 
                     if (swipe < -swipeConfidenceThreshold) {
-                      setDirection(1);
                       handleFail().catch(console.error);
                     } else if (swipe > swipeConfidenceThreshold) {
-                      setDirection(-1);
                       handlePass().catch(console.error);
                     }
                   }}

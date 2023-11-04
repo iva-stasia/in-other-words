@@ -28,7 +28,7 @@ const Achievements = ({
           Daily streaks
         </Typography>
 
-        <Grid container rowGap={2} columnSpacing={1}>
+        <Grid container rowGap={2} columnSpacing={2}>
           {streakAchievements.map(({ title, days, icon }) => (
             <Grid item xs={6} sm={4} md key={title}>
               <BadgeContainer>
@@ -51,7 +51,7 @@ const Achievements = ({
           Learned words
         </Typography>
 
-        <Grid container rowGap={2} columnSpacing={1}>
+        <Grid container rowGap={2} columnSpacing={2}>
           {wordAchievements.map(({ title, words, icon }) => (
             <Grid item xs={6} sm={4} md key={title}>
               <BadgeContainer>
