@@ -1,4 +1,4 @@
-import { Grid, Fade } from "@mui/material";
+import { Grid, Fade, useTheme, useMediaQuery } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -12,7 +12,7 @@ import SetCard from "./components/SetCard";
 import CreateSetDialog from "./components/CreateSetDialog";
 import DeleteSetDialog from "./components/DeleteSetDialog";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../utils/motion";
+import { fade, fadeIn } from "../../utils/motion";
 
 const WordSets = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,8 @@ const WordSets = () => {
   const [deleteSetOpen, setDeleteSetOpen] = useState(false);
   const [selectedSet, setSelectedSet] = useState<WordSet | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleCreateSetClick = () => {
     dispatch(setCreateSetDialog(true));
@@ -37,7 +39,7 @@ const WordSets = () => {
   return (
     <WordSetsContainer
       component={motion.div}
-      variants={fadeIn("up", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn("up", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}

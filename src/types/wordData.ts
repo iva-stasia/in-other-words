@@ -33,6 +33,7 @@ export interface Word {
   set: string;
   audioURL?: string;
   pronunciation?: string;
+  translation?: string;
   definitions: WordDefinition[];
   createdAt: Timestamp;
   learning: {

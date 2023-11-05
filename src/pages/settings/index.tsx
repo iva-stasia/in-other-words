@@ -1,11 +1,12 @@
 import { Container, InnerContainer } from "./Settings.styled";
 import { useState } from "react";
 import AlertMessage from "../../components/AlertMessage";
-import DeleteAccountDialog from "./components/DeleteSetDialog";
+import DeleteAccountDialog from "./components/DeleteAccountDialog";
 import useSettingsFacade from "./settingsFacade";
 import ProfileForm from "./components/ProfileForm";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../utils/motion";
+import { fade, fadeIn } from "../../utils/motion";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const Settings = () => {
   const {
@@ -23,13 +24,16 @@ const Settings = () => {
     isSubmitting,
     errors,
     handleDeletePhoto,
+    isDefaultUser,
   } = useSettingsFacade();
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false);
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Container
       component={motion.div}
-      variants={fadeIn("down", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn("up", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}
@@ -46,6 +50,7 @@ const Settings = () => {
           onSubmit={onSubmit}
           currentPhotoURL={currentPhotoURL || ""}
           errors={errors}
+          isDefaultUser={isDefaultUser}
         />
       </InnerContainer>
 

@@ -1,13 +1,16 @@
 import { Box, BoxProps, styled } from "@mui/material";
 import { MotionProps } from "framer-motion";
 
-const MainLayoutContainer = styled(Box)({
+const MainLayoutContainer = styled(Box)(({ theme }) => ({
   height: "100vh",
   display: "flex",
-});
+
+  [theme.breakpoints.down("sm")]: {
+    height: "100svh",
+  },
+}));
 
 const MainContainer = styled(Box)({
-  height: "100%",
   width: "100%",
   display: "flex",
   flexDirection: "column",
@@ -21,17 +24,14 @@ const Main = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
   flexDirection: "column",
   backgroundColor: theme.palette.backgroundSecond.main,
   borderRadius: "12px 0 0 0",
-  borderColor: theme.palette.backgroundSecond.main,
   [theme.breakpoints.down("md")]: {
     borderRadius: "0",
     padding: theme.spacing(2),
     paddingBottom: theme.spacing(3),
   },
   [theme.breakpoints.down("sm")]: {
-    overflowY: "auto",
+    overflowY: "initial",
     paddingTop: theme.spacing(1),
-    border: "3px solid",
-    borderColor: theme.palette.backgroundSecond.main,
   },
 }));
 

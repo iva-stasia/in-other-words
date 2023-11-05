@@ -60,6 +60,11 @@ const WordTableRow = ({
         <Typography fontWeight={700}>{row.word}</Typography>
 
         <Box sx={{ display: { xs: "block", sm: "none" }, pt: 1 }}>
+          {row.translation && (
+            <Typography variant="body2" fontStyle="italic">
+              {row.translation}
+            </Typography>
+          )}
           {row.definitions.map((def, index) => (
             <Box key={index}>{def.definition}</Box>
           ))}
@@ -67,6 +72,11 @@ const WordTableRow = ({
       </TableCell>
 
       <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+        {row.translation && (
+          <Typography variant="body2" fontStyle="italic">
+            {row.translation}
+          </Typography>
+        )}
         {row.definitions.map((def, index) => (
           <Box key={index}>{def.definition}</Box>
         ))}

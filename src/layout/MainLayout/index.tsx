@@ -31,7 +31,7 @@ const MainLayout = () => {
   const activityLog = useGetUserActivity();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         updateUserActivity(user.uid).catch(console.error);
       } else {
@@ -39,15 +39,31 @@ const MainLayout = () => {
         navigate("/login");
       }
     });
+
+    return () => {
+      unsub();
+    };
   }, []);
 
   useEffect(() => {
     dispatch(setOwnWords(words));
+  }, [words]);
+
+  useEffect(() => {
     dispatch(setWordSets(wordSets));
+  }, [wordSets]);
+
+  useEffect(() => {
     dispatch(setLoading(loading));
+  }, [loading]);
+
+  useEffect(() => {
     dispatch(setLearningLog(learningLog));
+  }, [learningLog]);
+
+  useEffect(() => {
     dispatch(setActivityLog(activityLog));
-  }, [words, wordSets, loading, learningLog, activityLog]);
+  }, [activityLog]);
 
   return (
     <MainLayoutContainer>

@@ -5,6 +5,7 @@ import {
   EditButton,
   ProgressIconContainer,
   StyledCardContent,
+  TypographyTranslation,
   TypographyWord,
   TypographyWordShadow,
   WordInfoContainer,
@@ -62,6 +63,12 @@ const WordCard = ({
             <CloseRounded />
           </CloseButton>
         </Tooltip>
+
+        {wordData.translation && (
+          <TypographyTranslation variant="h6">
+            {wordData.translation}
+          </TypographyTranslation>
+        )}
 
         {wordData.definitions.map((def, index) => (
           <WordInfoContainer key={index}>

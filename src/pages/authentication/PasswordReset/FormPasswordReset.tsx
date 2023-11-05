@@ -92,7 +92,7 @@ const FormPasswordReset = () => {
         severity="error"
       />
 
-      <ButtonLarge title="Send" disabled={isSubmitting} />
+      <ButtonLarge title="Send" isSubmitting={isSubmitting} />
     </Box>
   );
 };

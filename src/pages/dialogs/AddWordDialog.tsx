@@ -8,7 +8,9 @@ import {
   FormControl,
   FormLabel,
   IconButton,
+  TextField,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -24,6 +26,7 @@ import DefinitionInput from "../../components/DefinitionInput";
 import { createWord } from "../../utils";
 import WordSetSelect from "../../components/WordSetSelect";
 import useWordApiData from "../../hooks/useWordApiData";
+import BtnLoader from "../../components/BtnLoader";
 
 const AddWordDialog = () => {
   const dispatch = useDispatch();
@@ -41,6 +44,8 @@ const AddWordDialog = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [value, setValue] = useState<WordDefinition | null>(null);
   const [wordSet, setWordSet] = useState<string>("All words");
+  const [translation, setTranslation] = useState<string>("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     setValue(null);
@@ -51,11 +56,12 @@ const AddWordDialog = () => {
     dispatch(setSelectedWord(null));
     setValue(null);
     setWordSet("All words");
+    setTranslation("");
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleDialogClose();
+    setSubmitting(true);
 
     if (value && selectedWord && uid) {
       try {
@@ -65,13 +71,17 @@ const AddWordDialog = () => {
           value,
           wordSet,
           audioURL,
-          pronunciation
+          pronunciation,
+          translation
         );
         setAlertOpen(true);
       } catch (error) {
         if (error instanceof Error) console.error(error.message);
       }
     }
+
+    handleDialogClose();
+    setSubmitting(false);
   };
 
   return (
@@ -107,25 +117,52 @@ const AddWordDialog = () => {
               required={true}
             />
 
+            <FormControl fullWidth sx={{ my: 1 }} variant="outlined">
+              <FormLabel
+                htmlFor="translation"
+                sx={{
+                  color: "text.primary",
+                  "& .Mui-focused": {
+                    color: "red",
+                  },
+                }}
+              >
+                Translation
+              </FormLabel>
+              <TextField
+                placeholder="Enter a translation"
+                id="translation"
+                size="small"
+                value={translation}
+                onChange={(e) => setTranslation(e.target.value)}
+              />
+            </FormControl>
+
             <WordSetSelect
               wordSet={wordSet}
               setWordSet={setWordSet}
-              required={true}
+              required={false}
             />
           </DialogContent>
 
           <DialogActions sx={{ p: "0 1.5rem 1rem" }}>
             <Tooltip
-              title={(!selectedWord || !value) && "Fill in all fields"}
+              title={(!selectedWord || !value) && "Fill in all required fields"}
               placement="top"
             >
-              <Box>
+              <Box position="relative">
                 <Button
                   variant="contained"
                   type="submit"
                   disabled={!selectedWord || !value}
                 >
-                  Add
+                  <Typography
+                    variant="button"
+                    sx={{ opacity: submitting ? 0 : 1 }}
+                  >
+                    Add
+                  </Typography>
+                  {submitting && <BtnLoader color="text" />}
                 </Button>
               </Box>
             </Tooltip>

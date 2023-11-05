@@ -17,7 +17,11 @@ const UserProfile = () => {
           onClick={(e) => setAnchorElUser(e.currentTarget)}
           sx={{ p: 0, ml: 3 }}
         >
-          <Avatar alt={displayName || "User"} src={photoURL || ""} />
+          <Avatar
+            alt={displayName || "User"}
+            src={photoURL || ""}
+            sx={{ backgroundColor: "backgroundSecond.main" }}
+          />
         </IconButton>
       </Tooltip>
       <UserProfileMenu

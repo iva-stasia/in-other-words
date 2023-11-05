@@ -21,13 +21,18 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { fadeIn, flashcard, flashcardCover } from "../../../../utils/motion";
+import {
+  fade,
+  fadeIn,
+  flashcard,
+  flashcardCover,
+} from "../../../../utils/motion";
 
 interface FlashcardModeProps {
   words: Word[];
 }
 
-const swipeConfidenceThreshold = 5000;
+const swipeConfidenceThreshold = 10000;
 
 const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
@@ -55,7 +60,7 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
   return (
     <Box
       component={motion.div}
-      variants={fadeIn("down", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn("up", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}
@@ -158,7 +163,7 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
         <AnimatePresence>
           {wordsToDisplay.length > 0 && (
             <BtnProgressContainer
-              variants={fadeIn("up", "tween", 0.2, 0.2)}
+              variants={matchDownSm ? fade : fadeIn("up", "tween", 0.2, 0.2)}
               exit={matchDownSm ? { opacity: 0 } : "exit"}
             >
               <BtnContainer>

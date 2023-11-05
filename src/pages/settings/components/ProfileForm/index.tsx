@@ -7,6 +7,7 @@ import {
   Grid,
   OutlinedInput,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import {
@@ -19,6 +20,7 @@ import {
 import { DeleteAccountContainer, GridBtnContainer } from "./ProfileForm.styled";
 import { useNavigate } from "react-router-dom";
 import { UserProfile } from "../../../../types";
+import BtnLoader from "../../../../components/BtnLoader";
 
 interface ProfileFormProps {
   displayName: string;
@@ -31,6 +33,7 @@ interface ProfileFormProps {
   setCurrentPhotoURL: (currentPhotoURL: string) => void;
   handleDeletePhoto: () => void;
   setDeleteAccountOpen: (deleteAccountOpen: boolean) => void;
+  isDefaultUser: boolean;
 }
 
 const ProfileForm = ({
@@ -44,6 +47,7 @@ const ProfileForm = ({
   setCurrentPhotoURL,
   errors,
   handleDeletePhoto,
+  isDefaultUser,
 }: ProfileFormProps) => {
   const navigate = useNavigate();
 
@@ -164,14 +168,24 @@ const ProfileForm = ({
             </Typography>
           </Box>
           <Box sx={{ whiteSpace: "nowrap" }}>
-            <Button
-              variant="outlined"
-              color="error"
-              disabled={isSubmitting}
-              onClick={() => setDeleteAccountOpen(true)}
+            <Tooltip
+              title={
+                isDefaultUser &&
+                "You cannot delete a default user. Create your own to use this button :)"
+              }
+              placement="top"
             >
-              Delete Account
-            </Button>
+              <Box>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  disabled={isSubmitting || isDefaultUser}
+                  onClick={() => setDeleteAccountOpen(true)}
+                >
+                  Delete Account
+                </Button>
+              </Box>
+            </Tooltip>
           </Box>
         </DeleteAccountContainer>
       </Grid>
@@ -185,7 +199,10 @@ const ProfileForm = ({
           Cancel
         </Button>
         <Button variant="contained" disabled={isSubmitting} type="submit">
-          Save Changes
+          <Typography variant="button" sx={{ opacity: isSubmitting ? 0 : 1 }}>
+            Save Changes
+          </Typography>
+          {isSubmitting && <BtnLoader color="text" />}
         </Button>
       </GridBtnContainer>
     </Grid>

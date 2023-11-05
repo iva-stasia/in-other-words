@@ -22,7 +22,7 @@ const AuthLayout = () => {
   const location = useLocation();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(saveUser(user));
         navigate("/");
@@ -30,6 +30,10 @@ const AuthLayout = () => {
         dispatch(saveUser(null));
       }
     });
+
+    return () => {
+      unsub();
+    };
   }, []);
 
   return (

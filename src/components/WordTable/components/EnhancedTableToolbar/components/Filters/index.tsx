@@ -3,7 +3,15 @@ import {
   FilterListOffRounded,
   FilterListRounded,
 } from "@mui/icons-material";
-import { Box, IconButton, Stack, Tooltip } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useState } from "react";
 import Filter from "./components/Filter";
 import { useSelector } from "react-redux";
@@ -13,11 +21,17 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { fadeIn } from "../../../../../../utils/motion";
 
-const Filters = () => {
+interface FiltersProps {
+  title: string;
+}
+
+const Filters = ({ title }: FiltersProps) => {
   const [open, setOpen] = useState(false);
   const wordSets = useSelector((state: RootState) => state.words.wordSets);
   const { pathname } = useLocation();
   const [_searchParams, setSearchParams] = useSearchParams();
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   const inSet = pathname.includes("word-sets");
 
@@ -37,14 +51,29 @@ const Filters = () => {
       direction={{ xs: "column", sm: "row" }}
       gap={2}
       sx={{
-        ...(open && { width: { xs: "calc(100vw - 32px)", sm: "auto" } }),
+        width: { xs: "calc(100vw - 32px)", sm: "auto" },
       }}
     >
+      {!open && (
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          color="text.secondary"
+          sx={{
+            display: { sx: "block", sm: "none" },
+            position: "absolute",
+            top: "6px",
+          }}
+        >
+          {title}
+        </Typography>
+      )}
       <AnimatePresence>
         {open && (
           <Stack
             component={motion.div}
-            variants={fadeIn("left", "tween", 0, 0.3)}
+            variants={matchDownSm ? {} : fadeIn("left", "tween", 0, 0.3)}
             initial="hidden"
             animate="show"
             exit="exit"

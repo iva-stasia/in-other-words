@@ -92,6 +92,7 @@ const WordDataDialog = () => {
 
               <AnimatePresence mode="wait" initial={false} custom={direction}>
                 <Box
+                  className="card"
                   component={motion.div}
                   width={1}
                   key={wordData.word}

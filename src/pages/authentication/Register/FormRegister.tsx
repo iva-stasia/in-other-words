@@ -18,6 +18,8 @@ import { auth, db } from "../../../firebase";
 import { Timestamp, doc, setDoc } from "firebase/firestore";
 import AlertMessage from "../../../components/AlertMessage";
 import ButtonLarge from "../../../components/ButtonLarge";
+import { useDispatch } from "react-redux";
+import { saveUser } from "../../../store/slices/userSlice";
 
 const FormRegister = () => {
   const {
@@ -35,6 +37,7 @@ const FormRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -57,7 +60,7 @@ const FormRegister = () => {
 
       const avatar = user.photoURL
         ? user.photoURL
-        : `https://api.dicebear.com/7.x/big-ears-neutral/svg?scale=100&seed=${new Date().getMilliseconds()}`;
+        : `https://api.dicebear.com/7.x/big-ears/svg?seed=${new Date().getMilliseconds()}`;
 
       try {
         await updateProfile(user, {
@@ -81,6 +84,8 @@ const FormRegister = () => {
       await setDoc(doc(db, "userWords", user.uid), {});
       await setDoc(doc(db, "userSets", user.uid), {});
       await setDoc(doc(db, "userLearningLog", user.uid), {});
+
+      dispatch(saveUser(user));
     } catch (error) {
       if (error instanceof Error) {
         setError(true);
@@ -164,7 +169,7 @@ const FormRegister = () => {
           severity="error"
         />
 
-        <ButtonLarge title="Sign Up" disabled={isSubmitting} />
+        <ButtonLarge title="Sign Up" isSubmitting={isSubmitting} />
       </Box>
     </>
   );

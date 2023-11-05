@@ -8,7 +8,8 @@ export const createWord = async (
   definition: WordDefinition,
   wordSet: string,
   audioURL?: string,
-  pronunciation?: string
+  pronunciation?: string,
+  translation?: string
 ) => {
   const { word } = selectedWord;
   try {
@@ -17,6 +18,7 @@ export const createWord = async (
       [word + ".audioURL"]: audioURL,
       [word + ".set"]: wordSet,
       [word + ".pronunciation"]: pronunciation || "",
+      [word + ".translation"]: translation,
       [word + ".definitions"]: [
         {
           partOfSpeech: definition.partOfSpeech || "",

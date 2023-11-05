@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AlertMessage from "../../../../components/AlertMessage";
@@ -15,6 +16,7 @@ import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import { deleteWord } from "../../../../utils";
 import { WordSet } from "../../../../types";
+import BtnLoader from "../../../../components/BtnLoader";
 
 interface DeleteSetDialogProps {
   deleteSetOpen: boolean;
@@ -32,6 +34,7 @@ const DeleteSetDialog = ({
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [deleteWithWords, setDeleteWithWords] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     setOpen(deleteSetOpen);
@@ -42,7 +45,7 @@ const DeleteSetDialog = ({
   };
 
   const handleDeleteSet = async () => {
-    handleClose();
+    setSubmitting(true);
 
     if (deleteWithWords) {
       deleteSetWords();
@@ -58,6 +61,8 @@ const DeleteSetDialog = ({
         if (error instanceof Error) console.error(error.message);
       }
     }
+
+    handleClose();
   };
 
   const deleteSetWords = () => {
@@ -88,7 +93,12 @@ const DeleteSetDialog = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDeleteSet}>Delete</Button>
+          <Button onClick={handleDeleteSet}>
+            <Typography variant="button" sx={{ opacity: submitting ? 0 : 1 }}>
+              Delete
+            </Typography>
+            {submitting && <BtnLoader color="primary" />}
+          </Button>
         </DialogActions>
       </Dialog>
 

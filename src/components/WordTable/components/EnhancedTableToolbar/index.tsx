@@ -11,6 +11,7 @@ import Filters from "./components/Filters";
 
 interface EnhancedTableToolbarProps {
   selected: Word[];
+  title: string;
   setSelected: Dispatch<SetStateAction<Word[]>>;
 }
 
@@ -29,6 +30,7 @@ const getMoveMessage = (words: Word[], set: WordSet) => {
 const EnhancedTableToolbar = ({
   selected,
   setSelected,
+  title,
 }: EnhancedTableToolbarProps) => {
   const uid = useSelector((state: RootState) => state.user.uid);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -85,7 +87,7 @@ const EnhancedTableToolbar = ({
             </Tooltip>
           </>
         ) : (
-          <Filters />
+          <Filters title={title} />
         )}
       </Stack>
       <AlertMessage

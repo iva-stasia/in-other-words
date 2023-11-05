@@ -1,6 +1,6 @@
 import { ProgressContainer, Row } from "./Progress.styled";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../utils/motion";
+import { fade, fadeIn } from "../../utils/motion";
 import CustomCalendar from "./components/CastomCalendar";
 import Chart from "./components/Chart";
 import Total from "./components/Total";
@@ -11,6 +11,7 @@ import { useMemo, useState } from "react";
 import { Progress } from "../../types";
 import { Timestamp } from "firebase/firestore";
 import { isHasPrevious } from "../../utils/dateComparison";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const getCurrentStreak = (activityLog: Timestamp[] | undefined): number => {
   let streak = 1;
@@ -56,6 +57,8 @@ const ProgressPage = () => {
   );
   const words = useSelector((state: RootState) => state.words.ownWords);
   const [rowHeight, setRowHeight] = useState(0);
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   const allWordsCount = words.length;
 
@@ -79,7 +82,7 @@ const ProgressPage = () => {
   return (
     <ProgressContainer
       component={motion.div}
-      variants={fadeIn("up", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn("up", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}

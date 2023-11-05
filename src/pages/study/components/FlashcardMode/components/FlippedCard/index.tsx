@@ -74,6 +74,11 @@ const FlippedCard = ({ word, dragged, index, x, xInput }: FlippedCardProps) => {
 
         <CardFaceBack style={{ borderColor }}>
           <Box component={motion.div} style={{ opacity: opacityMain }}>
+            {word.translation && (
+              <Typography variant="body1" key={index}>
+                {word.translation}
+              </Typography>
+            )}
             {word.definitions.map((def, index) => (
               <Typography variant="body1" key={index}>
                 {def.definition}

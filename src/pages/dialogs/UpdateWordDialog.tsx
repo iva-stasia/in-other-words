@@ -7,7 +7,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  FormLabel,
   IconButton,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -50,6 +53,9 @@ const UpdateWordDialog = ({
   const [selectedWord, setSelectedWord] = useState<WordOption | null>(null);
   const [wordSet, setWordSet] = useState<string>(wordData.set);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [translation, setTranslation] = useState<string | undefined>(
+    wordData.translation
+  );
   const { definitions } = useWordApiData(open, selectedWord);
 
   const filteredDefs = definitions.filter((def) => !isEqual(def, selectedDefs));
@@ -86,7 +92,7 @@ const UpdateWordDialog = ({
 
     if (selectedDefs && selectedWord && uid) {
       try {
-        await updateWord(uid, selectedWord, wordSet, selectedDefs);
+        await updateWord(uid, selectedWord, wordSet, selectedDefs, translation);
         setAlertOpen(true);
       } catch (error) {
         if (error instanceof Error) console.error(error.message);
@@ -137,6 +143,28 @@ const UpdateWordDialog = ({
                 </Box>
               ))}
           </Box>
+
+          <FormControl fullWidth sx={{ my: 1 }} variant="outlined">
+            <FormLabel
+              htmlFor="translation"
+              sx={{
+                color: "text.primary",
+                "& .Mui-focused": {
+                  color: "red",
+                },
+              }}
+            >
+              Translation
+            </FormLabel>
+            <TextField
+              placeholder="Enter a translation"
+              id="translation"
+              size="small"
+              value={translation}
+              onChange={(e) => setTranslation(e.target.value)}
+            />
+          </FormControl>
+
           <WordSetSelect
             wordSet={wordSet}
             setWordSet={setWordSet}

@@ -143,6 +143,8 @@ const useSettingsFacade = () => {
     setCurrentPhotoURL("");
   };
 
+  const isDefaultUser = currentUser?.email === "user@gmail.com";
+
   return {
     handleSubmit,
     control,
@@ -158,6 +160,7 @@ const useSettingsFacade = () => {
     message,
     error,
     handleDeletePhoto,
+    isDefaultUser,
   };
 };
 

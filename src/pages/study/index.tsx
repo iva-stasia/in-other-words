@@ -1,4 +1,11 @@
-import { Box, Grid, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Link,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import flashcardIconLight from "/flashcard-light.png";
 import flashcardIconDark from "/flashcard-dark.png";
 import reviewIconLight from "/review-light.png";
@@ -21,7 +28,7 @@ import { RootState } from "../../store";
 import { Progress, Word } from "../../types";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../utils/motion";
+import { fade, fadeIn } from "../../utils/motion";
 
 const studyModes = [
   {
@@ -59,7 +66,7 @@ const studyModes = [
     iconDark: wordDefIconDark,
     minWordsRequired: 10,
     description:
-      "Learn the meaning and context of individual words to build your linguistic skills effectively.",
+      "Challenge yourself to pick the right meanings for words and watch your linguistic abilities flourish.",
     getWords: (words: Word[]) =>
       words.filter(({ learning }) => learning.progress !== Progress.Learned),
   },
@@ -70,7 +77,7 @@ const studyModes = [
     iconDark: defWordIconDark,
     minWordsRequired: 10,
     description:
-      "Learn the meaning and context of individual words to build your linguistic skills effectively.",
+      "Uncover the power of understanding words in context, and boost your language proficiency effortlessly.",
     getWords: (words: Word[]) =>
       words.filter(({ learning }) => learning.progress !== Progress.Learned),
   },
@@ -95,11 +102,13 @@ const getToBeAccToNum = (wordsNum: number) => {
 
 const Study = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <StudyContainer
       component={motion.div}
-      variants={fadeIn("up", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn("up", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}
@@ -143,11 +152,13 @@ const Study = () => {
                         <Typography variant="h6" component="div">
                           {title}
                         </Typography>
-                        <Typography variant="body2" component="div">
-                          {curWords.length} {wordAccToNum}
-                        </Typography>
+                        {title !== "Crossword" && (
+                          <Typography variant="body2" component="div">
+                            {curWords.length} {wordAccToNum}
+                          </Typography>
+                        )}
 
-                        {!active && (
+                        {!active && title !== "Crossword" && (
                           <Typography variant="body2" component="div">
                             At least {minWordsRequired - curWords.length} more{" "}
                             {getWordAccToNum(

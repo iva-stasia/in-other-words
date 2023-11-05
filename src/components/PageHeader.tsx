@@ -1,20 +1,22 @@
 import { useSelector } from "react-redux";
 import { NavLink as RouterLink, useLocation } from "react-router-dom";
 import { RootState } from "../store";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Link, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { ArrowBackRounded } from "@mui/icons-material";
 import { motion } from "framer-motion";
-import { fadeIn } from "../utils/motion";
+import { fade, fadeIn } from "../utils/motion";
 
 const PageHeader = () => {
   const { pathname } = useLocation();
   const activePage = useSelector((state: RootState) => state.menu.activePage);
   const path = pathname.slice(1).split("/");
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box
       component={motion.div}
-      variants={fadeIn("down", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn("down", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}

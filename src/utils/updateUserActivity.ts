@@ -7,7 +7,7 @@ const updateUserActivity = async (uid: string) => {
   try {
     const data = (await getDoc(doc(db, "users", uid))).data() as UserData;
 
-    if (!data.lastLoginDate || !data.activityLog) return;
+    if (!data || !data.lastLoginDate || !data.activityLog) return;
 
     const lastLoginDate = dayjs(data.lastLoginDate.toDate());
 

@@ -29,6 +29,7 @@ import {
 import AlertMessage from "../../../../../../components/AlertMessage";
 import GoogleIcon from "/google.svg";
 import { provider } from "../../../../../../firebase";
+import BtnLoader from "../../../../../../components/BtnLoader";
 
 interface ConfirmDialogProps {
   reauth: boolean;
@@ -176,9 +177,17 @@ const ConfirmDialog = ({
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose} disabled={isSubmitting}>
+              Cancel
+            </Button>
             <Button type="submit" disabled={isSubmitting}>
-              Confirm
+              <Typography
+                variant="button"
+                sx={{ opacity: isSubmitting ? 0 : 1 }}
+              >
+                Confirm
+              </Typography>
+              {isSubmitting && <BtnLoader color="primary" />}
             </Button>
           </DialogActions>
         </Box>

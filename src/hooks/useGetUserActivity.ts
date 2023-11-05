@@ -16,11 +16,11 @@ const useGetUserActivity = () => {
       try {
         const data = (await getDoc(doc(db, "users", uid))).data() as UserData;
 
-        if (!data.activityLog) return;
+        if (!data || !data.activityLog) return;
 
         setActivityLog(data.activityLog);
       } catch (error) {
-        console.log("Something went wrong.", error);
+        console.error("Something went wrong.", error);
       }
     };
 

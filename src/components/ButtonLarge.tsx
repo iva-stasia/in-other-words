@@ -1,21 +1,25 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import BtnLoader from "./BtnLoader";
 
 interface ButtonLargeProps {
-  disabled: boolean;
+  isSubmitting: boolean;
   title: string;
 }
 
-const ButtonLarge = ({ disabled, title }: ButtonLargeProps) => {
+const ButtonLarge = ({ isSubmitting, title }: ButtonLargeProps) => {
   return (
     <Button
       type="submit"
       fullWidth
       variant="contained"
       size="large"
-      disabled={disabled}
+      disabled={isSubmitting}
       sx={{ mt: 3, mb: 2 }}
     >
-      {title}
+      <Typography variant="button" sx={{ opacity: isSubmitting ? 0 : 1 }}>
+        {title}
+      </Typography>
+      {isSubmitting && <BtnLoader color="text" />}
     </Button>
   );
 };

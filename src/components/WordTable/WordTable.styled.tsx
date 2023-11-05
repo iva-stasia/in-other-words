@@ -10,7 +10,7 @@ const Container = styled(Box)<
   overflow: "hidden",
 
   [theme.breakpoints.down("sm")]: {
-    height: "calc(100 - 56px)%",
+    height: "auto",
   },
 }));
 

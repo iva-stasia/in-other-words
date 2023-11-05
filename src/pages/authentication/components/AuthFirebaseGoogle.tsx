@@ -1,12 +1,18 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import GoogleIcon from "/google.svg";
 import { auth, db, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
 import { UserData } from "../../../types";
+import BtnLoader from "../../../components/BtnLoader";
+import { useState } from "react";
 
 const AuthFirebaseGoogle = () => {
+  const [submitting, setSubmitting] = useState(false);
+
   const signInWithGoogle = async () => {
+    setSubmitting(true);
+
     try {
       const { user } = await signInWithPopup(auth, provider);
 
@@ -33,6 +39,8 @@ const AuthFirebaseGoogle = () => {
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
+
+    setSubmitting(false);
   };
 
   return (
@@ -42,10 +50,20 @@ const AuthFirebaseGoogle = () => {
         color="primary"
         fullWidth
         size="large"
-        startIcon={<img src={GoogleIcon} alt="Google" width={16} height={16} />}
+        startIcon={
+          submitting ? (
+            ""
+          ) : (
+            <img src={GoogleIcon} alt="Google" width={16} height={16} />
+          )
+        }
         onClick={signInWithGoogle}
+        disabled={submitting}
       >
-        with Google
+        <Typography variant="button" sx={{ opacity: submitting ? 0 : 1 }}>
+          with Google
+        </Typography>
+        {submitting && <BtnLoader color="primary" />}
       </Button>
     </Box>
   );

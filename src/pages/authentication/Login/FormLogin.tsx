@@ -177,7 +177,7 @@ const FormLogin = () => {
           severity="error"
         />
 
-        <ButtonLarge title="Sign In" disabled={isSubmitting} />
+        <ButtonLarge title="Sign In" isSubmitting={isSubmitting} />
       </Box>
     </>
   );

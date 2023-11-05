@@ -1,4 +1,12 @@
-import { Box, Stack, Table, TableBody, Typography } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Table,
+  TableBody,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { Order, Word } from "../../types";
 import { useDispatch } from "react-redux";
@@ -16,7 +24,10 @@ import {
 } from "./WordTable.styled";
 import WordTableRow from "./components/WordTableRow";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../utils/motion";
+import { fade, fadeIn } from "../../utils/motion";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import Loader from "../Loader";
 
 interface WordTableProps {
   words: Word[];
@@ -58,10 +69,13 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 }
 
 const WordTable = ({ words, title }: WordTableProps) => {
+  const loading = useSelector((state: RootState) => state.words.loading);
   const dispatch = useDispatch();
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Word | null>(null);
   const [selected, setSelected] = useState<Word[]>([]);
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -125,7 +139,7 @@ const WordTable = ({ words, title }: WordTableProps) => {
   return (
     <Container
       component={motion.div}
-      variants={fadeIn("up", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn("up", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}
@@ -141,46 +155,54 @@ const WordTable = ({ words, title }: WordTableProps) => {
           {title}
         </Typography>
 
-        <EnhancedTableToolbar selected={selected} setSelected={setSelected} />
+        <EnhancedTableToolbar
+          selected={selected}
+          setSelected={setSelected}
+          title={title}
+        />
       </Stack>
 
-      <StyledPaper elevation={0}>
-        <StyledTableContainer>
-          {words.length ? (
-            <Table stickyHeader aria-label="table">
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={words.length}
-              />
-              <TableBody>
-                {sortedRows.map((row, index) => {
-                  const isItemSelected = isSelected(row);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+      {loading ? (
+        <Loader />
+      ) : (
+        <StyledPaper elevation={0}>
+          <StyledTableContainer>
+            {words.length ? (
+              <Table stickyHeader aria-label="table">
+                <EnhancedTableHead
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={words.length}
+                />
+                <TableBody>
+                  {sortedRows.map((row, index) => {
+                    const isItemSelected = isSelected(row);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <WordTableRow
-                      key={row.word}
-                      row={row}
-                      isItemSelected={isItemSelected}
-                      labelId={labelId}
-                      handleCheckboxClick={handleCheckboxClick}
-                      handleRowClick={handleRowClick}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          ) : (
-            <Box sx={{ bgcolor: "backgroundSecond.main" }}>
-              There are no words yet. Enter a word in the search to add it.
-            </Box>
-          )}
-        </StyledTableContainer>
-      </StyledPaper>
+                    return (
+                      <WordTableRow
+                        key={row.word}
+                        row={row}
+                        isItemSelected={isItemSelected}
+                        labelId={labelId}
+                        handleCheckboxClick={handleCheckboxClick}
+                        handleRowClick={handleRowClick}
+                      />
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            ) : (
+              <Box sx={{ bgcolor: "backgroundSecond.main" }}>
+                There are no words yet. Enter a word in the search to add it.
+              </Box>
+            )}
+          </StyledTableContainer>
+        </StyledPaper>
+      )}
     </Container>
   );
 };

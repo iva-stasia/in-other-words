@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -12,6 +13,7 @@ import { User, deleteUser } from "firebase/auth";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import ConfirmDialog from "./components/ConfirmDialog";
+import BtnLoader from "../../../../components/BtnLoader";
 
 interface DeleteAccountDialogProps {
   deleteAccountOpen: boolean;
@@ -25,13 +27,14 @@ const DeleteAccountDialog = ({
   setDeleteAccountOpen,
 }: DeleteAccountDialogProps) => {
   const [reauth, setReauth] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleClose = () => {
     setDeleteAccountOpen(false);
   };
 
   const handleDeleteAccount = async () => {
-    handleClose();
+    setSubmitting(true);
 
     try {
       await deleteUserAndData();
@@ -44,6 +47,9 @@ const DeleteAccountDialog = ({
         setReauth(true);
       }
     }
+
+    handleClose();
+    setSubmitting(false);
   };
 
   const deleteUserAndData = async () => {
@@ -70,8 +76,15 @@ const DeleteAccountDialog = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDeleteAccount}>Delete</Button>
+          <Button onClick={handleClose} disabled={submitting}>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteAccount} disabled={submitting}>
+            <Typography variant="button" sx={{ opacity: submitting ? 0 : 1 }}>
+              Delete
+            </Typography>
+            {submitting && <BtnLoader color="primary" />}
+          </Button>
         </DialogActions>
       </Dialog>
 

@@ -8,7 +8,7 @@ const StudyContainer = styled(Box)<BoxProps & MotionProps>(({ theme }) => ({
 
   [theme.breakpoints.down("sm")]: {
     overflow: "initial",
-    height: "calc(100 - 56px)%",
+    height: "auto",
   },
 }));
 

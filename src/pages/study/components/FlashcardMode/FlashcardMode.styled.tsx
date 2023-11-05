@@ -61,7 +61,7 @@ const CardContainer = styled(Box)(({ theme }) => ({
   zIndex: 1,
 
   [theme.breakpoints.down("sm")]: {
-    height: "calc(100vh - 208px)",
+    height: "calc(100svh - 208px)",
     marginTop: theme.spacing(4),
   },
 }));

@@ -1,5 +1,5 @@
 import { QuizQuestion } from "../../../../types";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import AudioPlayer from "../../../../components/AudioPlayer";
 import {
   Container,
@@ -15,7 +15,7 @@ import BorderLinearProgress from "../../../../components/BorderLinearProgress";
 import EndCard from "./components/EndCard";
 import useQuizModeFacade from "./quizModeFacade";
 import { AnimatePresence, motion } from "framer-motion";
-import { fadeIn, slideIn } from "../../../../utils/motion";
+import { fade, fadeIn, slideIn } from "../../../../utils/motion";
 
 interface QuizModeProps {
   questions: QuizQuestion[];
@@ -33,11 +33,13 @@ const QuizMode = ({ questions }: QuizModeProps) => {
     correctAnswerIndex,
     scoreRef,
   } = useQuizModeFacade(questions);
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Container
       component={motion.div}
-      variants={fadeIn("down", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn("down", "tween", 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}

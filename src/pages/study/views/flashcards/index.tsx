@@ -10,8 +10,6 @@ const Flashcards = () => {
     ({ learning }) => learning.progress === Progress.New
   );
 
-  if (wordsToDisplay.length === 0) return;
-
   return <FlashcardMode words={wordsToDisplay} />;
 };
 

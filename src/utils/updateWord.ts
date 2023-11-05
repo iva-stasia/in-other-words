@@ -6,7 +6,8 @@ export const updateWord = async (
   uid: string | null,
   selectedWord: WordOption | Word,
   wordSet: string,
-  definitions?: WordDefinition[]
+  definitions?: WordDefinition[],
+  translation?: string
 ) => {
   const { word } = selectedWord;
   if (!uid) return;
@@ -15,6 +16,7 @@ export const updateWord = async (
     if (definitions) {
       await updateDoc(doc(db, "userWords", uid), {
         [word + ".set"]: wordSet,
+        [word + ".translation"]: translation,
         [word + ".definitions"]: definitions.map((definition) => ({
           partOfSpeech: definition.partOfSpeech || "",
           definition: definition.definition,

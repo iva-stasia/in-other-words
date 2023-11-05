@@ -29,6 +29,14 @@ const TypographyWordShadow = styled(Typography)(({ theme }) => ({
   color: theme.palette.tertiary.main,
 }));
 
+const TypographyTranslation = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+  textAlign: "center",
+  fontWeight: "400",
+  textDecoration: "underline wavy",
+  textDecorationColor: theme.palette.tertiary.main,
+}));
+
 const EditButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
   right: "48px",
@@ -75,4 +83,5 @@ export {
   ProgressIconContainer,
   StyledCardContent,
   WordInfoContainer,
+  TypographyTranslation,
 };
