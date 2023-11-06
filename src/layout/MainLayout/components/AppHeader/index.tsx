@@ -6,7 +6,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import UserProfile from "./UserProfile";
+import UserProfile from "./components/UserProfile";
 import Search from "../../../../components/Search";
 import { MenuOpenRounded, MenuRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,7 @@ import AddWordDialog from "../../../../pages/dialogs/AddWordDialog";
 import { NavLink as RouterLink } from "react-router-dom";
 import { DRAWER_WIDTH } from "../../../../constants";
 import { StyledAppBar } from "./AppHeader.styled";
+import Notifications from "./components/Notifications";
 
 const AppHeader = () => {
   const isOpen = useSelector((state: RootState) => state.menu.isOpen);
@@ -72,9 +73,15 @@ const AppHeader = () => {
             <AddWordDialog />
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Stack
+            sx={{ flexGrow: 0 }}
+            direction="row"
+            alignItems="center"
+            gap={1}
+          >
+            <Notifications />
             <UserProfile />
-          </Box>
+          </Stack>
         </Stack>
       </Toolbar>
     </StyledAppBar>

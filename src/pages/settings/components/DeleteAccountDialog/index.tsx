@@ -57,6 +57,7 @@ const DeleteAccountDialog = ({
     await deleteDoc(doc(db, "userWords", currentUser.uid));
     await deleteDoc(doc(db, "userSets", currentUser.uid));
     await deleteDoc(doc(db, "userLearningLog", currentUser.uid));
+    await deleteDoc(doc(db, "userNotifications", currentUser.uid));
 
     await deleteUser(currentUser);
   };

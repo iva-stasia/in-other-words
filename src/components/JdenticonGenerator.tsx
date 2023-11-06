@@ -10,7 +10,7 @@ const JdenticonGenerator = ({ value }: JdenticonGeneratorProps) => {
 
   useEffect(() => {
     if (iconRef.current) {
-      jdenticon.update(iconRef.current, value, { padding: 0 });
+      jdenticon.update(iconRef.current, value);
     }
   }, [value]);
 

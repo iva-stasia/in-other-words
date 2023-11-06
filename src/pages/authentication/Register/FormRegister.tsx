@@ -15,7 +15,7 @@ import { UserRegisterInput } from "../../../types";
 import { registerSchema } from "../../../utils/formValidationSchemes";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../../firebase";
-import { Timestamp, doc, setDoc } from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, setDoc } from "firebase/firestore";
 import AlertMessage from "../../../components/AlertMessage";
 import ButtonLarge from "../../../components/ButtonLarge";
 import { useDispatch } from "react-redux";
@@ -84,6 +84,17 @@ const FormRegister = () => {
       await setDoc(doc(db, "userWords", user.uid), {});
       await setDoc(doc(db, "userSets", user.uid), {});
       await setDoc(doc(db, "userLearningLog", user.uid), {});
+
+      const id = crypto.randomUUID().replace("-", "");
+
+      await setDoc(doc(db, "userNotifications", user.uid), {
+        [id + ".id"]: id,
+        [id + ".date"]: Timestamp.now(),
+        [id + ".text"]: "Nice to see you!!",
+        [id + ".read"]: false,
+        [id + ".icon"]: "1f680",
+        [id + ".path"]: "welcome",
+      });
 
       dispatch(saveUser(user));
     } catch (error) {

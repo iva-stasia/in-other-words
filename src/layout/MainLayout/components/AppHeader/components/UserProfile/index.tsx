@@ -2,7 +2,7 @@ import { useState } from "react";
 import UserProfileMenu from "./components/UserProfileMenu";
 import { Avatar, Box, IconButton, Tooltip } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../store";
+import { RootState } from "../../../../../../store";
 
 const UserProfile = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -15,7 +15,7 @@ const UserProfile = () => {
       <Tooltip title="Open settings">
         <IconButton
           onClick={(e) => setAnchorElUser(e.currentTarget)}
-          sx={{ p: 0, ml: 3 }}
+          sx={{ p: 0 }}
         >
           <Avatar
             alt={displayName || "User"}

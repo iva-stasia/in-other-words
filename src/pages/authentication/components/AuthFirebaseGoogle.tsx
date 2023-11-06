@@ -36,6 +36,17 @@ const AuthFirebaseGoogle = () => {
       await setDoc(doc(db, "userWords", user.uid), {}, { merge: true });
       await setDoc(doc(db, "userSets", user.uid), {}, { merge: true });
       await setDoc(doc(db, "userLearningLog", user.uid), {}, { merge: true });
+
+      const id = crypto.randomUUID().replace("-", "");
+
+      await setDoc(doc(db, "userNotifications", user.uid), {
+        [id + ".id"]: id,
+        [id + ".date"]: Timestamp.now(),
+        [id + ".text"]: "Nice to see you!!",
+        [id + ".read"]: false,
+        [id + ".icon"]: "1f680",
+        [id + ".path"]: "welcome",
+      });
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

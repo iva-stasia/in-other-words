@@ -40,7 +40,7 @@ const studyModes = [
     description:
       "Master new words effortlessly with flashcards. Flip to reveal definitions.",
     getWords: (words: Word[]) =>
-      words.filter(({ learning }) => learning.progress === Progress.New),
+      words.filter(({ learning }) => learning.progress !== Progress.Learned),
   },
   {
     title: "Repetition",

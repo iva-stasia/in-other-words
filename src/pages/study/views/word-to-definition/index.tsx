@@ -3,9 +3,8 @@ import QuizMode from "../../components/QuizMode";
 import { RootState } from "../../../../store";
 import { Progress, Word } from "../../../../types";
 
-function getRandomDef(arr: Word[]) {
-  const randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex].definitions;
+function getRandomIndex(arr: Word[]) {
+  return Math.floor(Math.random() * arr.length);
 }
 
 const WordToDefinition = () => {
@@ -16,21 +15,32 @@ const WordToDefinition = () => {
   );
 
   const questions = wordsToDisplay.map((word) => {
-    const answer = word.definitions.map((def) => def.definition).join(";\r\n");
+    const answerDefs = word.definitions.map((def) => def.definition);
+
+    const answer = word.translation
+      ? [word.translation, ...answerDefs].join(";\r\n")
+      : answerDefs.join(";\r\n");
+
     const options = [answer];
 
     let attempts = 0;
 
     while (options.length < 4) {
-      const randomDef = getRandomDef(words)
-        .map((def) => def.definition)
-        .join(";\r\n");
+      const randomWord = wordsToDisplay[getRandomIndex(words)];
 
-      if (!options.includes(randomDef)) {
-        options.push(randomDef);
+      const randomWordDefs = randomWord.definitions.map(
+        (def) => def.definition
+      );
+
+      const randomOption = randomWord.translation
+        ? [randomWord.translation, ...randomWordDefs].join(";\r\n")
+        : randomWordDefs.join(";\r\n");
+
+      if (!options.includes(randomOption)) {
+        options.push(randomOption);
       }
 
-      if (attempts > 1000) {
+      if (attempts > 5000) {
         throw new Error("Something went wrong, please try later.");
       }
 

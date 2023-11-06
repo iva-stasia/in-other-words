@@ -19,7 +19,10 @@ const DefinitionToWord = () => {
 
   const questions = wordsToDisplay.map((word) => {
     const options = [word.word];
-    const term = word.definitions.map((def) => def.definition).join(";\r\n");
+    const termDefs = word.definitions.map((def) => def.definition);
+    const term = word.translation
+      ? [word.translation, ...termDefs].join(";\r\n")
+      : termDefs.join(";\r\n");
 
     while (options.length < 4) {
       const randomWord = getRandomWord(words);
@@ -28,7 +31,7 @@ const DefinitionToWord = () => {
         options.push(randomWord);
       }
 
-      if (attempts > 1000) {
+      if (attempts > 5000) {
         throw new Error("Something went wrong, please try later.");
       }
 

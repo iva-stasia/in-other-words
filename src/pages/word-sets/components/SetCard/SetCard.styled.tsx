@@ -5,7 +5,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   cursor: "pointer",
   transition: theme.transitions.create("background-color"),
   "&:hover .MuiBox-root > .MuiBox-root": {
-    scale: "1.1",
+    scale: "1.2",
   },
 }));
 

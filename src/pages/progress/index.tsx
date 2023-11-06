@@ -7,11 +7,12 @@ import Total from "./components/Total";
 import Achievements from "./components/Achievements";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Progress } from "../../types";
 import { Timestamp } from "firebase/firestore";
 import { isHasPrevious } from "../../utils/dateComparison";
 import { useMediaQuery, useTheme } from "@mui/material";
+import updateUserActivity from "../../utils/updateUserActivity";
 
 const getCurrentStreak = (activityLog: Timestamp[] | undefined): number => {
   let streak = 1;
@@ -59,6 +60,24 @@ const ProgressPage = () => {
   const [rowHeight, setRowHeight] = useState(0);
   const theme = useTheme();
   const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const [previousDate, setPreviousDate] = useState<number>(
+    new Date().getDate()
+  );
+  const uid = useSelector((state: RootState) => state.user.uid);
+
+  const currentDate = new Date().getDate();
+
+  useEffect(() => {
+    const checkDateChange = () => {
+      if (currentDate !== previousDate && uid) {
+        updateUserActivity(uid).catch(console.error);
+      }
+
+      setPreviousDate(currentDate);
+    };
+
+    checkDateChange();
+  }, [currentDate]);
 
   const allWordsCount = words.length;
 
