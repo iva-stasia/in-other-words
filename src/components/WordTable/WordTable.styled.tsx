@@ -3,16 +3,12 @@ import { MotionProps } from "framer-motion";
 
 const Container = styled(Box)<
   BoxProps & MotionProps & { component: React.ElementType }
->(({ theme }) => ({
+>({
   height: "100%",
   display: "flex",
   flexDirection: "column",
   overflow: "hidden",
-
-  [theme.breakpoints.down("sm")]: {
-    height: "auto",
-  },
-}));
+});
 
 const StyledTableContainer = styled(TableContainer)({
   height: "100%",

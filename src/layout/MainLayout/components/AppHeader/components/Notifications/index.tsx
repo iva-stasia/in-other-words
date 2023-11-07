@@ -15,6 +15,8 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import useGetNotifications from "../../../../../../hooks/useGetNotifications";
@@ -39,6 +41,8 @@ const Notifications = () => {
   const notifications = useGetNotifications();
   const { reward } = useReward("rewardId", "emoji", config);
   const updateNotifications = useUpdateNotifications();
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   const unreadNotification = useMemo(
     () => notifications.filter((notification) => !notification.read),
@@ -48,7 +52,7 @@ const Notifications = () => {
   const handleClick = (path: string, id: string) => {
     updateNotifications(id, true).catch(console.error);
 
-    if (path === "welcome") {
+    if (path === "welcome" && !matchDownSm) {
       reward();
     }
   };

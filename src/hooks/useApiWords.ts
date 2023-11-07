@@ -14,7 +14,15 @@ const useApiWords = (
 
     const searchWord = async () => {
       const words = await wordsApi(
-        `?letterPattern=%5E${inputValue.toLowerCase()}%5B%5Cw.-%5D*%24&limit=5&page=1`
+        `?letterPattern=%5E${inputValue.toLowerCase()}%5B%5Cw.-%5D*%24&limit=5&page=1`,
+        {
+          retry: {
+            limit: 5,
+            methods: ["get"],
+            statusCodes: [429],
+            backoffLimit: 500,
+          },
+        }
       ).json<SearchResult>();
 
       setApiWords(words.results.data);

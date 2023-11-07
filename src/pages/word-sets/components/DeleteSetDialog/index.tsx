@@ -14,8 +14,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
-import { deleteWord } from "../../../../utils";
-import { WordSet } from "../../../../types";
+import { deleteWord, updateWord } from "../../../../utils";
+import { Word, WordSet } from "../../../../types";
 import BtnLoader from "../../../../components/BtnLoader";
 
 interface DeleteSetDialogProps {
@@ -47,8 +47,12 @@ const DeleteSetDialog = ({
   const handleDeleteSet = async () => {
     setSubmitting(true);
 
+    const setWords = ownWords.filter((word) => word.set === set.title);
+
     if (deleteWithWords) {
-      deleteSetWords();
+      deleteSetWords(setWords);
+    } else {
+      resetSetWords(setWords);
     }
 
     if (uid) {
@@ -65,10 +69,13 @@ const DeleteSetDialog = ({
     handleClose();
   };
 
-  const deleteSetWords = () => {
-    const setWords = ownWords.filter((word) => word.set === set.title);
+  const deleteSetWords = (setWords: Word[]) => {
     setWords.map(async (word) => await deleteWord(word, uid));
     setDeleteWithWords(false);
+  };
+
+  const resetSetWords = (setWords: Word[]) => {
+    setWords.map(async (word) => await updateWord(uid, word, "All words"));
   };
 
   return (

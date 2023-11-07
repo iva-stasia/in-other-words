@@ -2,7 +2,7 @@ import { Box, Button, Typography } from "@mui/material";
 import GoogleIcon from "/google.svg";
 import { auth, db, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
-import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { UserData } from "../../../types";
 import BtnLoader from "../../../components/BtnLoader";
 import { useState } from "react";
@@ -36,10 +36,11 @@ const AuthFirebaseGoogle = () => {
       await setDoc(doc(db, "userWords", user.uid), {}, { merge: true });
       await setDoc(doc(db, "userSets", user.uid), {}, { merge: true });
       await setDoc(doc(db, "userLearningLog", user.uid), {}, { merge: true });
+      await setDoc(doc(db, "userNotifications", user.uid), {});
 
       const id = crypto.randomUUID().replace("-", "");
 
-      await setDoc(doc(db, "userNotifications", user.uid), {
+      await updateDoc(doc(db, "userNotifications", user.uid), {
         [id + ".id"]: id,
         [id + ".date"]: Timestamp.now(),
         [id + ".text"]: "Nice to see you!!",

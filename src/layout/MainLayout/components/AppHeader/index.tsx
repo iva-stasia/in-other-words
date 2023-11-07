@@ -56,7 +56,7 @@ const AppHeader = () => {
             size="large"
             edge="start"
             aria-label="menu"
-            sx={{ mr: 2, color: "text.secondary" }}
+            sx={{ mr: { xs: 0, sm: 2 }, color: "text.secondary" }}
             onClick={() => dispatch(toggleMenu())}
           >
             {isOpen ? <MenuOpenRounded /> : <MenuRounded />}
@@ -77,7 +77,7 @@ const AppHeader = () => {
             sx={{ flexGrow: 0 }}
             direction="row"
             alignItems="center"
-            gap={1}
+            gap={{ xs: 0, sm: 1 }}
           >
             <Notifications />
             <UserProfile />

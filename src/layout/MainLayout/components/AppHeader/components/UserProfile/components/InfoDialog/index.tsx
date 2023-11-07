@@ -22,6 +22,7 @@ import {
   graphicResources,
   technologies,
 } from "../../../../../../../../constants/resources";
+import { contacts } from "../../../../../../../../constants/contacts";
 
 interface InfoDialogProps {
   infoOpen: boolean;
@@ -122,45 +123,68 @@ const InfoDialog = ({ infoOpen, setInfoOpen }: InfoDialogProps) => {
             </ListSubheader>
           }
         >
-          <Stack direction="row" gap={1} flexWrap="wrap">
-            {technologies.map((tech) => (
-              <Link
-                href={tech.path}
-                target="_blank"
-                rel="noopener"
-                key={tech.title}
-              >
-                {tech.avatar ? (
-                  <Chip
-                    sx={{
-                      cursor: "pointer",
-                      "& .MuiChip-avatarColorPrimary": {
-                        backgroundColor: "transparent",
-                      },
-                    }}
-                    avatar={<Avatar alt={tech.title} src={tech.avatar} />}
-                    label={tech.title}
-                    color="primary"
-                  />
-                ) : (
-                  <Chip
-                    sx={{
-                      cursor: "pointer",
-                      "& .MuiChip-avatarColorPrimary": {
-                        backgroundColor: "transparent",
-                      },
-                    }}
-                    label={tech.title}
-                    color="primary"
-                  />
-                )}
-              </Link>
-            ))}
-          </Stack>
+          <ListItem disableGutters>
+            <Stack direction="row" gap={1} flexWrap="wrap">
+              {technologies.map((tech) => (
+                <Link
+                  href={tech.path}
+                  target="_blank"
+                  rel="noopener"
+                  key={tech.title}
+                >
+                  {tech.avatar ? (
+                    <Chip
+                      sx={{
+                        cursor: "pointer",
+                        "& .MuiChip-avatarColorPrimary": {
+                          backgroundColor: "transparent",
+                        },
+                      }}
+                      avatar={<Avatar alt={tech.title} src={tech.avatar} />}
+                      label={tech.title}
+                      color="primary"
+                    />
+                  ) : (
+                    <Chip
+                      sx={{
+                        cursor: "pointer",
+                        "& .MuiChip-avatarColorPrimary": {
+                          backgroundColor: "transparent",
+                        },
+                      }}
+                      label={tech.title}
+                      color="primary"
+                    />
+                  )}
+                </Link>
+              ))}
+            </Stack>
+          </ListItem>
         </List>
       </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Stack
+          direction="row"
+          gap={2}
+          flexWrap="wrap"
+          alignItems="center"
+          pl={1}
+        >
+          {contacts.map((contact) => (
+            <Link
+              href={contact.path}
+              target="_blank"
+              rel="noopener"
+              key={contact.title}
+              underline="none"
+              color="inherit"
+              sx={{ display: "flex" }}
+            >
+              {contact.icon}
+            </Link>
+          ))}
+        </Stack>
         <Button onClick={handleClose}>Cancel</Button>
       </DialogActions>
     </Dialog>

@@ -4,7 +4,7 @@ import { RootState } from "../../../../store";
 import { Progress, Word } from "../../../../types";
 
 function getRandomWord(arr: Word[]) {
-  const randomIndex = Math.floor(Math.random() * arr.length);
+  const randomIndex = Math.floor(Math.random() * (arr.length - 1));
   return arr[randomIndex].word;
 }
 

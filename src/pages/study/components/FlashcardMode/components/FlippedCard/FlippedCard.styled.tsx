@@ -10,8 +10,8 @@ const CardContainer = styled(Box)(({ theme }) => ({
   perspective: "1000px",
 
   [theme.breakpoints.down("sm")]: {
-    width: "calc(100vw - 48px)",
-    height: "calc(100vh - 208px)",
+    width: "calc(100vw - 32px)",
+    height: "calc(100svh - 208px)",
   },
 }));
 
