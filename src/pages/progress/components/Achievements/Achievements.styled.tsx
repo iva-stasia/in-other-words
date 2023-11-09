@@ -12,10 +12,6 @@ const AchievementsContainer = styled(Box)(({ theme }) => ({
   justifyContent: "space-between",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.background.default,
-
-  [theme.breakpoints.down("md")]: {
-    alignItems: "center",
-  },
 }));
 
 const BadgeContainer = styled(Grid)(({ theme }) => ({

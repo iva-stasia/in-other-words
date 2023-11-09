@@ -26,7 +26,7 @@ const WordToDefinition = () => {
     let attempts = 0;
 
     while (options.length < 4) {
-      const randomWord = wordsToDisplay[getRandomIndex(words)];
+      const randomWord = wordsToDisplay[getRandomIndex(wordsToDisplay)];
 
       const randomWordDefs = randomWord.definitions.map(
         (def) => def.definition

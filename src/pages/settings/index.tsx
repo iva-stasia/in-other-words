@@ -7,6 +7,7 @@ import ProfileForm from "./components/ProfileForm";
 import { motion } from "framer-motion";
 import { fade, fadeIn } from "../../utils/motion";
 import { useMediaQuery, useTheme } from "@mui/material";
+import ConfirmDialog from "./components/DeleteAccountDialog/components/ConfirmDialog";
 
 const Settings = () => {
   const {
@@ -25,6 +26,10 @@ const Settings = () => {
     errors,
     handleDeletePhoto,
     isDefaultUser,
+    reauth,
+    setReauth,
+    newUserData,
+    handleProfileUpdating,
   } = useSettingsFacade();
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false);
   const theme = useTheme();
@@ -67,6 +72,15 @@ const Settings = () => {
         setAlertOpen={setAlertOpen}
         message={message}
         severity={error ? "error" : "success"}
+      />
+
+      <ConfirmDialog
+        reauth={reauth}
+        setReauth={setReauth}
+        currentUser={currentUser}
+        mode="updateEmail"
+        userData={newUserData}
+        handleProfileUpdating={handleProfileUpdating}
       />
     </Container>
   );

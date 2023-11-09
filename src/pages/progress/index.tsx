@@ -1,7 +1,6 @@
 import { ProgressContainer, Row } from "./Progress.styled";
 import { motion } from "framer-motion";
 import { fade, fadeIn } from "../../utils/motion";
-import CustomCalendar from "./components/CastomCalendar";
 import Chart from "./components/Chart";
 import Total from "./components/Total";
 import Achievements from "./components/Achievements";
@@ -13,6 +12,7 @@ import { Timestamp } from "firebase/firestore";
 import { isHasPrevious } from "../../utils/dateComparison";
 import { useMediaQuery, useTheme } from "@mui/material";
 import updateUserActivity from "../../utils/updateUserActivity";
+import CustomCalendar from "./components/CustomCalendar";
 
 const getCurrentStreak = (activityLog: Timestamp[] | undefined): number => {
   let streak = 1;

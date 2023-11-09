@@ -35,8 +35,8 @@ const FormLogin = () => {
     formState: { errors, isSubmitting },
   } = useForm<UserLoginInput>({
     defaultValues: {
-      email: "user@gmail.com",
-      password: "user1234!",
+      email: "",
+      password: "",
       remember: true,
     },
     mode: "onBlur",

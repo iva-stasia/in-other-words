@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { UserProfile } from "../../types";
+import { UserData, UserProfile } from "../../types";
 import { auth, db, storage } from "../../firebase";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { profileSchema } from "../../utils/formValidationSchemes";
@@ -18,6 +18,8 @@ const useSettingsFacade = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [error, setError] = useState(false);
   const [currentPhotoURL, setCurrentPhotoURL] = useState<string | null>(null);
+  const [reauth, setReauth] = useState(false);
+  const [newUserData, setNewUserData] = useState<UserData | null>(null);
   const { displayName, photoURL, email } = useSelector(
     (state: RootState) => state.user
   );
@@ -59,6 +61,8 @@ const useSettingsFacade = () => {
   }, [photoURL]);
 
   const onSubmit: SubmitHandler<UserProfile> = async (form) => {
+    setError(false);
+
     if (!currentUser) return;
 
     if (getFieldState("photoURL").isDirty && form.photoURL instanceof File) {
@@ -77,7 +81,20 @@ const useSettingsFacade = () => {
                 form.email
               );
             } catch (error) {
-              if (error instanceof Error) handleError(error);
+              if (
+                error instanceof Error &&
+                error.message ===
+                  "Firebase: Error (auth/requires-recent-login)."
+              ) {
+                setNewUserData({
+                  displayName: form.displayName || "",
+                  email: form.email,
+                  photoURL: currentPhotoURL,
+                  uid: currentUser.uid,
+                });
+
+                setReauth(true);
+              } else if (error instanceof Error) handleError(error);
             }
           })
           .catch(console.error);
@@ -90,13 +107,25 @@ const useSettingsFacade = () => {
           form.email
         );
       } catch (error) {
-        if (error instanceof Error) handleError(error);
+        if (
+          error instanceof Error &&
+          error.message === "Firebase: Error (auth/requires-recent-login)."
+        ) {
+          setNewUserData({
+            displayName: form.displayName || "",
+            email: form.email,
+            photoURL: currentPhotoURL,
+            uid: currentUser.uid,
+          });
+
+          setReauth(true);
+        } else if (error instanceof Error) handleError(error);
       }
     }
   };
 
   const handleProfileUpdating = async (
-    name: string | undefined,
+    name: string | undefined | null,
     photoUrl: string | null,
     email: string
   ) => {
@@ -131,11 +160,7 @@ const useSettingsFacade = () => {
   };
 
   const updateUserEmail = async (user: User, email: string) => {
-    try {
-      await updateEmail(user, email);
-    } catch (error) {
-      console.error(error);
-    }
+    await updateEmail(user, email);
   };
 
   const handleDeletePhoto = () => {
@@ -161,6 +186,10 @@ const useSettingsFacade = () => {
     error,
     handleDeletePhoto,
     isDefaultUser,
+    reauth,
+    setReauth,
+    newUserData,
+    handleProfileUpdating,
   };
 };
 

@@ -67,6 +67,7 @@ const DeleteSetDialog = ({
     }
 
     handleClose();
+    setSubmitting(false);
   };
 
   const deleteSetWords = (setWords: Word[]) => {

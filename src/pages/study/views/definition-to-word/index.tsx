@@ -25,7 +25,7 @@ const DefinitionToWord = () => {
       : termDefs.join(";\r\n");
 
     while (options.length < 4) {
-      const randomWord = getRandomWord(words);
+      const randomWord = getRandomWord(wordsToDisplay);
 
       if (!options.includes(randomWord)) {
         options.push(randomWord);

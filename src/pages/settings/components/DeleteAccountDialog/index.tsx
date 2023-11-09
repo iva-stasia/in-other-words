@@ -93,6 +93,7 @@ const DeleteAccountDialog = ({
         reauth={reauth}
         setReauth={setReauth}
         currentUser={currentUser}
+        mode="deleteAccount"
         deleteUserAndData={deleteUserAndData}
       />
     </>

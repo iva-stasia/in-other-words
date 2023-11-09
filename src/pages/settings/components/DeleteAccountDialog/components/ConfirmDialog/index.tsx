@@ -19,7 +19,7 @@ import {
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { registerSchema } from "../../../../../../utils/formValidationSchemes";
-import { UserRegisterInput } from "../../../../../../types";
+import { UserData, UserRegisterInput } from "../../../../../../types";
 import {
   EmailAuthProvider,
   User,
@@ -34,15 +34,25 @@ import BtnLoader from "../../../../../../components/BtnLoader";
 interface ConfirmDialogProps {
   reauth: boolean;
   setReauth: (reauth: boolean) => void;
-  currentUser: User;
-  deleteUserAndData: () => Promise<void>;
+  currentUser: User | null;
+  mode: "deleteAccount" | "updateEmail";
+  deleteUserAndData?: () => Promise<void>;
+  handleProfileUpdating?: (
+    name: string | undefined | null,
+    photoUrl: string | null,
+    email: string
+  ) => Promise<void>;
+  userData?: UserData | null;
 }
 
 const ConfirmDialog = ({
   reauth,
   setReauth,
   currentUser,
+  mode,
   deleteUserAndData,
+  handleProfileUpdating,
+  userData,
 }: ConfirmDialogProps) => {
   const {
     control,
@@ -50,7 +60,7 @@ const ConfirmDialog = ({
     formState: { errors, isSubmitting },
   } = useForm<UserRegisterInput>({
     defaultValues: {
-      email: currentUser.email || "user@gmail.com",
+      email: currentUser?.email || "user@gmail.com",
       password: "",
     },
     mode: "onBlur",
@@ -78,25 +88,47 @@ const ConfirmDialog = ({
 
     try {
       await reauthenticateWithCredential(currentUser, credential);
-      await deleteUserAndData();
+
+      if (mode === "deleteAccount" && deleteUserAndData) {
+        await deleteUserAndData();
+      } else if (mode === "updateEmail" && handleProfileUpdating && userData) {
+        await handleProfileUpdating(
+          userData.displayName,
+          userData.photoURL,
+          userData.email || ""
+        );
+      }
     } catch (error) {
       console.error(error);
       setMessage("Something went wrong. Please try again later.");
       setAlertOpen(true);
-      handleClose();
     }
+
+    handleClose();
   };
 
   const handleGoogle = async () => {
+    if (!currentUser) return;
+
     try {
       await reauthenticateWithPopup(currentUser, provider);
-      await deleteUserAndData();
+
+      if (mode === "deleteAccount" && deleteUserAndData) {
+        await deleteUserAndData();
+      } else if (mode === "updateEmail" && handleProfileUpdating && userData) {
+        await handleProfileUpdating(
+          userData.displayName,
+          userData.photoURL,
+          userData.email || ""
+        );
+      }
     } catch (error) {
       console.error(error);
       setMessage("Something went wrong. Please try again later.");
       setAlertOpen(true);
-      handleClose();
     }
+
+    handleClose();
   };
 
   const handleClose = () => {

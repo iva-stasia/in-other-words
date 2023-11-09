@@ -91,7 +91,7 @@ const FormRegister = () => {
       await updateDoc(doc(db, "userNotifications", user.uid), {
         [id + ".id"]: id,
         [id + ".date"]: Timestamp.now(),
-        [id + ".text"]: "Nice to see you!!",
+        [id + ".text"]: "Nice to see you!",
         [id + ".read"]: false,
         [id + ".icon"]: "1f680",
         [id + ".path"]: "welcome",
