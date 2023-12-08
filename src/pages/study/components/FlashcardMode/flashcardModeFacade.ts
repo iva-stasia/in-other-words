@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
-import { Answer, Progress, Word } from "../../../../types";
-import useUpdateProgress from "../../../../hooks/useUpdateProgress";
-import { schedule } from "../../../../utils/schedule";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useEffect, useState } from 'react';
+import { Answer, Progress, Word } from '../../../../types';
+import useUpdateProgress from '../../../../hooks/useUpdateProgress';
+import { schedule } from '../../../../utils/schedule';
+import { useMediaQuery, useTheme } from '@mui/material';
+import { LearningMode } from '.';
 
-const useFlashcardModeFacade = (words: Word[]) => {
+const useFlashcardModeFacade = (words: Word[], mode: LearningMode) => {
   const [wordsToDisplay, setWordsToDisplay] = useState(words);
   const [curIndex, setCurIndex] = useState(0);
   const [dragged, setDragged] = useState(false);
   const [wordNum, setWordNum] = useState(0);
   const theme = useTheme();
-  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchDownSm = useMediaQuery(theme.breakpoints.down('sm'));
   const [direction, setDirection] = useState(0);
 
   const { updateProgress } = useUpdateProgress();
@@ -38,7 +39,14 @@ const useFlashcardModeFacade = (words: Word[]) => {
     setWordsToDisplay((prev) => prev.slice(1));
 
     try {
-      await updateProgress(word.word, progress, dueDate, interval, factor);
+      await updateProgress(
+        word.word,
+        progress,
+        dueDate,
+        interval,
+        factor,
+        mode
+      );
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

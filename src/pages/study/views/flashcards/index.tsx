@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
-import { Progress } from "../../../../types";
-import FlashcardMode from "../../components/FlashcardMode";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
+import { Progress } from '../../../../types';
+import FlashcardMode from '../../components/FlashcardMode';
 
 const Flashcards = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
@@ -10,7 +10,7 @@ const Flashcards = () => {
     ({ learning }) => learning.progress !== Progress.Learned
   );
 
-  return <FlashcardMode words={wordsToDisplay} />;
+  return <FlashcardMode words={wordsToDisplay} mode="learning" />;
 };
 
 export default Flashcards;

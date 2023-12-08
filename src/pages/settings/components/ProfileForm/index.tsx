@@ -9,18 +9,18 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 import {
   Control,
   Controller,
   FieldErrors,
   SubmitHandler,
   UseFormHandleSubmit,
-} from "react-hook-form";
-import { DeleteAccountContainer, GridBtnContainer } from "./ProfileForm.styled";
-import { useNavigate } from "react-router-dom";
-import { UserProfile } from "../../../../types";
-import BtnLoader from "../../../../components/BtnLoader";
+} from 'react-hook-form';
+import { DeleteAccountContainer, GridBtnContainer } from './ProfileForm.styled';
+import { useNavigate } from 'react-router-dom';
+import { UserProfile } from '../../../../types';
+import BtnLoader from '../../../../components/BtnLoader';
 
 interface ProfileFormProps {
   displayName: string;
@@ -69,8 +69,8 @@ const ProfileForm = ({
         <Grid item xs={12} sm={8} md={9}>
           <Stack direction="row" alignItems="center" gap={4}>
             <Avatar
-              alt={displayName || ""}
-              src={currentPhotoURL || ""}
+              alt={displayName || ''}
+              src={currentPhotoURL || ''}
               sx={{ width: 80, height: 80 }}
             />
 
@@ -96,7 +96,11 @@ const ProfileForm = ({
                       disabled={isSubmitting}
                     >
                       Update
-                      <input type="file" hidden />
+                      <input
+                        type="file"
+                        hidden
+                        accept="image/png, image/jpeg, image/jpg"
+                      />
                     </Button>
                   )}
                 />
@@ -164,16 +168,16 @@ const ProfileForm = ({
           <DeleteAccountContainer>
             <Box>
               <Typography variant="h6">Delete Account</Typography>
-              <Typography sx={{ color: "text.secondary" }}>
+              <Typography sx={{ color: 'text.secondary' }}>
                 Be careful - this will delete all your data and cannot be
                 undone.
               </Typography>
             </Box>
-            <Box sx={{ whiteSpace: "nowrap" }}>
+            <Box sx={{ whiteSpace: 'nowrap' }}>
               <Tooltip
                 title={
                   isDefaultUser &&
-                  "You cannot delete a default user. Create your own to use this button :)"
+                  'You cannot delete a default user. Create your own to use this button :)'
                 }
                 placement="top"
               >

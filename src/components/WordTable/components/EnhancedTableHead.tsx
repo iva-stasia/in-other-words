@@ -35,7 +35,7 @@ const headCells: readonly HeadCell[] = [
     id: "audioURL",
     numeric: false,
     disablePadding: true,
-    label: "",
+    label: "Audio",
     sortable: false,
     mobileDisplay: "table-cell",
   },
@@ -97,7 +97,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all desserts",
+              "aria-label": "select all words",
             }}
           />
         </TableCell>

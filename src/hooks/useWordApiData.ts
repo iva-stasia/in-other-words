@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   WordApiData,
   WordApiResult,
   WordDefinition,
   WordOption,
-} from "../types";
-import { getWordAudio, wordsApi } from "../utils/api";
+} from '../types';
+import { getWordAudio, wordsApi } from '../utils/api';
 
 const useWordApiData = (
   open: boolean,
   word: WordOption | null
 ): WordApiData => {
   const [definitions, setDefinitions] = useState<WordDefinition[]>([]);
-  const [pronunciation, setPronunciation] = useState<string>("");
-  const [audioURL, setAudioURL] = useState<string>("");
+  const [pronunciation, setPronunciation] = useState<string>('');
+  const [audioURL, setAudioURL] = useState<string>('');
 
   useEffect(() => {
-    if (word && word.source !== "custom") {
+    if (word && word.source !== 'custom') {
       const getWordData = async () => {
         const wordApiData = await wordsApi(
           `${word.word}`
@@ -37,7 +37,7 @@ const useWordApiData = (
         if (wordApiData.pronunciation) {
           const pronunciation = Object.entries(wordApiData.pronunciation)[0]
             ? Object.entries(wordApiData.pronunciation)[0][1]
-            : "";
+            : '';
 
           setPronunciation(pronunciation);
         }
@@ -51,7 +51,8 @@ const useWordApiData = (
       }
     } else {
       setDefinitions([]);
-      setPronunciation("");
+      setPronunciation('');
+      setAudioURL('');
     }
   }, [open, word]);
 

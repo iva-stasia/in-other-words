@@ -1,6 +1,6 @@
-import { Box, Typography } from "@mui/material";
-import FlippedCard from "./components/FlippedCard";
-import { CheckRounded, CloseRounded } from "@mui/icons-material";
+import { Box, Typography } from '@mui/material';
+import FlippedCard from './components/FlippedCard';
+import { CheckRounded, CloseRounded } from '@mui/icons-material';
 import {
   BtnContainer,
   BtnProgressContainer,
@@ -10,26 +10,29 @@ import {
   CurrentCardContainer,
   FailBtn,
   PassBtn,
-} from "./FlashcardMode.styled";
-import { Word } from "../../../../types";
-import CardEnd from "./components/CardEnd";
-import useFlashcardModeFacade from "./flashcardModeFacade";
-import BorderLinearProgress from "../../../../components/BorderLinearProgress";
+} from './FlashcardMode.styled';
+import { Word } from '../../../../types';
+import CardEnd from './components/CardEnd';
+import useFlashcardModeFacade from './flashcardModeFacade';
+import BorderLinearProgress from '../../../../components/BorderLinearProgress';
 import {
   AnimatePresence,
   motion,
   useMotionValue,
   useTransform,
-} from "framer-motion";
+} from 'framer-motion';
 import {
   fade,
   fadeIn,
   flashcard,
   flashcardCover,
-} from "../../../../utils/motion";
+} from '../../../../utils/motion';
+
+export type LearningMode = 'learning' | 'repetition';
 
 interface FlashcardModeProps {
   words: Word[];
+  mode: LearningMode;
 }
 
 const swipeConfidenceThreshold = 10000;
@@ -38,7 +41,7 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
 
-const FlashcardMode = ({ words }: FlashcardModeProps) => {
+const FlashcardMode = ({ words, mode }: FlashcardModeProps) => {
   const {
     wordsToDisplay,
     dragged,
@@ -50,17 +53,17 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
     firstWord,
     matchDownSm,
     direction,
-  } = useFlashcardModeFacade(words);
+  } = useFlashcardModeFacade(words, mode);
 
   const x = useMotionValue(0);
   const xInput = [-100, 0, 100];
 
-  const rotate = useTransform(x, [-1000, 0, 1000], [`-30deg`, "0deg", "30deg"]);
+  const rotate = useTransform(x, [-1000, 0, 1000], [`-30deg`, '0deg', '30deg']);
 
   return (
     <Box
       component={motion.div}
-      variants={matchDownSm ? fade : fadeIn("up", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn('up', 'tween', 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}
@@ -163,8 +166,8 @@ const FlashcardMode = ({ words }: FlashcardModeProps) => {
         <AnimatePresence>
           {wordsToDisplay.length > 0 && (
             <BtnProgressContainer
-              variants={matchDownSm ? fade : fadeIn("up", "tween", 0.2, 0.2)}
-              exit={matchDownSm ? { opacity: 0 } : "exit"}
+              variants={matchDownSm ? fade : fadeIn('up', 'tween', 0.2, 0.2)}
+              exit={matchDownSm ? { opacity: 0 } : 'exit'}
             >
               <BtnContainer>
                 <FailBtn size="large" onClick={handleFail}>

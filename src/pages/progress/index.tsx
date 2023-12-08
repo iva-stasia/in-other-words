@@ -1,18 +1,18 @@
-import { ProgressContainer, Row } from "./Progress.styled";
-import { motion } from "framer-motion";
-import { fade, fadeIn } from "../../utils/motion";
-import Chart from "./components/Chart";
-import Total from "./components/Total";
-import Achievements from "./components/Achievements";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { useEffect, useMemo, useState } from "react";
-import { Progress } from "../../types";
-import { Timestamp } from "firebase/firestore";
-import { isHasPrevious } from "../../utils/dateComparison";
-import { useMediaQuery, useTheme } from "@mui/material";
-import updateUserActivity from "../../utils/updateUserActivity";
-import CustomCalendar from "./components/CustomCalendar";
+import { ProgressContainer, Row } from './Progress.styled';
+import { motion } from 'framer-motion';
+import { fade, fadeIn } from '../../utils/motion';
+import Chart from './components/Chart';
+import Total from './components/Total';
+import Achievements from './components/Achievements';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { useEffect, useMemo, useState } from 'react';
+import { Progress } from '../../types';
+import { Timestamp } from 'firebase/firestore';
+import { isHasPrevious } from '../../utils/dateComparison';
+import { useMediaQuery, useTheme } from '@mui/material';
+import updateUserActivity from '../../utils/updateUserActivity';
+import CustomCalendar from './components/CustomCalendar';
 
 const getCurrentStreak = (activityLog: Timestamp[] | undefined): number => {
   let streak = 1;
@@ -59,7 +59,7 @@ const ProgressPage = () => {
   const words = useSelector((state: RootState) => state.words.ownWords);
   const [rowHeight, setRowHeight] = useState(0);
   const theme = useTheme();
-  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchDownSm = useMediaQuery(theme.breakpoints.down('sm'));
   const [previousDate, setPreviousDate] = useState<number>(
     new Date().getDate()
   );
@@ -101,17 +101,17 @@ const ProgressPage = () => {
   return (
     <ProgressContainer
       component={motion.div}
-      variants={matchDownSm ? fade : fadeIn("up", "tween", 0, 0.3)}
+      variants={matchDownSm ? fade : fadeIn('up', 'tween', 0, 0.3)}
       initial="hidden"
       animate="show"
       key={location.pathname}
     >
-      <Row height={rowHeight || "auto"}>
+      <Row height={matchDownSm ? 'auto' : rowHeight || 'auto'}>
         <CustomCalendar
           activityLog={activityLog || []}
           setRowHeight={setRowHeight}
         />
-        <Chart rowHeight={rowHeight} />
+        <Chart rowHeight={matchDownSm ? null : rowHeight} />
       </Row>
 
       <Row flex={1} component={motion.div}>

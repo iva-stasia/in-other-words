@@ -6,17 +6,17 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
-import { ChartContainer } from "./Chart.styled";
-import dayjs from "dayjs";
-import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
-import { LearningLogRecord } from "../../../../types";
-import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
+} from 'recharts';
+import { ChartContainer } from './Chart.styled';
+import dayjs from 'dayjs';
+import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
+import { LearningLogRecord } from '../../../../types';
+import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 interface ChartProps {
-  rowHeight: number;
+  rowHeight: number | null;
 }
 
 const prepareLearningData = (
@@ -26,15 +26,15 @@ const prepareLearningData = (
   const learningData = [];
 
   for (let i = 0; i < period; i++) {
-    const date = dayjs().subtract(i, "day");
+    const date = dayjs().subtract(i, 'day');
 
     const learned = learningLog.find(
-      (record) => record.date === date.format("DDMMYYYY")
+      (record) => record.date === date.format('DDMMYYYY')
     );
 
     learningData.push({
-      date: date.format("MMM DD"),
-      "Learned words": learned ? learned.words.length : 0,
+      date: date.format('MMM DD'),
+      'Learned words': learned ? learned.words.length : 0,
     });
   }
 
@@ -47,7 +47,7 @@ const Chart = ({ rowHeight }: ChartProps) => {
   const [period, setPeriod] = useState(7);
   const learningLog = useSelector((state: RootState) => state.user.learningLog);
   const theme = useTheme();
-  const [height, setHeight] = useState(0);
+  const [height, setHeight] = useState<number | null>(0);
 
   useEffect(() => {
     setHeight(rowHeight);
@@ -61,7 +61,7 @@ const Chart = ({ rowHeight }: ChartProps) => {
   if (!preparedLearningData) return;
 
   return (
-    <ChartContainer height={height || "100%"}>
+    <ChartContainer height={height || '100%'}>
       <Stack
         direction="row"
         spacing={1}
@@ -71,13 +71,13 @@ const Chart = ({ rowHeight }: ChartProps) => {
         <Typography variant="h6">Learned words</Typography>
         <Stack direction="row" spacing={1}>
           <Button
-            color={period === 7 ? "primary" : "secondary"}
+            color={period === 7 ? 'primary' : 'secondary'}
             onClick={() => setPeriod(7)}
           >
             7 days
           </Button>
           <Button
-            color={period === 30 ? "primary" : "secondary"}
+            color={period === 30 ? 'primary' : 'secondary'}
             onClick={() => setPeriod(30)}
           >
             30 days
@@ -85,7 +85,7 @@ const Chart = ({ rowHeight }: ChartProps) => {
         </Stack>
       </Stack>
 
-      <Box height={height ? height - paddingGapHeaderHeight : "100%"}>
+      <Box height={height ? height - paddingGapHeaderHeight : '100%'}>
         <ResponsiveContainer>
           <LineChart
             data={preparedLearningData}

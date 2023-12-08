@@ -8,8 +8,15 @@ const ColorModeSwitch = () => {
   const dispatch = useDispatch();
 
   return (
-    <IconButton onClick={() => dispatch(toggleColorMode())}>
-      {theme.palette.mode === 'dark' ? <Brightness7Rounded /> : <Brightness4Rounded />}
+    <IconButton
+      onClick={() => dispatch(toggleColorMode())}
+      aria-label="Switch Color Mode"
+    >
+      {theme.palette.mode === 'dark' ? (
+        <Brightness7Rounded />
+      ) : (
+        <Brightness4Rounded />
+      )}
     </IconButton>
   );
 };

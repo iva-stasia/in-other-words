@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Answer, Progress, QuizQuestion } from "../../../../types";
-import { schedule } from "../../../../utils/schedule";
-import useUpdateProgress from "../../../../hooks/useUpdateProgress";
+import { useEffect, useRef, useState } from 'react';
+import { Answer, Progress, QuizQuestion } from '../../../../types';
+import { schedule } from '../../../../utils/schedule';
+import useUpdateProgress from '../../../../hooks/useUpdateProgress';
 
 const shuffleArray = <T>(array: T[]): T[] => {
   const shuffledArray = [...array];
@@ -72,7 +72,14 @@ const useQuizModeFacade = (questions: QuizQuestion[]) => {
     const { dueDate, factor, interval } = schedule(answer, word, progress);
 
     try {
-      await updateProgress(word.word, progress, dueDate, interval, factor);
+      await updateProgress(
+        word.word,
+        progress,
+        dueDate,
+        interval,
+        factor,
+        'learning'
+      );
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

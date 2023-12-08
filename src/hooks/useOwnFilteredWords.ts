@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
-import useOwnWords from "./useOwnWords";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 const useOwnFilteredWords = (value: string): string[] => {
   const isAddWordDialogOpen = useSelector(
     (state: RootState) => state.dialog.isAddWordDialogOpen
   );
   const [filteredOwnWords, setFilteredOwnWords] = useState<string[]>([]);
-  const { words: ownWords } = useOwnWords();
+  const ownWords = useSelector((state: RootState) => state.words.ownWords);
 
   useEffect(() => {
     const preparedWords = ownWords.map(({ word }) => word);

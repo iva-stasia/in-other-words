@@ -23,7 +23,6 @@ const WordTableRow = ({
     <TableRow
       hover
       onClick={(event) => handleRowClick(event, row.word)}
-      aria-checked={isItemSelected}
       tabIndex={-1}
       selected={isItemSelected}
       sx={{
@@ -37,7 +36,7 @@ const WordTableRow = ({
           color="primary"
           checked={isItemSelected}
           inputProps={{
-            "aria-labelledby": labelId,
+            "aria-label": "Mark the word with a checkmark",
           }}
         />
       </TableCell>

@@ -65,8 +65,9 @@ const Notifications = () => {
     <>
       <IconButton
         size="medium"
-        aria-label="show notifications"
+        aria-labelledby="notificationLabel"
         onClick={(e) => setAnchorEl(e.currentTarget)}
+        aria-label="Show Notifications"
       >
         <Badge badgeContent={unreadNotification.length} color="primary">
           <NotificationsRounded />

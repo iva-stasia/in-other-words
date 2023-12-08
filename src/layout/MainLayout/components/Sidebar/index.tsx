@@ -38,6 +38,7 @@ const Sidebar = () => {
           component={RouterLink}
           to="/"
           sx={{ width: "100%", textDecoration: "none" }}
+          aria-label="Return to the home page"
         >
           <AppTitle variant="h6" noWrap component="div">
             In Other Words
